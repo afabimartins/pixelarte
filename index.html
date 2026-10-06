@@ -5,458 +5,187 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#c86f52">
 <title>Pixelarte — Gráfico para Crochê e Macramê</title>
-
 <style>
 :root{
-  --bg:#f5f1e8;
-  --card:#fffdf8;
-  --ink:#25231f;
-  --muted:#746f66;
-  --accent:#c86f52;
-  --accent2:#a9543c;
-  --line:#ded7ca;
-  --ok:#587a55;
-  --shadow:0 5px 18px #0000000c;
-  --current:#ffd76a;
-  --done:#00000014;
+  --bg:#f5f1e8;--card:#fffdf8;--ink:#25231f;--muted:#746f66;
+  --accent:#c86f52;--accent2:#a9543c;--line:#ded7ca;--ok:#587a55;
+  --shadow:0 5px 18px #0000000c;--current:#ffd76a;--done:#00000014;
 }
-
-*{
-  box-sizing:border-box;
-}
-
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--ink);
-  font-family:system-ui,-apple-system,Segoe UI,sans-serif;
-}
-
-.wrap{
-  max-width:1280px;
-  margin:auto;
-  padding:24px 18px 50px;
-}
-
-header{
-  display:flex;
-  gap:18px;
-  align-items:flex-end;
-  justify-content:space-between;
-  margin-bottom:18px;
-  flex-wrap:wrap;
-}
-
-h1{
-  margin:0 0 4px;
-  font-size:32px;
-}
-
-header p{
-  margin:0;
-  color:var(--muted);
-}
-
-.saveState{
-  font-size:13px;
-  color:var(--muted);
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.saveDot{
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:#aaa;
-}
-
-.saveDot.ok{
-  background:var(--ok);
-}
-
-.layout{
-  display:grid;
-  grid-template-columns:340px 1fr;
-  gap:18px;
-}
-
-.card{
-  background:var(--card);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px;
-  box-shadow:var(--shadow);
-}
-
-h2{
-  font-size:17px;
-  margin:0 0 14px;
-}
-
-.field{
-  margin:14px 0;
-}
-
-.field label{
-  display:flex;
-  justify-content:space-between;
-  font-weight:650;
-  font-size:14px;
-  margin-bottom:7px;
-}
-
-input[type=range]{
-  width:100%;
-  accent-color:var(--accent);
-}
-
-select,
-input[type=number],
-input[type=text]{
-  width:100%;
-  padding:10px;
-  border:1px solid var(--line);
-  border-radius:10px;
-  background:white;
-  font-size:15px;
-  color:var(--ink);
-}
-
-.drop{
-  border:2px dashed #cfc6b7;
-  border-radius:14px;
-  padding:20px;
-  text-align:center;
-  color:var(--muted);
-  cursor:pointer;
-  background:#fff;
-  display:block;
-}
-
-.drop:hover{
-  border-color:var(--accent);
-}
-
-.drop strong{
-  display:block;
-  color:var(--ink);
-  margin-bottom:4px;
-}
-
-button{
-  border:0;
-  border-radius:10px;
-  padding:11px 14px;
-  font-weight:700;
-  cursor:pointer;
-  background:var(--accent);
-  color:white;
-}
-
-button:hover{
-  background:var(--accent2);
-}
-
-button:disabled{
-  opacity:.45;
-  cursor:not-allowed;
-}
-
-button.secondary{
-  background:#e9e2d7;
-  color:var(--ink);
-}
-
-button.secondary:hover{
-  background:#ddd4c6;
-}
-
-button.ghost{
-  background:transparent;
-  color:var(--ink);
-  border:1px solid var(--line);
-}
-
-.buttons{
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:14px;
-}
-
-.preview{
-  min-height:620px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  overflow:hidden;
-}
-
-#gridWrap{
-  max-width:100%;
-  overflow:auto;
-  padding:10px;
-  width:100%;
-}
-
-#grid{
-  display:grid;
-  border:1px solid #777;
-  background:#fff;
-  line-height:0;
-  box-shadow:0 3px 12px #0001;
-  min-width:max-content;
-}
-
-.cell{
-  width:18px;
-  height:18px;
-  border-right:1px solid #0003;
-  border-bottom:1px solid #0003;
-  position:relative;
-}
-
-.cell.current{
-  outline:2px solid var(--current);
-  outline-offset:-2px;
-  z-index:1;
-}
-
-.cell.done::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:var(--done);
-}
-
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1280px;margin:auto;padding:24px 18px 50px}
+header{display:flex;gap:18px;align-items:flex-end;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap}
+h1{margin:0 0 4px;font-size:32px}
+header p{margin:0;color:var(--muted)}
+.saveState{font-size:13px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.saveDot{width:8px;height:8px;border-radius:50%;background:#aaa}
+.saveDot.ok{background:var(--ok)}
+.layout{display:grid;grid-template-columns:340px 1fr;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+h2{font-size:17px;margin:0 0 14px}
+.field{margin:14px 0}
+.field label{display:flex;justify-content:space-between;font-weight:650;font-size:14px;margin-bottom:7px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+select,input[type=number],input[type=text]{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:white;font-size:15px;color:var(--ink)}
+.drop{border:2px dashed #cfc6b7;border-radius:14px;padding:20px;text-align:center;color:var(--muted);cursor:pointer;background:#fff;display:block}
+.drop:hover{border-color:var(--accent)}
+.drop strong{display:block;color:var(--ink);margin-bottom:4px}
+button{border:0;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer;background:var(--accent);color:white}
+button:hover{background:var(--accent2)}
+button:disabled{opacity:.45;cursor:not-allowed}
+button.secondary{background:#e9e2d7;color:var(--ink)}
+button.secondary:hover{background:#ddd4c6}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.preview{min-height:620px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow:hidden}
+#gridWrap{max-width:100%;overflow:auto;padding:10px;width:100%;scroll-behavior:smooth}
+#grid{--cell-size:18px;display:grid;border:1px solid #777;background:#fff;line-height:0;box-shadow:0 3px 12px #0001;min-width:max-content}
+.cell{width:var(--cell-size);height:var(--cell-size);border-right:1px solid #0003;border-bottom:1px solid #0003;position:relative}
+.cell.current{outline:2px solid var(--current);outline-offset:-2px;z-index:1}
+.cell.done::after{content:"";position:absolute;inset:0;background:var(--done)}
 .cell.showCode::before{
   content:attr(data-code);
   position:absolute;
   inset:0;
   display:grid;
   place-items:center;
-  font-size:9px;
+  font-size:clamp(7px,calc(var(--cell-size) * .48),18px);
   font-weight:800;
   line-height:1;
-  color:var(--codeColor);
+  color:var(--codeColor)
 }
+.meta{width:100%;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:5px;color:var(--muted);font-size:13px}
+.legend{width:100%;display:flex;gap:10px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.swatch{display:flex;align-items:center;gap:6px;font-size:13px}
+.dot{width:20px;height:20px;border:1px solid #999;border-radius:4px}
+.empty{padding:100px 20px;text-align:center;color:var(--muted)}
+.small{font-size:12px;color:var(--muted);line-height:1.45}
+.divider{height:1px;background:var(--line);margin:20px 0}
+.counter{display:none;width:100%;margin-bottom:14px;border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}
+.counterTop{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.counterTitle{font-weight:800}
+.counterBig{font-size:28px;font-weight:850;letter-spacing:-.02em}
+.counterBig span{font-size:14px;color:var(--muted);font-weight:650}
+.counterBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.counterBtns button{flex:1;min-width:110px}
+.progress{height:9px;background:#eee7dc;border-radius:999px;overflow:hidden;margin-top:12px}
+.progress>div{height:100%;background:var(--accent);width:0%}
+.rowInfo{margin-top:8px;font-size:12px;color:var(--muted)}
+.projectStrip{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:6px}
+.checkline{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink)}
+.badge{display:inline-flex;padding:3px 8px;border-radius:999px;background:#efe6dc;color:var(--muted);font-size:11px;font-weight:800}
 
-.meta{
-  width:100%;
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:5px;
-  color:var(--muted);
-  font-size:13px;
-}
-
-.legend{
-  width:100%;
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:16px;
-  padding-top:14px;
-  border-top:1px solid var(--line);
-}
-
-.swatch{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  font-size:13px;
-}
-
-.dot{
-  width:20px;
-  height:20px;
-  border:1px solid #999;
-  border-radius:4px;
-}
-
-.empty{
-  padding:100px 20px;
-  text-align:center;
-  color:var(--muted);
-}
-
-.small{
-  font-size:12px;
-  color:var(--muted);
-  line-height:1.45;
-}
-
-.divider{
-  height:1px;
-  background:var(--line);
-  margin:20px 0;
-}
-
-.counter{
+.viewTools{
   display:none;
   width:100%;
   margin-bottom:14px;
   border:1px solid var(--line);
   border-radius:14px;
-  padding:14px;
-  background:#fff;
+  padding:12px 14px;
+  background:#fff
 }
 
-.counterTop{
+.viewToolsTop{
   display:flex;
-  gap:12px;
   justify-content:space-between;
+  gap:12px;
   align-items:center;
-  flex-wrap:wrap;
+  flex-wrap:wrap
 }
 
-.counterTitle{
+.toolTitle{
   font-weight:800;
+  font-size:14px
 }
 
-.counterBig{
-  font-size:28px;
-  font-weight:850;
-  letter-spacing:-.02em;
-}
-
-.counterBig span{
-  font-size:14px;
-  color:var(--muted);
-  font-weight:650;
-}
-
-.counterBtns{
+.zoomControls{
   display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:12px;
-}
-
-.counterBtns button{
+  align-items:center;
+  gap:7px;
   flex:1;
-  min-width:110px;
+  min-width:280px;
+  justify-content:flex-end
 }
 
-.progress{
-  height:9px;
-  background:#eee7dc;
-  border-radius:999px;
-  overflow:hidden;
-  margin-top:12px;
+.zoomControls input[type=range]{
+  width:min(260px,40vw)
 }
 
-.progress > div{
-  height:100%;
-  background:var(--accent);
-  width:0%;
+.zoomControls button{
+  padding:8px 11px;
+  min-width:38px
 }
 
-.rowInfo{
-  margin-top:8px;
-  font-size:12px;
-  color:var(--muted);
-}
-
-.projectStrip{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:8px;
-  margin-top:6px;
-}
-
-.checkline{
-  display:flex;
-  gap:8px;
-  align-items:center;
+.zoomValue{
+  min-width:48px;
+  text-align:center;
   font-size:13px;
-  color:var(--ink);
+  font-weight:800;
+  color:var(--muted)
 }
 
-.badge{
-  display:inline-flex;
-  padding:3px 8px;
-  border-radius:999px;
-  background:#efe6dc;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:800;
+.resizeBox{
+  margin-top:10px;
+  border-top:1px solid var(--line);
+  padding-top:10px
+}
+
+.resizeBox summary{
+  cursor:pointer;
+  font-weight:750;
+  font-size:13px;
+  color:var(--ink)
+}
+
+.resizeGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr auto;
+  gap:10px;
+  align-items:end;
+  margin-top:12px
+}
+
+.resizeGrid .field{
+  margin:0
+}
+
+.resizeGrid button{
+  height:42px
+}
+
+.resizeOptions{
+  grid-column:1/-1;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap
 }
 
 @media(max-width:900px){
-  .layout{
-    grid-template-columns:1fr;
-  }
-
-  .preview{
-    min-height:420px;
-  }
-
-  .cell{
-    width:16px;
-    height:16px;
-  }
+  .layout{grid-template-columns:1fr}
+  .preview{min-height:420px}
 }
 
 @media(max-width:560px){
-  .wrap{
-    padding:16px 10px 30px;
-  }
-
-  .card{
-    border-radius:14px;
-    padding:14px;
-  }
-
-  .counterBtns button{
-    min-width:calc(50% - 8px);
-  }
+  .wrap{padding:16px 10px 30px}
+  .card{border-radius:14px;padding:14px}
+  .counterBtns button{min-width:calc(50% - 8px)}
+  .zoomControls{min-width:100%;justify-content:flex-start}
+  .zoomControls input[type=range]{width:100%;order:5}
+  .resizeGrid{grid-template-columns:1fr 1fr}
+  .resizeGrid button{grid-column:1/-1}
 }
 
 @media print{
-  body{
-    background:white;
-  }
-
-  .controls,
-  .counter,
-  .saveState{
-    display:none!important;
-  }
-
-  .layout{
-    display:block;
-  }
-
-  .card{
-    border:0;
-    box-shadow:none;
-  }
-
-  .preview{
-    display:block;
-  }
-
-  .wrap{
-    padding:0;
-  }
-
-  header{
-    display:none;
-  }
-
-  .cell.current{
-    outline:none;
-  }
-
-  .cell.done::after{
-    display:none;
-  }
+  body{background:white}
+  .controls,.counter,.saveState,.viewTools{display:none!important}
+  .layout{display:block}
+  .card{border:0;box-shadow:none}
+  .preview{display:block}
+  .wrap{padding:0}
+  header{display:none}
+  .cell.current{outline:none}
+  .cell.done::after{display:none}
 }
 </style>
 </head>
@@ -485,7 +214,6 @@ button.ghost{
 
       <div class="field">
         <label>Nome do projeto</label>
-
         <input
           id="projectName"
           type="text"
@@ -494,7 +222,6 @@ button.ghost{
       </div>
 
       <div class="projectStrip">
-
         <select id="savedProjects">
           <option value="">Projetos salvos</option>
         </select>
@@ -505,11 +232,9 @@ button.ghost{
         >
           Abrir
         </button>
-
       </div>
 
       <div class="buttons">
-
         <button
           id="newProject"
           class="ghost"
@@ -532,7 +257,6 @@ button.ghost{
         </button>
 
         <label style="display:inline-flex">
-
           <input
             id="importProject"
             type="file"
@@ -542,20 +266,11 @@ button.ghost{
 
           <span
             class="secondary"
-            style="
-              display:inline-block;
-              border-radius:10px;
-              padding:11px 14px;
-              font-weight:700;
-              cursor:pointer;
-              background:#e9e2d7
-            "
+            style="display:inline-block;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer;background:#e9e2d7"
           >
             Importar
           </span>
-
         </label>
-
       </div>
 
       <p class="small">
@@ -632,42 +347,26 @@ button.ghost{
       </div>
 
       <div class="field">
-
         <label>Paleta</label>
 
         <select id="palette">
-          <option value="image">
-            Adaptada à imagem
-          </option>
-
-          <option value="gray">
-            Preto e branco
-          </option>
-
-          <option value="earth">
-            Terra / natural
-          </option>
-
-          <option value="classic">
-            Clássica
-          </option>
+          <option value="image">Adaptada à imagem</option>
+          <option value="gray">Preto e branco</option>
+          <option value="earth">Terra / natural</option>
+          <option value="classic">Clássica</option>
         </select>
-
       </div>
 
       <div class="field">
-
         <label>Modo</label>
 
         <select id="mode">
           <option>Crochê</option>
           <option>Macramê</option>
         </select>
-
       </div>
 
       <div class="field">
-
         <label>Sentido das carreiras</label>
 
         <select id="direction">
@@ -679,22 +378,18 @@ button.ghost{
             De cima para baixo
           </option>
         </select>
-
       </div>
 
       <label class="checkline">
-
         <input
           id="showCodes"
           type="checkbox"
         >
 
         Mostrar letras das cores nas células
-
       </label>
 
       <div class="buttons">
-
         <button id="generate">
           Gerar gráfico
         </button>
@@ -714,7 +409,6 @@ button.ghost{
         >
           Imprimir / PDF
         </button>
-
       </div>
 
       <p
@@ -738,7 +432,6 @@ button.ghost{
         <div class="counterTop">
 
           <div>
-
             <div class="counterTitle">
               Contador de carreiras
               <span
@@ -758,11 +451,9 @@ button.ghost{
                 <b id="totalRowsText">0</b>
               </span>
             </div>
-
           </div>
 
           <div style="min-width:160px">
-
             <label
               class="small"
               for="currentRowInput"
@@ -776,13 +467,11 @@ button.ghost{
               min="1"
               value="1"
             >
-
           </div>
 
         </div>
 
         <div class="counterBtns">
-
           <button
             id="prevRow"
             class="secondary"
@@ -807,7 +496,6 @@ button.ghost{
           >
             Próxima →
           </button>
-
         </div>
 
         <div class="progress">
@@ -821,6 +509,149 @@ button.ghost{
 
       </div>
 
+
+      <!-- Ferramentas de visualização -->
+
+      <div
+        id="viewTools"
+        class="viewTools"
+      >
+
+        <div class="viewToolsTop">
+
+          <div class="toolTitle">
+            Visualização do gráfico
+          </div>
+
+          <div class="zoomControls">
+
+            <button
+              id="zoomOut"
+              class="secondary"
+              type="button"
+              aria-label="Diminuir zoom"
+            >
+              −
+            </button>
+
+            <input
+              id="zoomRange"
+              type="range"
+              min="10"
+              max="400"
+              step="5"
+              value="100"
+              aria-label="Zoom do gráfico"
+            >
+
+            <span
+              id="zoomText"
+              class="zoomValue"
+            >
+              100%
+            </span>
+
+            <button
+              id="zoomIn"
+              class="secondary"
+              type="button"
+              aria-label="Aumentar zoom"
+            >
+              +
+            </button>
+
+            <button
+              id="fitZoom"
+              class="secondary"
+              type="button"
+            >
+              Encaixar
+            </button>
+
+            <button
+              id="resetZoom"
+              class="ghost"
+              type="button"
+            >
+              100%
+            </button>
+
+          </div>
+
+        </div>
+
+
+        <!-- Redimensionamento -->
+
+        <details class="resizeBox">
+
+          <summary>
+            Redimensionar gráfico
+          </summary>
+
+          <div class="resizeGrid">
+
+            <div class="field">
+              <label for="resizeCols">
+                Colunas
+              </label>
+
+              <input
+                id="resizeCols"
+                type="number"
+                min="5"
+                max="160"
+                value="40"
+              >
+            </div>
+
+            <div class="field">
+              <label for="resizeRows">
+                Carreiras
+              </label>
+
+              <input
+                id="resizeRows"
+                type="number"
+                min="5"
+                max="160"
+                value="40"
+              >
+            </div>
+
+            <button
+              id="applyResize"
+              type="button"
+            >
+              Aplicar tamanho
+            </button>
+
+            <div class="resizeOptions">
+
+              <label class="checkline">
+                <input
+                  id="lockRatio"
+                  type="checkbox"
+                  checked
+                >
+
+                Manter proporção atual
+              </label>
+
+              <span class="small">
+                O redimensionamento altera a quantidade real de pontos.
+                O progresso compatível é mantido.
+              </span>
+
+            </div>
+
+          </div>
+
+        </details>
+
+      </div>
+
+
       <div
         id="empty"
         class="empty"
@@ -828,9 +659,7 @@ button.ghost{
         <strong>
           Seu gráfico aparecerá aqui.
         </strong>
-
         <br>
-
         Escolha uma imagem e clique em “Gerar gráfico”.
       </div>
 
@@ -867,6 +696,7 @@ const $ =
   id =>
     document.getElementById(id);
 
+
 let sourceImg = null;
 let sourceDataUrl = null;
 let paletteColors = [];
@@ -876,9 +706,18 @@ let gridIndexes = [];
 let counts = [];
 let currentProjectId = null;
 let currentRow = 1;
-let completedRows = new Set();
+let completedRows =
+  new Set();
 
 let saveTimer = null;
+
+let zoomLevel = 100;
+
+let resizeRatio = 1;
+
+let syncingResize =
+  false;
+
 
 const palettes = {
 
@@ -930,7 +769,7 @@ const palettes = {
 
 
 /* =========================================
-   BANCO LOCAL DE PROJETOS
+   BANCO LOCAL
    ========================================= */
 
 const DB_NAME =
@@ -1057,7 +896,8 @@ async function dbGet(id){
       r.onsuccess =
         () =>
           resolve(
-            r.result || null
+            r.result ||
+            null
           );
 
       r.onerror =
@@ -1095,7 +935,8 @@ async function dbAll(){
       r.onsuccess =
         () =>
           resolve(
-            r.result || []
+            r.result ||
+            []
           );
 
       r.onerror =
@@ -1111,14 +952,15 @@ async function dbAll(){
 
 
 /* =========================================
-   PROJETOS E SALVAMENTO
+   PROJETOS
    ========================================= */
 
 function newId(){
 
   return (
     "p_" +
-    Date.now().toString(36) +
+    Date.now()
+    .toString(36) +
     "_" +
     Math.random()
     .toString(36)
@@ -1140,8 +982,8 @@ function setSaveState(
     "saveDot" +
     (
       ok
-      ? " ok"
-      : ""
+        ? " ok"
+        : ""
     );
 
 }
@@ -1210,7 +1052,10 @@ function projectSnapshot(){
         $("direction").value,
 
       showCodes:
-        $("showCodes").checked
+        $("showCodes").checked,
+
+      zoom:
+        zoomLevel
 
     },
 
@@ -1358,8 +1203,15 @@ function resetUi(){
   lastCanvas = null;
 
   currentRow = 1;
+
   completedRows =
     new Set();
+
+  zoomLevel =
+    100;
+
+  resizeRatio =
+    1;
 
   $("projectName").value =
     "";
@@ -1390,6 +1242,12 @@ function resetUi(){
 
   updateSliderLabels();
 
+  $("zoomRange").value =
+    100;
+
+  $("zoomText").textContent =
+    "100%";
+
   $("grid").innerHTML =
     "";
 
@@ -1400,6 +1258,9 @@ function resetUi(){
     "none";
 
   $("counter").style.display =
+    "none";
+
+  $("viewTools").style.display =
     "none";
 
   $("empty").style.display =
@@ -1501,7 +1362,21 @@ function applyProject(p){
   $("showCodes").checked =
     !!s.showCodes;
 
+  zoomLevel =
+    Math.min(
+      400,
+      Math.max(
+        10,
+        +s.zoom ||
+        100
+      )
+    );
+
+  $("zoomRange").value =
+    zoomLevel;
+
   updateSliderLabels();
+  syncResizeInputs();
 
   sourceDataUrl =
     p.sourceDataUrl ||
@@ -1568,6 +1443,9 @@ function applyProject(p){
     $("counter").style.display =
       "block";
 
+    $("viewTools").style.display =
+      "block";
+
     $("download").disabled =
       false;
 
@@ -1580,6 +1458,9 @@ function applyProject(p){
       "none";
 
     $("counter").style.display =
+      "none";
+
+    $("viewTools").style.display =
       "none";
 
     $("empty").style.display =
@@ -1622,6 +1503,10 @@ async function loadProjectById(id){
 }
 
 
+/* =========================================
+   CONTROLES DE TAMANHO E ZOOM
+   ========================================= */
+
 function updateSliderLabels(){
 
   for(
@@ -1641,8 +1526,358 @@ function updateSliderLabels(){
 }
 
 
+function clampSize(v){
+
+  return Math.min(
+    160,
+    Math.max(
+      5,
+      Math.round(
+        +v ||
+        5
+      )
+    )
+  );
+
+}
+
+
+function syncResizeInputs(){
+
+  const cols =
+    +$("cols").value;
+
+  const rows =
+    +$("rows").value;
+
+  $("resizeCols").value =
+    cols;
+
+  $("resizeRows").value =
+    rows;
+
+  resizeRatio =
+    cols /
+    Math.max(
+      1,
+      rows
+    );
+
+}
+
+
+function applyZoom(
+  save = true
+){
+
+  zoomLevel =
+    Math.min(
+      400,
+      Math.max(
+        10,
+        Math.round(
+          (
+            +$("zoomRange").value ||
+            100
+          )
+          /
+          5
+        )
+        *
+        5
+      )
+    );
+
+  $("zoomRange").value =
+    zoomLevel;
+
+  $("zoomText").textContent =
+    zoomLevel +
+    "%";
+
+  const cell =
+    Math.max(
+      2,
+      18 *
+      zoomLevel /
+      100
+    );
+
+  $("grid")
+  .style
+  .setProperty(
+    "--cell-size",
+    cell + "px"
+  );
+
+  if(
+    save
+  ){
+
+    scheduleSave();
+
+  }
+
+}
+
+
+function changeZoom(delta){
+
+  $("zoomRange").value =
+    Math.min(
+      400,
+      Math.max(
+        10,
+        zoomLevel +
+        delta
+      )
+    );
+
+  applyZoom();
+
+}
+
+
+function fitZoom(){
+
+  const cols =
+    +$("cols").value;
+
+  if(
+    !cols
+  ){
+    return;
+  }
+
+  const available =
+    Math.max(
+      120,
+      $("gridWrap")
+      .clientWidth -
+      24
+    );
+
+  const fit =
+    Math.floor(
+      (
+        available /
+        (
+          cols *
+          18
+        )
+      )
+      *
+      100 /
+      5
+    )
+    *
+    5;
+
+  $("zoomRange").value =
+    Math.min(
+      400,
+      Math.max(
+        10,
+        fit
+      )
+    );
+
+  applyZoom();
+
+}
+
+
+function resizeExistingGrid(
+  oldCols,
+  oldRows,
+  newCols,
+  newRows
+){
+
+  const old =
+    gridIndexes.slice();
+
+  const next =
+    [];
+
+  for(
+    let y = 0;
+    y < newRows;
+    y++
+  ){
+
+    const sy =
+      Math.min(
+        oldRows - 1,
+        Math.floor(
+          y *
+          oldRows /
+          newRows
+        )
+      );
+
+    for(
+      let x = 0;
+      x < newCols;
+      x++
+    ){
+
+      const sx =
+        Math.min(
+          oldCols - 1,
+          Math.floor(
+            x *
+            oldCols /
+            newCols
+          )
+        );
+
+      next.push(
+        old[
+          sy *
+          oldCols +
+          sx
+        ]
+        ??
+        0
+      );
+
+    }
+
+  }
+
+  gridIndexes =
+    next;
+
+  counts =
+    Array(
+      paletteColors.length
+    )
+    .fill(0);
+
+  for(
+    const k
+    of gridIndexes
+  ){
+
+    if(
+      counts[k] != null
+    ){
+
+      counts[k]++;
+
+    }
+
+  }
+
+}
+
+
+function applyResize(){
+
+  if(
+    !gridIndexes.length
+  ){
+    return;
+  }
+
+  const oldCols =
+    +$("cols").value;
+
+  const oldRows =
+    +$("rows").value;
+
+  const newCols =
+    clampSize(
+      $("resizeCols").value
+    );
+
+  const newRows =
+    clampSize(
+      $("resizeRows").value
+    );
+
+  $("resizeCols").value =
+    newCols;
+
+  $("resizeRows").value =
+    newRows;
+
+  if(
+    newCols === oldCols &&
+    newRows === oldRows
+  ){
+    return;
+  }
+
+  $("cols").value =
+    newCols;
+
+  $("rows").value =
+    newRows;
+
+  updateSliderLabels();
+
+  completedRows =
+    new Set(
+      [
+        ...completedRows
+      ]
+      .filter(
+        r =>
+          r <= newRows
+      )
+    );
+
+  currentRow =
+    Math.min(
+      newRows,
+      Math.max(
+        1,
+        currentRow
+      )
+    );
+
+  /*
+    Se a imagem original ainda estiver carregada,
+    regeneramos o gráfico usando a imagem.
+
+    Caso contrário, redimensionamos
+    os pixels já armazenados.
+  */
+
+  if(
+    sourceImg &&
+    sourceImg.complete &&
+    sourceImg.naturalWidth
+  ){
+
+    generate({
+      preserveProgress:true
+    });
+
+  }else{
+
+    resizeExistingGrid(
+      oldCols,
+      oldRows,
+      newCols,
+      newRows
+    );
+
+    renderSavedChart();
+
+    scheduleSave();
+
+  }
+
+  syncResizeInputs();
+
+}
+
+
 /* =========================================
-   EVENTOS DA INTERFACE
+   EVENTOS
    ========================================= */
 
 $("file")
@@ -1879,6 +2114,126 @@ $("currentRowInput")
 );
 
 
+/* Zoom */
+
+$("zoomRange")
+.addEventListener(
+  "input",
+  () =>
+    applyZoom(false)
+);
+
+
+$("zoomRange")
+.addEventListener(
+  "change",
+  () =>
+    applyZoom(true)
+);
+
+
+$("zoomOut")
+.addEventListener(
+  "click",
+  () =>
+    changeZoom(-25)
+);
+
+
+$("zoomIn")
+.addEventListener(
+  "click",
+  () =>
+    changeZoom(25)
+);
+
+
+$("resetZoom")
+.addEventListener(
+  "click",
+  () => {
+
+    $("zoomRange").value =
+      100;
+
+    applyZoom();
+
+  }
+);
+
+
+$("fitZoom")
+.addEventListener(
+  "click",
+  fitZoom
+);
+
+
+/* Redimensionamento */
+
+$("applyResize")
+.addEventListener(
+  "click",
+  applyResize
+);
+
+
+$("resizeCols")
+.addEventListener(
+  "input",
+  () => {
+
+    if(
+      syncingResize ||
+      !$("lockRatio").checked
+    ){
+      return;
+    }
+
+    syncingResize =
+      true;
+
+    $("resizeRows").value =
+      clampSize(
+        +$("resizeCols").value /
+        resizeRatio
+      );
+
+    syncingResize =
+      false;
+
+  }
+);
+
+
+$("resizeRows")
+.addEventListener(
+  "input",
+  () => {
+
+    if(
+      syncingResize ||
+      !$("lockRatio").checked
+    ){
+      return;
+    }
+
+    syncingResize =
+      true;
+
+    $("resizeCols").value =
+      clampSize(
+        +$("resizeRows").value *
+        resizeRatio
+      );
+
+    syncingResize =
+      false;
+
+  }
+);
+
+
 /* =========================================
    CORES
    ========================================= */
@@ -1890,12 +2245,10 @@ function rgb(hex){
       hex.slice(1,3),
       16
     ),
-
     parseInt(
       hex.slice(3,5),
       16
     ),
-
     parseInt(
       hex.slice(5,7),
       16
@@ -2031,7 +2384,8 @@ function makePalette(
             n - 1
           )
         )
-      ].slice()
+      ]
+      .slice()
 
     );
 
@@ -2125,7 +2479,9 @@ function makePalette(
    GERAR GRÁFICO
    ========================================= */
 
-function generate(){
+function generate(
+  options = {}
+){
 
   if(
     !sourceImg
@@ -2138,6 +2494,9 @@ function generate(){
     return;
 
   }
+
+  const preserveProgress =
+    !!options.preserveProgress;
 
   const cols =
     +$("cols").value;
@@ -2169,13 +2528,10 @@ function generate(){
 
   const scale =
     Math.max(
-
       cols /
       sourceImg.naturalWidth,
-
       rows /
       sourceImg.naturalHeight
-
     );
 
   const w =
@@ -2265,11 +2621,39 @@ function generate(){
 
   }
 
-  currentRow =
-    1;
+  if(
+    !preserveProgress
+  ){
 
-  completedRows =
-    new Set();
+    currentRow =
+      1;
+
+    completedRows =
+      new Set();
+
+  }else{
+
+    currentRow =
+      Math.min(
+        rows,
+        Math.max(
+          1,
+          currentRow
+        )
+      );
+
+    completedRows =
+      new Set(
+        [
+          ...completedRows
+        ]
+        .filter(
+          r =>
+            r <= rows
+        )
+      );
+
+  }
 
   renderSavedChart();
 
@@ -2282,11 +2666,16 @@ function generate(){
   $("counter").style.display =
     "block";
 
+  $("viewTools").style.display =
+    "block";
+
   $("download").disabled =
     false;
 
   $("print").disabled =
     false;
+
+  syncResizeInputs();
 
   buildDownloadCanvas();
 
@@ -2296,7 +2685,7 @@ function generate(){
 
 
 /* =========================================
-   RENDER DO GRÁFICO
+   RENDER
    ========================================= */
 
 function renderSavedChart(){
@@ -2314,7 +2703,7 @@ function renderSavedChart(){
     "";
 
   grid.style.gridTemplateColumns =
-    `repeat(${cols},18px)`;
+    `repeat(${cols},var(--cell-size))`;
 
   for(
     let i = 0;
@@ -2340,11 +2729,13 @@ function renderSavedChart(){
       Math.floor(
         i /
         cols
-      ) + 1;
+      ) +
+      1;
 
     cell.dataset.code =
       String.fromCharCode(
-        65 + k
+        65 +
+        k
       );
 
     cell.style.setProperty(
@@ -2368,9 +2759,16 @@ function renderSavedChart(){
   $("modeText").textContent =
     $("mode").value;
 
+  syncResizeInputs();
+
   renderLegend();
+
   updateCounter();
+
   refreshGridClasses();
+
+  applyZoom(false);
+
   buildDownloadCanvas();
 
 }
@@ -2418,11 +2816,7 @@ function renderLegend(){
       s.append(
         d,
         document.createTextNode(
-          `${
-            String.fromCharCode(
-              65 + i
-            )
-          } — ${counts[i]} pontos`
+          `${String.fromCharCode(65+i)} — ${counts[i]} pontos`
         )
       );
 
@@ -2435,7 +2829,7 @@ function renderLegend(){
 
 
 /* =========================================
-   CONTADOR DE CARREIRAS
+   CONTADOR
    ========================================= */
 
 function visualRowForCareer(
@@ -2564,9 +2958,9 @@ function updateCounter(){
       ===
       "bottom"
 
-      ? "A carreira 1 corresponde à linha inferior do gráfico."
+        ? "A carreira 1 corresponde à linha inferior do gráfico."
 
-      : "A carreira 1 corresponde à linha superior do gráfico."
+        : "A carreira 1 corresponde à linha superior do gráfico."
     );
 
   $("statusBadge").textContent =
@@ -2593,7 +2987,9 @@ function moveRow(delta){
     );
 
   updateCounter();
+
   refreshGridClasses();
+
   scheduleSave();
 
 }
@@ -2618,7 +3014,9 @@ function completeAndAdvance(){
   }
 
   updateCounter();
+
   refreshGridClasses();
+
   scheduleSave();
 
 }
@@ -2645,7 +3043,9 @@ function toggleComplete(){
   }
 
   updateCounter();
+
   refreshGridClasses();
+
   scheduleSave();
 
 }
@@ -2713,15 +3113,19 @@ function buildDownloadCanvas(){
 
       const k =
         gridIndexes[
-          y * cols + x
+          y *
+          cols +
+          x
         ];
 
       lc.fillStyle =
         paletteColors[k];
 
       lc.fillRect(
-        x * cell,
-        y * cell,
+        x *
+        cell,
+        y *
+        cell,
         cell,
         cell
       );
@@ -2730,10 +3134,16 @@ function buildDownloadCanvas(){
         "rgba(0,0,0,.22)";
 
       lc.strokeRect(
-        x * cell + .5,
-        y * cell + .5,
-        cell - 1,
-        cell - 1
+        x *
+        cell +
+        .5,
+        y *
+        cell +
+        .5,
+        cell -
+        1,
+        cell -
+        1
       );
 
     }
@@ -2784,7 +3194,7 @@ function downloadPNG(){
 
 
 /* =========================================
-   BACKUP DO PROJETO
+   EXPORTAR / IMPORTAR
    ========================================= */
 
 function exportProject(){
