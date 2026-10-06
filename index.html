@@ -35,16 +35,139 @@ button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line
 .numberedChart{--cell-size:18px;display:grid;grid-template-columns:40px max-content 40px;grid-template-rows:42px max-content 42px;width:max-content;align-items:stretch}
 #grid{display:grid;border:1px solid #777;background:#fff;line-height:0;box-shadow:0 3px 12px #0001;min-width:max-content;grid-column:2;grid-row:2}
 .cell{width:var(--cell-size);height:var(--cell-size);border-right:1px solid #0003;border-bottom:1px solid #0003;position:relative}
-.axisCorner{background:transparent}
-.colNumbers{display:grid;min-width:max-content;line-height:1;grid-column:2}
-.colNumbers.top{grid-row:1;align-items:end}.colNumbers.bottom{grid-row:3;align-items:start}
-.colNumber{width:var(--cell-size);height:42px;display:flex;align-items:center;justify-content:center;overflow:visible;color:var(--muted);font-weight:750;font-size:clamp(5px,calc(var(--cell-size) * .48),10px);line-height:1}
-.colNumber span{display:block;white-space:nowrap;transform:rotate(-90deg)}
-.rowNumbers{display:grid;line-height:1;min-height:max-content}
-.rowNumbers.left{grid-column:1;grid-row:2}.rowNumbers.right{grid-column:3;grid-row:2}
-.rowNumber{width:40px;height:var(--cell-size);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:800;font-size:clamp(4px,calc(var(--cell-size) * .52),11px);line-height:1;transition:background .15s,color .15s}
-.rowNumber.current{background:#fff1bd;color:#5e4710}.rowNumber.done{color:#9a958c}
-.axisCorner.tl{grid-column:1;grid-row:1}.axisCorner.tr{grid-column:3;grid-row:1}.axisCorner.bl{grid-column:1;grid-row:3}.axisCorner.br{grid-column:3;grid-row:3}
+
+.axisCorner{background:var(--bg)}
+
+.colNumbers{
+  display:grid;
+  min-width:max-content;
+  line-height:1;
+  grid-column:2;
+  background:var(--bg);
+  z-index:4;
+}
+
+.colNumbers.top{
+  grid-row:1;
+  align-items:end;
+  position:sticky;
+  top:0;
+  z-index:6;
+  box-shadow:0 1px 0 #d8cfbf;
+}
+
+.colNumbers.bottom{
+  grid-row:3;
+  align-items:start;
+  position:sticky;
+  bottom:0;
+  z-index:6;
+  box-shadow:0 -1px 0 #d8cfbf;
+}
+
+.colNumber{
+  width:var(--cell-size);
+  height:42px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:visible;
+  color:var(--muted);
+  font-weight:750;
+  font-size:clamp(5px,calc(var(--cell-size) * .48),10px);
+  line-height:1;
+  background:var(--bg);
+}
+
+.colNumber span{
+  display:block;
+  white-space:nowrap;
+  transform:rotate(-90deg);
+}
+
+.rowNumbers{
+  display:grid;
+  line-height:1;
+  min-height:max-content;
+  background:var(--bg);
+  z-index:5;
+}
+
+.rowNumbers.left{
+  grid-column:1;
+  grid-row:2;
+  position:sticky;
+  left:0;
+  z-index:6;
+  box-shadow:1px 0 0 #d8cfbf;
+}
+
+.rowNumbers.right{
+  grid-column:3;
+  grid-row:2;
+  position:sticky;
+  right:0;
+  z-index:6;
+  box-shadow:-1px 0 0 #d8cfbf;
+}
+
+.rowNumber{
+  width:40px;
+  height:var(--cell-size);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:var(--muted);
+  font-weight:800;
+  font-size:clamp(4px,calc(var(--cell-size) * .52),11px);
+  line-height:1;
+  transition:background .15s,color .15s;
+  background:var(--bg);
+}
+
+.rowNumber.current{background:#fff1bd;color:#5e4710}
+.rowNumber.done{color:#9a958c}
+
+.axisCorner.tl{
+  grid-column:1;
+  grid-row:1;
+  position:sticky;
+  left:0;
+  top:0;
+  z-index:7;
+  box-shadow:1px 1px 0 #d8cfbf;
+}
+
+.axisCorner.tr{
+  grid-column:3;
+  grid-row:1;
+  position:sticky;
+  right:0;
+  top:0;
+  z-index:7;
+  box-shadow:-1px 1px 0 #d8cfbf;
+}
+
+.axisCorner.bl{
+  grid-column:1;
+  grid-row:3;
+  position:sticky;
+  left:0;
+  bottom:0;
+  z-index:7;
+  box-shadow:1px -1px 0 #d8cfbf;
+}
+
+.axisCorner.br{
+  grid-column:3;
+  grid-row:3;
+  position:sticky;
+  right:0;
+  bottom:0;
+  z-index:7;
+  box-shadow:-1px -1px 0 #d8cfbf;
+}
+
 .cell.current{outline:2px solid var(--current);outline-offset:-2px;z-index:1}
 .cell.done::after{content:"";position:absolute;inset:0;background:var(--done)}
 .cell.showCode::before{content:attr(data-code);position:absolute;inset:0;display:grid;place-items:center;font-size:clamp(7px,calc(var(--cell-size) * .48),18px);font-weight:800;line-height:1;color:var(--codeColor)}
@@ -70,25 +193,109 @@ button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line
 .zoomControls button{padding:8px 11px;min-width:38px}
 .zoomValue{min-width:48px;text-align:center;font-size:13px;font-weight:800;color:var(--muted)}
 .fullscreenExit{display:none}
-.preview:fullscreen,.preview.fullscreenFallback{background:var(--bg);padding:14px;border-radius:0;overflow:hidden;width:100%;height:100%;max-width:none;box-shadow:none}
-.preview:fullscreen .counter,.preview.fullscreenFallback .counter{display:none!important}
-.preview:fullscreen .viewTools,.preview.fullscreenFallback .viewTools{display:block!important;flex:0 0 auto;margin-bottom:8px;padding:8px 10px}
-.preview:fullscreen .resizeBox,.preview.fullscreenFallback .resizeBox{display:none}
-.preview:fullscreen .fullscreenExit,.preview.fullscreenFallback .fullscreenExit{display:inline-flex}
-.preview:fullscreen #result,.preview.fullscreenFallback #result{display:flex!important;flex-direction:column;min-height:0;flex:1;width:100%}
-.preview:fullscreen .meta,.preview.fullscreenFallback .meta{flex:0 0 auto;margin-bottom:2px}
-.preview:fullscreen #gridWrap,.preview.fullscreenFallback #gridWrap{flex:1;min-height:0;overflow:auto;padding:4px;display:flex;align-items:flex-start;justify-content:center}
-.preview:fullscreen .legend,.preview.fullscreenFallback .legend{flex:0 0 auto;margin-top:6px;padding-top:6px;max-height:74px;overflow:auto}
-.preview.fullscreenFallback{position:fixed;inset:0;z-index:99999}
-body.pixelarteFullscreenFallback{overflow:hidden}
+
+.preview:fullscreen,
+.preview.fullscreenFallback{
+  background:var(--bg);
+  padding:14px;
+  border-radius:0;
+  overflow:hidden;
+  width:100%;
+  height:100%;
+  max-width:none;
+  box-shadow:none;
+}
+
+.preview:fullscreen .counter,
+.preview.fullscreenFallback .counter{
+  display:none!important;
+}
+
+.preview:fullscreen .viewTools,
+.preview.fullscreenFallback .viewTools{
+  display:block!important;
+  flex:0 0 auto;
+  margin-bottom:8px;
+  padding:8px 10px;
+}
+
+.preview:fullscreen .resizeBox,
+.preview.fullscreenFallback .resizeBox{
+  display:none;
+}
+
+.preview:fullscreen .fullscreenExit,
+.preview.fullscreenFallback .fullscreenExit{
+  display:inline-flex;
+}
+
+.preview:fullscreen #result,
+.preview.fullscreenFallback #result{
+  display:flex!important;
+  flex-direction:column;
+  min-height:0;
+  flex:1;
+  width:100%;
+}
+
+.preview:fullscreen .meta,
+.preview.fullscreenFallback .meta{
+  flex:0 0 auto;
+  margin-bottom:2px;
+}
+
+.preview:fullscreen #gridWrap,
+.preview.fullscreenFallback #gridWrap{
+  flex:1;
+  min-height:0;
+  overflow:auto;
+  padding:4px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+}
+
+.preview:fullscreen .legend,
+.preview.fullscreenFallback .legend{
+  flex:0 0 auto;
+  margin-top:6px;
+  padding-top:6px;
+  max-height:74px;
+  overflow:auto;
+}
+
+.preview.fullscreenFallback{
+  position:fixed;
+  inset:0;
+  z-index:99999;
+}
+
+body.pixelarteFullscreenFallback{
+  overflow:hidden;
+}
+
 .resizeBox{margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
 .resizeBox summary{cursor:pointer;font-weight:750;font-size:13px;color:var(--ink)}
 .resizeGrid{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:end;margin-top:12px}
 .resizeGrid .field{margin:0}
 .resizeGrid button{height:42px}
 .resizeOptions{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-@media(max-width:900px){.layout{grid-template-columns:1fr}.preview{min-height:420px}}
-@media(max-width:560px){.wrap{padding:16px 10px 30px}.card{border-radius:14px;padding:14px}.counterBtns button{min-width:calc(50% - 8px)}.zoomControls{min-width:100%;justify-content:flex-start}.zoomControls input[type=range]{width:100%;order:5}.resizeGrid{grid-template-columns:1fr 1fr}.resizeGrid button{grid-column:1/-1}}
+
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .preview{min-height:420px}
+}
+
+@media(max-width:560px){
+  .wrap{padding:16px 10px 30px}
+  .card{border-radius:14px;padding:14px}
+  .counterBtns button{min-width:calc(50% - 8px)}
+  .zoomControls{min-width:100%;justify-content:flex-start}
+  .zoomControls input[type=range]{width:100%;order:5}
+  .resizeGrid{grid-template-columns:1fr 1fr}
+  .resizeGrid button{grid-column:1/-1}
+}
+
 #printArea{display:none}
 .printPage{background:#fff;color:#000;width:190mm;min-height:277mm;padding:0;margin:0 auto;display:flex;flex-direction:column;gap:6mm;page-break-after:always;break-after:page}
 .printPage:last-child{page-break-after:auto;break-after:auto}
@@ -100,408 +307,4745 @@ body.pixelarteFullscreenFallback{overflow:hidden}
 .printLegendItem{display:flex;align-items:center;gap:2mm}
 .printLegendSwatch{width:5mm;height:5mm;border:1px solid #777;border-radius:1mm;display:inline-block}
 .printNote{font-size:10px;color:#555}
-@page{size:A4 portrait;margin:10mm}
-@media print{body{background:white}#printArea{display:block!important}.wrap{display:none!important}}
+
+@page{
+  size:A4 portrait;
+  margin:10mm;
+}
+
+@media print{
+  body{background:white}
+  #printArea{display:block!important}
+  .wrap{display:none!important}
+}
 </style>
 </head>
+
 <body>
+
 <div class="wrap">
+
   <header>
-    <div><h1>Pixelarte</h1><p>Crie gráficos para crochê e macramê e continue de onde parou.</p></div>
-    <div class="saveState"><span id="saveDot" class="saveDot"></span><span id="saveText">Nenhum projeto aberto</span></div>
+    <div>
+      <h1>Pixelarte</h1>
+      <p>Crie gráficos para crochê e macramê e continue de onde parou.</p>
+    </div>
+
+    <div class="saveState">
+      <span id="saveDot" class="saveDot"></span>
+      <span id="saveText">Nenhum projeto aberto</span>
+    </div>
   </header>
 
   <div class="layout">
+
     <section class="card controls">
+
       <h2>Projeto</h2>
-      <div class="field"><label>Nome do projeto</label><input id="projectName" type="text" placeholder="Ex.: Painel floral"></div>
-      <div class="projectStrip"><select id="savedProjects"><option value="">Projetos salvos</option></select><button id="loadProject" class="secondary">Abrir</button></div>
+
+      <div class="field">
+        <label>Nome do projeto</label>
+        <input id="projectName" type="text" placeholder="Ex.: Painel floral">
+      </div>
+
+      <div class="projectStrip">
+        <select id="savedProjects">
+          <option value="">Projetos salvos</option>
+        </select>
+        <button id="loadProject" class="secondary">Abrir</button>
+      </div>
+
       <div class="buttons">
         <button id="newProject" class="ghost">Novo</button>
         <button id="saveNow" class="secondary">Salvar agora</button>
         <button id="exportProject" class="secondary">Exportar</button>
-        <label style="display:inline-flex"><input id="importProject" type="file" accept="application/json,.pixelarte.json" hidden><span class="secondary" style="display:inline-block;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer;background:#e9e2d7">Importar</span></label>
+
+        <label style="display:inline-flex">
+          <input
+            id="importProject"
+            type="file"
+            accept="application/json,.pixelarte.json"
+            hidden
+          >
+          <span
+            class="secondary"
+            style="display:inline-block;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer;background:#e9e2d7"
+          >
+            Importar
+          </span>
+        </label>
       </div>
-      <p class="small">O andamento é salvo automaticamente neste navegador. “Exportar” cria um backup do projeto para guardar em outro local.</p>
+
+      <p class="small">
+        O andamento é salvo automaticamente neste navegador.
+        “Exportar” cria um backup do projeto para guardar em outro local.
+      </p>
 
       <div class="divider"></div>
+
       <h2>1. Sua imagem</h2>
-      <label class="drop" for="file"><strong>Escolher imagem</strong><span id="fileText">JPG, PNG ou WEBP</span></label>
+
+      <label class="drop" for="file">
+        <strong>Escolher imagem</strong>
+        <span id="fileText">JPG, PNG ou WEBP</span>
+      </label>
+
       <input id="file" type="file" accept="image/*" hidden>
 
       <h2 style="margin-top:24px">2. Configuração</h2>
-      <div class="field"><label>Colunas <span id="colsVal">40</span></label><input id="cols" type="range" min="5" max="160" value="40"></div>
-      <div class="field"><label>Linhas <span id="rowsVal">40</span></label><input id="rows" type="range" min="5" max="160" value="40"></div>
-      <div class="field"><label>Número de cores <span id="colorsVal">8</span></label><input id="colors" type="range" min="2" max="20" value="8"></div>
-      <div class="field"><label>Paleta</label><select id="palette"><option value="image">Adaptada à imagem</option><option value="gray">Preto e branco</option><option value="earth">Terra / natural</option><option value="classic">Clássica</option></select></div>
-      <div class="field"><label>Modo</label><select id="mode"><option>Crochê</option><option>Macramê</option></select></div>
-      <div class="field"><label>Sentido das carreiras</label><select id="direction"><option value="bottom">De baixo para cima</option><option value="top">De cima para baixo</option></select></div>
-      <label class="checkline"><input id="showCodes" type="checkbox"> Mostrar letras das cores nas células</label>
+
+      <div class="field">
+        <label>Colunas <span id="colsVal">40</span></label>
+        <input id="cols" type="range" min="5" max="160" value="40">
+      </div>
+
+      <div class="field">
+        <label>Linhas <span id="rowsVal">40</span></label>
+        <input id="rows" type="range" min="5" max="160" value="40">
+      </div>
+
+      <div class="field">
+        <label>Número de cores <span id="colorsVal">8</span></label>
+        <input id="colors" type="range" min="2" max="20" value="8">
+      </div>
+
+      <div class="field">
+        <label>Paleta</label>
+        <select id="palette">
+          <option value="image">Adaptada à imagem</option>
+          <option value="gray">Preto e branco</option>
+          <option value="earth">Terra / natural</option>
+          <option value="classic">Clássica</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Modo</label>
+        <select id="mode">
+          <option>Crochê</option>
+          <option>Macramê</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label>Sentido das carreiras</label>
+        <select id="direction">
+          <option value="bottom">De baixo para cima</option>
+          <option value="top">De cima para baixo</option>
+        </select>
+      </div>
+
+      <label class="checkline">
+        <input id="showCodes" type="checkbox">
+        Mostrar letras das cores nas células
+      </label>
+
       <div class="buttons">
         <button id="generate">Gerar gráfico</button>
         <button class="secondary" id="download" disabled>Baixar PNG</button>
         <button class="secondary" id="print" disabled>Imprimir / PDF</button>
       </div>
-      <p class="small" style="margin-top:15px">Dica: para peças executáveis, comece com 20–50 colunas e 4–12 cores. Quanto maior a grade, mais detalhes aparecem.</p>
+
+      <p class="small" style="margin-top:15px">
+        Dica: para peças executáveis, comece com 20–50 colunas e 4–12 cores.
+        Quanto maior a grade, mais detalhes aparecem.
+      </p>
+
     </section>
 
+
     <section id="preview" class="card preview">
+
       <div id="counter" class="counter">
+
         <div class="counterTop">
-          <div><div class="counterTitle">Contador de carreiras <span id="statusBadge" class="badge">em andamento</span></div><div class="counterBig">Carreira <strong id="currentRowText">1</strong> <span>de <b id="totalRowsText">0</b></span></div></div>
-          <div style="min-width:160px"><label class="small" for="currentRowInput">Ir para a carreira</label><input id="currentRowInput" type="number" min="1" value="1"></div>
+
+          <div>
+            <div class="counterTitle">
+              Contador de carreiras
+              <span id="statusBadge" class="badge">em andamento</span>
+            </div>
+
+            <div class="counterBig">
+              Carreira
+              <strong id="currentRowText">1</strong>
+              <span>de <b id="totalRowsText">0</b></span>
+            </div>
+          </div>
+
+          <div style="min-width:160px">
+            <label class="small" for="currentRowInput">
+              Ir para a carreira
+            </label>
+            <input id="currentRowInput" type="number" min="1" value="1">
+          </div>
+
         </div>
+
         <div class="counterBtns">
           <button id="prevRow" class="secondary">← Anterior</button>
           <button id="completeRow">Concluir e avançar</button>
           <button id="toggleComplete" class="secondary">Marcar/desmarcar</button>
           <button id="nextRow" class="secondary">Próxima →</button>
         </div>
-        <div class="progress"><div id="progressBar"></div></div>
+
+        <div class="progress">
+          <div id="progressBar"></div>
+        </div>
+
         <div id="rowInfo" class="rowInfo"></div>
+
       </div>
+
 
       <div id="viewTools" class="viewTools">
+
         <div class="viewToolsTop">
+
           <div class="toolTitle">Visualização do gráfico</div>
+
           <div class="zoomControls">
-            <button id="zoomOut" class="secondary" type="button" aria-label="Diminuir zoom">−</button>
-            <input id="zoomRange" type="range" min="10" max="400" step="5" value="100" aria-label="Zoom do gráfico">
+
+            <button
+              id="zoomOut"
+              class="secondary"
+              type="button"
+              aria-label="Diminuir zoom"
+            >
+              −
+            </button>
+
+            <input
+              id="zoomRange"
+              type="range"
+              min="10"
+              max="400"
+              step="5"
+              value="100"
+              aria-label="Zoom do gráfico"
+            >
+
             <span id="zoomText" class="zoomValue">100%</span>
-            <button id="zoomIn" class="secondary" type="button" aria-label="Aumentar zoom">+</button>
-            <button id="fitZoom" class="secondary" type="button">Encaixar</button>
-            <button id="resetZoom" class="ghost" type="button">100%</button>
-            <button id="fullscreenChart" class="secondary" type="button">⛶ Tela cheia</button>
-            <button id="exitFullscreen" class="ghost fullscreenExit" type="button">Sair da tela cheia</button>
+
+            <button
+              id="zoomIn"
+              class="secondary"
+              type="button"
+              aria-label="Aumentar zoom"
+            >
+              +
+            </button>
+
+            <button id="fitZoom" class="secondary" type="button">
+              Encaixar
+            </button>
+
+            <button id="resetZoom" class="ghost" type="button">
+              100%
+            </button>
+
+            <button id="fullscreenChart" class="secondary" type="button">
+              ⛶ Tela cheia
+            </button>
+
+            <button
+              id="exitFullscreen"
+              class="ghost fullscreenExit"
+              type="button"
+            >
+              Sair da tela cheia
+            </button>
+
           </div>
+
         </div>
+
         <details class="resizeBox">
+
           <summary>Redimensionar gráfico</summary>
+
           <div class="resizeGrid">
-            <div class="field"><label for="resizeCols">Colunas</label><input id="resizeCols" type="number" min="5" max="160" value="40"></div>
-            <div class="field"><label for="resizeRows">Carreiras</label><input id="resizeRows" type="number" min="5" max="160" value="40"></div>
-            <button id="applyResize" type="button">Aplicar tamanho</button>
-            <div class="resizeOptions">
-              <label class="checkline"><input id="lockRatio" type="checkbox" checked> Manter proporção atual</label>
-              <span class="small">O redimensionamento altera a quantidade real de pontos. O progresso compatível é mantido.</span>
+
+            <div class="field">
+              <label for="resizeCols">Colunas</label>
+              <input
+                id="resizeCols"
+                type="number"
+                min="5"
+                max="160"
+                value="40"
+              >
             </div>
+
+            <div class="field">
+              <label for="resizeRows">Carreiras</label>
+              <input
+                id="resizeRows"
+                type="number"
+                min="5"
+                max="160"
+                value="40"
+              >
+            </div>
+
+            <button id="applyResize" type="button">
+              Aplicar tamanho
+            </button>
+
+            <div class="resizeOptions">
+
+              <label class="checkline">
+                <input id="lockRatio" type="checkbox" checked>
+                Manter proporção atual
+              </label>
+
+              <span class="small">
+                O redimensionamento altera a quantidade real de pontos.
+                O progresso compatível é mantido.
+              </span>
+
+            </div>
+
           </div>
+
         </details>
+
       </div>
 
-      <div id="empty" class="empty"><strong>Seu gráfico aparecerá aqui.</strong><br>Escolha uma imagem e clique em “Gerar gráfico”.</div>
-      <div id="result" style="display:none;width:100%">
-        <div class="meta"><span id="sizeText"></span><span id="modeText"></span></div>
-        <div id="gridWrap">
-          <div id="numberedChart" class="numberedChart" aria-label="Gráfico numerado">
-            <div class="axisCorner tl" aria-hidden="true"></div>
-            <div id="colNumsTop" class="colNumbers top" aria-label="Numeração das colunas no topo"></div>
-            <div class="axisCorner tr" aria-hidden="true"></div>
-            <div id="rowNumsLeft" class="rowNumbers left" aria-label="Numeração das carreiras à esquerda"></div>
-            <div id="grid"></div>
-            <div id="rowNumsRight" class="rowNumbers right" aria-label="Numeração das carreiras à direita"></div>
-            <div class="axisCorner bl" aria-hidden="true"></div>
-            <div id="colNumsBottom" class="colNumbers bottom" aria-label="Numeração das colunas na base"></div>
-            <div class="axisCorner br" aria-hidden="true"></div>
-          </div>
-        </div>
-        <div id="legend" class="legend"></div>
+
+      <div id="empty" class="empty">
+        <strong>Seu gráfico aparecerá aqui.</strong><br>
+        Escolha uma imagem e clique em “Gerar gráfico”.
       </div>
+
+
+      <div id="result" style="display:none;width:100%">
+
+        <div class="meta">
+          <span id="sizeText"></span>
+          <span id="modeText"></span>
+        </div>
+
+        <div id="gridWrap">
+
+          <div
+            id="numberedChart"
+            class="numberedChart"
+            aria-label="Gráfico numerado"
+          >
+
+            <div class="axisCorner tl" aria-hidden="true"></div>
+
+            <div
+              id="colNumsTop"
+              class="colNumbers top"
+              aria-label="Numeração das colunas no topo"
+            ></div>
+
+            <div class="axisCorner tr" aria-hidden="true"></div>
+
+            <div
+              id="rowNumsLeft"
+              class="rowNumbers left"
+              aria-label="Numeração das carreiras à esquerda"
+            ></div>
+
+            <div id="grid"></div>
+
+            <div
+              id="rowNumsRight"
+              class="rowNumbers right"
+              aria-label="Numeração das carreiras à direita"
+            ></div>
+
+            <div class="axisCorner bl" aria-hidden="true"></div>
+
+            <div
+              id="colNumsBottom"
+              class="colNumbers bottom"
+              aria-label="Numeração das colunas na base"
+            ></div>
+
+            <div class="axisCorner br" aria-hidden="true"></div>
+
+          </div>
+
+        </div>
+
+        <div id="legend" class="legend"></div>
+
+      </div>
+
     </section>
+
   </div>
+
 </div>
 
-<div id="printArea" aria-hidden="true"></div>
-<script>
-const $=id=>document.getElementById(id);
-let sourceImg=null, sourceDataUrl=null, paletteColors=[], lastCanvas=null;
-let gridIndexes=[], counts=[], currentProjectId=null, currentRow=1, completedRows=new Set();
-let saveTimer=null, zoomLevel=100, resizeRatio=1, syncingResize=false;
 
-const palettes={
-  gray:["#111111","#333333","#555555","#777777","#999999","#bbbbbb","#dddddd","#f5f5f5"],
-  earth:["#2d241e","#5a4030","#815b3e","#a8794f","#c5a47e","#dfcfb5","#efe5d3","#faf7ef","#6d4c41","#9a6b4f","#b88a62","#3f5140"],
-  classic:["#111111","#ffffff","#c62828","#e53935","#f6c945","#2e7d32","#1976d2","#7b1fa2","#f57c00","#795548","#00897b","#6d4c41","#c2185b","#90a4ae","#424242"]
+<div id="printArea" aria-hidden="true"></div>
+
+
+<script>
+
+const $ =
+  id =>
+    document.getElementById(id);
+
+
+let sourceImg = null;
+let sourceDataUrl = null;
+let paletteColors = [];
+let lastCanvas = null;
+
+let gridIndexes = [];
+let counts = [];
+let currentProjectId = null;
+let currentRow = 1;
+let completedRows = new Set();
+
+let saveTimer = null;
+let zoomLevel = 100;
+let resizeRatio = 1;
+let syncingResize = false;
+
+
+const palettes = {
+
+  gray:[
+    "#111111",
+    "#333333",
+    "#555555",
+    "#777777",
+    "#999999",
+    "#bbbbbb",
+    "#dddddd",
+    "#f5f5f5"
+  ],
+
+  earth:[
+    "#2d241e",
+    "#5a4030",
+    "#815b3e",
+    "#a8794f",
+    "#c5a47e",
+    "#dfcfb5",
+    "#efe5d3",
+    "#faf7ef",
+    "#6d4c41",
+    "#9a6b4f",
+    "#b88a62",
+    "#3f5140"
+  ],
+
+  classic:[
+    "#111111",
+    "#ffffff",
+    "#c62828",
+    "#e53935",
+    "#f6c945",
+    "#2e7d32",
+    "#1976d2",
+    "#7b1fa2",
+    "#f57c00",
+    "#795548",
+    "#00897b",
+    "#6d4c41",
+    "#c2185b",
+    "#90a4ae",
+    "#424242"
+  ]
+
 };
 
-const DB_NAME="pixelarte-db", STORE="projects", DB_VERSION=1;
-function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(DB_NAME,DB_VERSION);r.onupgradeneeded=()=>{const db=r.result;if(!db.objectStoreNames.contains(STORE))db.createObjectStore(STORE,{keyPath:"id"})};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
-async function dbPut(obj){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,"readwrite");tx.objectStore(STORE).put(obj);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
-async function dbGet(id){const db=await openDB();return new Promise((resolve,reject)=>{const r=db.transaction(STORE,"readonly").objectStore(STORE).get(id);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
-async function dbAll(){const db=await openDB();return new Promise((resolve,reject)=>{const r=db.transaction(STORE,"readonly").objectStore(STORE).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)})}
 
-function newId(){return "p_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8)}
-function setSaveState(text,ok=false){$("saveText").textContent=text;$("saveDot").className="saveDot"+(ok?" ok":"")}
-function scheduleSave(){clearTimeout(saveTimer);setSaveState("Alterações pendentes…",false);saveTimer=setTimeout(()=>saveProject(true),500)}
+const DB_NAME = "pixelarte-db";
+const STORE = "projects";
+const DB_VERSION = 1;
+
+
+function openDB(){
+
+  return new Promise(
+    (resolve,reject) => {
+
+      const r =
+        indexedDB.open(
+          DB_NAME,
+          DB_VERSION
+        );
+
+      r.onupgradeneeded =
+        () => {
+
+          const db =
+            r.result;
+
+          if(
+            !db.objectStoreNames.contains(
+              STORE
+            )
+          ){
+
+            db.createObjectStore(
+              STORE,
+              {
+                keyPath:"id"
+              }
+            );
+
+          }
+
+        };
+
+      r.onsuccess =
+        () =>
+          resolve(
+            r.result
+          );
+
+      r.onerror =
+        () =>
+          reject(
+            r.error
+          );
+
+    }
+  );
+
+}
+
+
+async function dbPut(obj){
+
+  const db =
+    await openDB();
+
+  return new Promise(
+    (resolve,reject) => {
+
+      const tx =
+        db.transaction(
+          STORE,
+          "readwrite"
+        );
+
+      tx
+      .objectStore(
+        STORE
+      )
+      .put(obj);
+
+      tx.oncomplete =
+        () =>
+          resolve();
+
+      tx.onerror =
+        () =>
+          reject(
+            tx.error
+          );
+
+    }
+  );
+
+}
+
+
+async function dbGet(id){
+
+  const db =
+    await openDB();
+
+  return new Promise(
+    (resolve,reject) => {
+
+      const r =
+        db
+        .transaction(
+          STORE,
+          "readonly"
+        )
+        .objectStore(
+          STORE
+        )
+        .get(id);
+
+      r.onsuccess =
+        () =>
+          resolve(
+            r.result ||
+            null
+          );
+
+      r.onerror =
+        () =>
+          reject(
+            r.error
+          );
+
+    }
+  );
+
+}
+
+
+async function dbAll(){
+
+  const db =
+    await openDB();
+
+  return new Promise(
+    (resolve,reject) => {
+
+      const r =
+        db
+        .transaction(
+          STORE,
+          "readonly"
+        )
+        .objectStore(
+          STORE
+        )
+        .getAll();
+
+      r.onsuccess =
+        () =>
+          resolve(
+            r.result ||
+            []
+          );
+
+      r.onerror =
+        () =>
+          reject(
+            r.error
+          );
+
+    }
+  );
+
+}
+
+
+function newId(){
+
+  return (
+    "p_" +
+    Date.now().toString(36) +
+    "_" +
+    Math.random().toString(36).slice(2,8)
+  );
+
+}
+
+
+function setSaveState(
+  text,
+  ok = false
+){
+
+  $("saveText").textContent =
+    text;
+
+  $("saveDot").className =
+    "saveDot" +
+    (
+      ok
+        ? " ok"
+        : ""
+    );
+
+}
+
+
+function scheduleSave(){
+
+  clearTimeout(
+    saveTimer
+  );
+
+  setSaveState(
+    "Alterações pendentes…",
+    false
+  );
+
+  saveTimer =
+    setTimeout(
+      () =>
+        saveProject(true),
+      500
+    );
+
+}
+
 
 function projectSnapshot(){
+
   return {
-    id:currentProjectId||newId(),
-    name:$("projectName").value.trim()||"Projeto sem nome",
-    updatedAt:new Date().toISOString(),
+
+    id:
+      currentProjectId ||
+      newId(),
+
+    name:
+      $("projectName").value.trim() ||
+      "Projeto sem nome",
+
+    updatedAt:
+      new Date().toISOString(),
+
     sourceDataUrl,
-    settings:{cols:+$("cols").value,rows:+$("rows").value,colors:+$("colors").value,palette:$("palette").value,mode:$("mode").value,direction:$("direction").value,showCodes:$("showCodes").checked,zoom:zoomLevel},
-    chart:{paletteColors,gridIndexes,counts},
-    progress:{currentRow,completedRows:[...completedRows]}
+
+    settings:{
+      cols:+$("cols").value,
+      rows:+$("rows").value,
+      colors:+$("colors").value,
+      palette:$("palette").value,
+      mode:$("mode").value,
+      direction:$("direction").value,
+      showCodes:$("showCodes").checked,
+      zoom:zoomLevel
+    },
+
+    chart:{
+      paletteColors,
+      gridIndexes,
+      counts
+    },
+
+    progress:{
+      currentRow,
+      completedRows:[
+        ...completedRows
+      ]
+    }
+
   };
+
 }
 
-async function saveProject(silent=false){
-  if(!currentProjectId)currentProjectId=newId();
-  const p=projectSnapshot();p.id=currentProjectId;
-  await dbPut(p);localStorage.setItem("pixelarte-current-project",currentProjectId);
-  setSaveState("Salvo automaticamente",true);await refreshProjectList();
-  if(!silent) setSaveState("Projeto salvo",true);
+
+async function saveProject(
+  silent = false
+){
+
+  if(
+    !currentProjectId
+  ){
+
+    currentProjectId =
+      newId();
+
+  }
+
+
+  const p =
+    projectSnapshot();
+
+
+  p.id =
+    currentProjectId;
+
+
+  await dbPut(
+    p
+  );
+
+
+  localStorage.setItem(
+    "pixelarte-current-project",
+    currentProjectId
+  );
+
+
+  setSaveState(
+    "Salvo automaticamente",
+    true
+  );
+
+
+  await refreshProjectList();
+
+
+  if(
+    !silent
+  ){
+
+    setSaveState(
+      "Projeto salvo",
+      true
+    );
+
+  }
+
 }
+
 
 async function refreshProjectList(){
-  const list=await dbAll();list.sort((a,b)=>(b.updatedAt||"").localeCompare(a.updatedAt||""));
-  const s=$("savedProjects");const selected=s.value;s.innerHTML='<option value="">Projetos salvos</option>';
-  for(const p of list){const o=document.createElement("option");o.value=p.id;o.textContent=p.name||"Projeto sem nome";s.appendChild(o)}
-  if([...s.options].some(o=>o.value===selected))s.value=selected;
+
+  const list =
+    await dbAll();
+
+
+  list.sort(
+    (a,b) =>
+      (
+        b.updatedAt ||
+        ""
+      )
+      .localeCompare(
+        a.updatedAt ||
+        ""
+      )
+  );
+
+
+  const s =
+    $("savedProjects");
+
+
+  const selected =
+    s.value;
+
+
+  s.innerHTML =
+    '<option value="">Projetos salvos</option>';
+
+
+  for(
+    const p
+    of list
+  ){
+
+    const o =
+      document.createElement(
+        "option"
+      );
+
+
+    o.value =
+      p.id;
+
+
+    o.textContent =
+      p.name ||
+      "Projeto sem nome";
+
+
+    s.appendChild(
+      o
+    );
+
+  }
+
+
+  if(
+    [
+      ...s.options
+    ]
+    .some(
+      o =>
+        o.value === selected
+    )
+  ){
+
+    s.value =
+      selected;
+
+  }
+
 }
+
 
 function resetUi(){
-  sourceImg=null;sourceDataUrl=null;paletteColors=[];gridIndexes=[];counts=[];lastCanvas=null;currentRow=1;completedRows=new Set();zoomLevel=100;resizeRatio=1;
-  $("projectName").value="";$("fileText").textContent="JPG, PNG ou WEBP";
-  $("cols").value=40;$("rows").value=40;$("colors").value=8;$("palette").value="image";$("mode").value="Crochê";$("direction").value="bottom";$("showCodes").checked=false;
-  updateSliderLabels();$("zoomRange").value=100;$("zoomText").textContent="100%";$("grid").innerHTML="";$("colNumsTop").innerHTML="";$("colNumsBottom").innerHTML="";$("rowNumsLeft").innerHTML="";$("rowNumsRight").innerHTML="";$("legend").innerHTML="";$("result").style.display="none";$("counter").style.display="none";$("viewTools").style.display="none";$("empty").style.display="block";$("empty").innerHTML="<strong>Seu gráfico aparecerá aqui.</strong><br>Escolha uma imagem e clique em “Gerar gráfico”.";$("download").disabled=true;$("print").disabled=true;
-  setSaveState("Novo projeto",false);
+
+  sourceImg = null;
+  sourceDataUrl = null;
+
+  paletteColors = [];
+  gridIndexes = [];
+  counts = [];
+
+  lastCanvas = null;
+
+  currentRow = 1;
+  completedRows = new Set();
+
+  zoomLevel = 100;
+  resizeRatio = 1;
+
+
+  $("projectName").value =
+    "";
+
+  $("fileText").textContent =
+    "JPG, PNG ou WEBP";
+
+  $("cols").value =
+    40;
+
+  $("rows").value =
+    40;
+
+  $("colors").value =
+    8;
+
+  $("palette").value =
+    "image";
+
+  $("mode").value =
+    "Crochê";
+
+  $("direction").value =
+    "bottom";
+
+  $("showCodes").checked =
+    false;
+
+
+  updateSliderLabels();
+
+
+  $("zoomRange").value =
+    100;
+
+  $("zoomText").textContent =
+    "100%";
+
+
+  $("grid").innerHTML =
+    "";
+
+  $("colNumsTop").innerHTML =
+    "";
+
+  $("colNumsBottom").innerHTML =
+    "";
+
+  $("rowNumsLeft").innerHTML =
+    "";
+
+  $("rowNumsRight").innerHTML =
+    "";
+
+  $("legend").innerHTML =
+    "";
+
+
+  $("result").style.display =
+    "none";
+
+  $("counter").style.display =
+    "none";
+
+  $("viewTools").style.display =
+    "none";
+
+  $("empty").style.display =
+    "block";
+
+
+  $("empty").innerHTML =
+    "<strong>Seu gráfico aparecerá aqui.</strong><br>" +
+    "Escolha uma imagem e clique em “Gerar gráfico”.";
+
+
+  $("download").disabled =
+    true;
+
+  $("print").disabled =
+    true;
+
+
+  setSaveState(
+    "Novo projeto",
+    false
+  );
+
 }
 
-async function startNewProject(){currentProjectId=newId();localStorage.setItem("pixelarte-current-project",currentProjectId);resetUi();scheduleSave()}
+
+async function startNewProject(){
+
+  currentProjectId =
+    newId();
+
+
+  localStorage.setItem(
+    "pixelarte-current-project",
+    currentProjectId
+  );
+
+
+  resetUi();
+
+  scheduleSave();
+
+}
+
 
 function applyProject(p){
-  currentProjectId=p.id;$("projectName").value=p.name||"";
-  const s=p.settings||{};for(const id of ["cols","rows","colors"]) if(s[id]!=null)$(id).value=s[id];
-  if(s.palette)$("palette").value=s.palette;if(s.mode)$("mode").value=s.mode;if(s.direction)$("direction").value=s.direction;$("showCodes").checked=!!s.showCodes;zoomLevel=Math.min(400,Math.max(10,+s.zoom||100));$("zoomRange").value=zoomLevel;updateSliderLabels();syncResizeInputs();
-  sourceDataUrl=p.sourceDataUrl||null;paletteColors=p.chart?.paletteColors||[];gridIndexes=p.chart?.gridIndexes||[];counts=p.chart?.counts||[];currentRow=Math.max(1,p.progress?.currentRow||1);completedRows=new Set(p.progress?.completedRows||[]);
-  if(sourceDataUrl){sourceImg=new Image();sourceImg.onload=()=>{$("fileText").textContent="Imagem do projeto carregada"};sourceImg.src=sourceDataUrl}
-  if(gridIndexes.length&&paletteColors.length){renderSavedChart();$("empty").style.display="none";$("result").style.display="block";$("counter").style.display="block";$("viewTools").style.display="block";$("download").disabled=false;$("print").disabled=false}else{$("result").style.display="none";$("counter").style.display="none";$("viewTools").style.display="none";$("empty").style.display="block"}
-  localStorage.setItem("pixelarte-current-project",currentProjectId);setSaveState("Projeto restaurado",true)
-}
 
-async function loadProjectById(id){if(!id)return;const p=await dbGet(id);if(p)applyProject(p)}
+  currentProjectId =
+    p.id;
 
-function updateSliderLabels(){for(const id of ["cols","rows","colors"])$(`${id}Val`).textContent=$(id).value}
-function clampSize(v){return Math.min(160,Math.max(5,Math.round(+v||5)))}
-function syncResizeInputs(){const cols=+$("cols").value,rows=+$("rows").value;$("resizeCols").value=cols;$("resizeRows").value=rows;resizeRatio=cols/Math.max(1,rows)}
-function applyZoom(save=true){zoomLevel=Math.min(400,Math.max(10,Math.round((+$("zoomRange").value||100)/5)*5));$("zoomRange").value=zoomLevel;$("zoomText").textContent=zoomLevel+"%";const cell=Math.max(2,18*zoomLevel/100);$("numberedChart").style.setProperty("--cell-size",cell+"px");if(save)scheduleSave()}
-function changeZoom(delta){$("zoomRange").value=Math.min(400,Math.max(10,zoomLevel+delta));applyZoom()}
-function fitZoom(){const cols=+$("cols").value;if(!cols)return;const available=Math.max(120,$("gridWrap").clientWidth-104);const fit=Math.floor((available/(cols*18))*100/5)*5;$("zoomRange").value=Math.min(400,Math.max(10,fit));applyZoom()}
-function fitWholeChart(){
-  const cols=+$("cols").value,rows=+$("rows").value;if(!cols||!rows)return;
-  const wrap=$("gridWrap");
-  const availableW=Math.max(100,wrap.clientWidth-92);
-  const availableH=Math.max(100,wrap.clientHeight-92);
-  const fitW=availableW/(cols*18);
-  const fitH=availableH/(rows*18);
-  const fit=Math.floor(Math.min(fitW,fitH)*100/5)*5;
-  $("zoomRange").value=Math.min(400,Math.max(10,fit));
-  applyZoom(false);
-  requestAnimationFrame(()=>{wrap.scrollLeft=Math.max(0,(wrap.scrollWidth-wrap.clientWidth)/2);wrap.scrollTop=Math.max(0,(wrap.scrollHeight-wrap.clientHeight)/2)});
-}
-function resizeExistingGrid(oldCols,oldRows,newCols,newRows){const old=gridIndexes.slice(),next=[];for(let y=0;y<newRows;y++){const sy=Math.min(oldRows-1,Math.floor(y*oldRows/newRows));for(let x=0;x<newCols;x++){const sx=Math.min(oldCols-1,Math.floor(x*oldCols/newCols));next.push(old[sy*oldCols+sx]??0)}}gridIndexes=next;counts=Array(paletteColors.length).fill(0);for(const k of gridIndexes)if(counts[k]!=null)counts[k]++}
-function applyResize(){if(!gridIndexes.length)return;const oldCols=+$("cols").value,oldRows=+$("rows").value,newCols=clampSize($("resizeCols").value),newRows=clampSize($("resizeRows").value);$("resizeCols").value=newCols;$("resizeRows").value=newRows;if(newCols===oldCols&&newRows===oldRows)return;$("cols").value=newCols;$("rows").value=newRows;updateSliderLabels();completedRows=new Set([...completedRows].filter(r=>r<=newRows));currentRow=Math.min(newRows,Math.max(1,currentRow));if(sourceImg&&sourceImg.complete&&sourceImg.naturalWidth){generate({preserveProgress:true})}else{resizeExistingGrid(oldCols,oldRows,newCols,newRows);renderSavedChart();scheduleSave()}syncResizeInputs()}
 
-function isChartFullscreen(){return document.fullscreenElement===$("preview")||$("preview").classList.contains("fullscreenFallback")}
-async function enterChartFullscreen(){
-  if(!gridIndexes.length)return;
-  const preview=$("preview");
-  try{
-    if(preview.requestFullscreen){await preview.requestFullscreen()}else throw new Error("Fullscreen API indisponível");
-  }catch{
-    preview.classList.add("fullscreenFallback");document.body.classList.add("pixelarteFullscreenFallback");
-    fitWholeChart();
+  $("projectName").value =
+    p.name ||
+    "";
+
+
+  const s =
+    p.settings ||
+    {};
+
+
+  for(
+    const id
+    of [
+      "cols",
+      "rows",
+      "colors"
+    ]
+  ){
+
+    if(
+      s[id] != null
+    ){
+
+      $(id).value =
+        s[id];
+
+    }
+
   }
+
+
+  if(
+    s.palette
+  ){
+
+    $("palette").value =
+      s.palette;
+
+  }
+
+
+  if(
+    s.mode
+  ){
+
+    $("mode").value =
+      s.mode;
+
+  }
+
+
+  if(
+    s.direction
+  ){
+
+    $("direction").value =
+      s.direction;
+
+  }
+
+
+  $("showCodes").checked =
+    !!s.showCodes;
+
+
+  zoomLevel =
+    Math.min(
+      400,
+      Math.max(
+        10,
+        +s.zoom ||
+        100
+      )
+    );
+
+
+  $("zoomRange").value =
+    zoomLevel;
+
+
+  updateSliderLabels();
+
+  syncResizeInputs();
+
+
+  sourceDataUrl =
+    p.sourceDataUrl ||
+    null;
+
+
+  paletteColors =
+    p.chart?.paletteColors ||
+    [];
+
+
+  gridIndexes =
+    p.chart?.gridIndexes ||
+    [];
+
+
+  counts =
+    p.chart?.counts ||
+    [];
+
+
+  currentRow =
+    Math.max(
+      1,
+      p.progress?.currentRow ||
+      1
+    );
+
+
+  completedRows =
+    new Set(
+      p.progress?.completedRows ||
+      []
+    );
+
+
+  if(
+    sourceDataUrl
+  ){
+
+    sourceImg =
+      new Image();
+
+
+    sourceImg.onload =
+      () => {
+
+        $("fileText").textContent =
+          "Imagem do projeto carregada";
+
+      };
+
+
+    sourceImg.src =
+      sourceDataUrl;
+
+  }
+
+
+  if(
+    gridIndexes.length &&
+    paletteColors.length
+  ){
+
+    renderSavedChart();
+
+    $("empty").style.display =
+      "none";
+
+    $("result").style.display =
+      "block";
+
+    $("counter").style.display =
+      "block";
+
+    $("viewTools").style.display =
+      "block";
+
+    $("download").disabled =
+      false;
+
+    $("print").disabled =
+      false;
+
+  }else{
+
+    $("result").style.display =
+      "none";
+
+    $("counter").style.display =
+      "none";
+
+    $("viewTools").style.display =
+      "none";
+
+    $("empty").style.display =
+      "block";
+
+  }
+
+
+  localStorage.setItem(
+    "pixelarte-current-project",
+    currentProjectId
+  );
+
+
+  setSaveState(
+    "Projeto restaurado",
+    true
+  );
+
 }
+
+
+async function loadProjectById(id){
+
+  if(
+    !id
+  ){
+    return;
+  }
+
+
+  const p =
+    await dbGet(
+      id
+    );
+
+
+  if(
+    p
+  ){
+
+    applyProject(
+      p
+    );
+
+  }
+
+}
+
+
+function updateSliderLabels(){
+
+  for(
+    const id
+    of [
+      "cols",
+      "rows",
+      "colors"
+    ]
+  ){
+
+    $(`${id}Val`).textContent =
+      $(id).value;
+
+  }
+
+}
+
+
+function clampSize(v){
+
+  return Math.min(
+    160,
+    Math.max(
+      5,
+      Math.round(
+        +v ||
+        5
+      )
+    )
+  );
+
+}
+
+
+function syncResizeInputs(){
+
+  const cols =
+    +$("cols").value;
+
+  const rows =
+    +$("rows").value;
+
+
+  $("resizeCols").value =
+    cols;
+
+  $("resizeRows").value =
+    rows;
+
+
+  resizeRatio =
+    cols /
+    Math.max(
+      1,
+      rows
+    );
+
+}
+
+
+function applyZoom(
+  save = true
+){
+
+  zoomLevel =
+    Math.min(
+      400,
+      Math.max(
+        10,
+        Math.round(
+          (
+            +$("zoomRange").value ||
+            100
+          ) /
+          5
+        ) *
+        5
+      )
+    );
+
+
+  $("zoomRange").value =
+    zoomLevel;
+
+
+  $("zoomText").textContent =
+    zoomLevel +
+    "%";
+
+
+  const cell =
+    Math.max(
+      2,
+      18 *
+      zoomLevel /
+      100
+    );
+
+
+  $("numberedChart")
+  .style
+  .setProperty(
+    "--cell-size",
+    cell +
+    "px"
+  );
+
+
+  if(
+    save
+  ){
+
+    scheduleSave();
+
+  }
+
+}
+
+
+function changeZoom(delta){
+
+  $("zoomRange").value =
+    Math.min(
+      400,
+      Math.max(
+        10,
+        zoomLevel +
+        delta
+      )
+    );
+
+
+  applyZoom();
+
+}
+
+
+function fitZoom(){
+
+  const cols =
+    +$("cols").value;
+
+
+  if(
+    !cols
+  ){
+    return;
+  }
+
+
+  const available =
+    Math.max(
+      120,
+      $("gridWrap").clientWidth -
+      104
+    );
+
+
+  const fit =
+    Math.floor(
+      (
+        available /
+        (
+          cols *
+          18
+        )
+      ) *
+      100 /
+      5
+    ) *
+    5;
+
+
+  $("zoomRange").value =
+    Math.min(
+      400,
+      Math.max(
+        10,
+        fit
+      )
+    );
+
+
+  applyZoom();
+
+}
+
+
+function fitWholeChart(){
+
+  const cols =
+    +$("cols").value;
+
+  const rows =
+    +$("rows").value;
+
+
+  if(
+    !cols ||
+    !rows
+  ){
+    return;
+  }
+
+
+  const wrap =
+    $("gridWrap");
+
+
+  const availableW =
+    Math.max(
+      100,
+      wrap.clientWidth -
+      92
+    );
+
+
+  const availableH =
+    Math.max(
+      100,
+      wrap.clientHeight -
+      92
+    );
+
+
+  const fitW =
+    availableW /
+    (
+      cols *
+      18
+    );
+
+
+  const fitH =
+    availableH /
+    (
+      rows *
+      18
+    );
+
+
+  const fit =
+    Math.floor(
+      Math.min(
+        fitW,
+        fitH
+      ) *
+      100 /
+      5
+    ) *
+    5;
+
+
+  $("zoomRange").value =
+    Math.min(
+      400,
+      Math.max(
+        10,
+        fit
+      )
+    );
+
+
+  applyZoom(
+    false
+  );
+
+
+  requestAnimationFrame(
+    () => {
+
+      wrap.scrollLeft =
+        Math.max(
+          0,
+          (
+            wrap.scrollWidth -
+            wrap.clientWidth
+          ) /
+          2
+        );
+
+
+      wrap.scrollTop =
+        Math.max(
+          0,
+          (
+            wrap.scrollHeight -
+            wrap.clientHeight
+          ) /
+          2
+        );
+
+    }
+  );
+
+}
+
+
+function resizeExistingGrid(
+  oldCols,
+  oldRows,
+  newCols,
+  newRows
+){
+
+  const old =
+    gridIndexes.slice();
+
+
+  const next =
+    [];
+
+
+  for(
+    let y = 0;
+    y < newRows;
+    y++
+  ){
+
+    const sy =
+      Math.min(
+        oldRows -
+        1,
+        Math.floor(
+          y *
+          oldRows /
+          newRows
+        )
+      );
+
+
+    for(
+      let x = 0;
+      x < newCols;
+      x++
+    ){
+
+      const sx =
+        Math.min(
+          oldCols -
+          1,
+          Math.floor(
+            x *
+            oldCols /
+            newCols
+          )
+        );
+
+
+      next.push(
+        old[
+          sy *
+          oldCols +
+          sx
+        ] ??
+        0
+      );
+
+    }
+
+  }
+
+
+  gridIndexes =
+    next;
+
+
+  counts =
+    Array(
+      paletteColors.length
+    )
+    .fill(0);
+
+
+  for(
+    const k
+    of gridIndexes
+  ){
+
+    if(
+      counts[k] != null
+    ){
+
+      counts[k]++;
+
+    }
+
+  }
+
+}
+
+
+function applyResize(){
+
+  if(
+    !gridIndexes.length
+  ){
+    return;
+  }
+
+
+  const oldCols =
+    +$("cols").value;
+
+  const oldRows =
+    +$("rows").value;
+
+
+  const newCols =
+    clampSize(
+      $("resizeCols").value
+    );
+
+
+  const newRows =
+    clampSize(
+      $("resizeRows").value
+    );
+
+
+  $("resizeCols").value =
+    newCols;
+
+
+  $("resizeRows").value =
+    newRows;
+
+
+  if(
+    newCols === oldCols &&
+    newRows === oldRows
+  ){
+    return;
+  }
+
+
+  $("cols").value =
+    newCols;
+
+
+  $("rows").value =
+    newRows;
+
+
+  updateSliderLabels();
+
+
+  completedRows =
+    new Set(
+      [
+        ...completedRows
+      ]
+      .filter(
+        r =>
+          r <= newRows
+      )
+    );
+
+
+  currentRow =
+    Math.min(
+      newRows,
+      Math.max(
+        1,
+        currentRow
+      )
+    );
+
+
+  if(
+    sourceImg &&
+    sourceImg.complete &&
+    sourceImg.naturalWidth
+  ){
+
+    generate({
+      preserveProgress:true
+    });
+
+  }else{
+
+    resizeExistingGrid(
+      oldCols,
+      oldRows,
+      newCols,
+      newRows
+    );
+
+
+    renderSavedChart();
+
+    scheduleSave();
+
+  }
+
+
+  syncResizeInputs();
+
+}
+
+
+/* =========================================
+   TELA CHEIA
+   ========================================= */
+
+function isChartFullscreen(){
+
+  return (
+    document.fullscreenElement ===
+    $("preview")
+    ||
+    $("preview")
+    .classList
+    .contains(
+      "fullscreenFallback"
+    )
+  );
+
+}
+
+
+async function enterChartFullscreen(){
+
+  if(
+    !gridIndexes.length
+  ){
+    return;
+  }
+
+
+  const preview =
+    $("preview");
+
+
+  try{
+
+    if(
+      preview.requestFullscreen
+    ){
+
+      await preview.requestFullscreen();
+
+    }else{
+
+      throw new Error(
+        "Fullscreen API indisponível"
+      );
+
+    }
+
+  }catch{
+
+    preview
+    .classList
+    .add(
+      "fullscreenFallback"
+    );
+
+
+    document.body
+    .classList
+    .add(
+      "pixelarteFullscreenFallback"
+    );
+
+
+    fitWholeChart();
+
+  }
+
+}
+
+
 async function exitChartFullscreen(){
-  const preview=$("preview");
-  if(document.fullscreenElement){try{await document.exitFullscreen()}catch{}}
-  preview.classList.remove("fullscreenFallback");document.body.classList.remove("pixelarteFullscreenFallback");
+
+  const preview =
+    $("preview");
+
+
+  if(
+    document.fullscreenElement
+  ){
+
+    try{
+
+      await document.exitFullscreen();
+
+    }catch{}
+
+  }
+
+
+  preview
+  .classList
+  .remove(
+    "fullscreenFallback"
+  );
+
+
+  document.body
+  .classList
+  .remove(
+    "pixelarteFullscreenFallback"
+  );
+
 }
+
+
 function handleFullscreenChange(){
-  const preview=$("preview");
-  if(document.fullscreenElement===preview){setTimeout(fitWholeChart,80)}
-  else if(!preview.classList.contains("fullscreenFallback")){document.body.classList.remove("pixelarteFullscreenFallback")}
+
+  const preview =
+    $("preview");
+
+
+  if(
+    document.fullscreenElement ===
+    preview
+  ){
+
+    setTimeout(
+      fitWholeChart,
+      80
+    );
+
+  }else if(
+    !preview
+    .classList
+    .contains(
+      "fullscreenFallback"
+    )
+  ){
+
+    document.body
+    .classList
+    .remove(
+      "pixelarteFullscreenFallback"
+    );
+
+  }
+
 }
 
-$("file").addEventListener("change",e=>{
-  const f=e.target.files[0];if(!f)return;const reader=new FileReader();
-  reader.onload=()=>{sourceDataUrl=reader.result;sourceImg=new Image();sourceImg.onload=()=>{$("fileText").textContent=f.name;$("empty").innerHTML="<strong>Imagem carregada.</strong><br>Clique em “Gerar gráfico”.";scheduleSave()};sourceImg.src=sourceDataUrl};reader.readAsDataURL(f)
-});
 
-["cols","rows","colors"].forEach(id=>$(id).addEventListener("input",()=>{updateSliderLabels();scheduleSave()}));
-["palette","mode","direction","showCodes","projectName"].forEach(id=>$(id).addEventListener("change",()=>{if(id==="showCodes")refreshGridClasses();if(id==="direction"){renderAxisNumbers();updateCounter();refreshGridClasses()}scheduleSave()}));
-$("projectName").addEventListener("input",scheduleSave);
+/* =========================================
+   EVENTOS
+   ========================================= */
 
-$("generate").addEventListener("click",generate);$("download").addEventListener("click",downloadPNG);$("print").addEventListener("click",prepareAndPrint);
-$("saveNow").addEventListener("click",()=>saveProject(false));$("newProject").addEventListener("click",startNewProject);
-$("loadProject").addEventListener("click",()=>loadProjectById($("savedProjects").value));
-$("exportProject").addEventListener("click",exportProject);$("importProject").addEventListener("change",importProject);
-$("prevRow").addEventListener("click",()=>moveRow(-1));$("nextRow").addEventListener("click",()=>moveRow(1));$("completeRow").addEventListener("click",completeAndAdvance);$("toggleComplete").addEventListener("click",toggleComplete);
-$("currentRowInput").addEventListener("change",()=>{const rows=+$("rows").value;currentRow=Math.min(rows,Math.max(1,+$("currentRowInput").value||1));updateCounter();refreshGridClasses();scheduleSave()});
-$("zoomRange").addEventListener("input",()=>applyZoom(false));$("zoomRange").addEventListener("change",()=>applyZoom(true));
-$("zoomOut").addEventListener("click",()=>changeZoom(-25));$("zoomIn").addEventListener("click",()=>changeZoom(25));$("resetZoom").addEventListener("click",()=>{$("zoomRange").value=100;applyZoom()});$("fitZoom").addEventListener("click",()=>isChartFullscreen()?fitWholeChart():fitZoom());
-$("fullscreenChart").addEventListener("click",enterChartFullscreen);$("exitFullscreen").addEventListener("click",exitChartFullscreen);document.addEventListener("fullscreenchange",handleFullscreenChange);
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("preview").classList.contains("fullscreenFallback"))exitChartFullscreen()});
-window.addEventListener("resize",()=>{if(isChartFullscreen())fitWholeChart()});
-$("applyResize").addEventListener("click",applyResize);
-$("resizeCols").addEventListener("input",()=>{if(syncingResize||!$("lockRatio").checked)return;syncingResize=true;$("resizeRows").value=clampSize(+$("resizeCols").value/resizeRatio);syncingResize=false});
-$("resizeRows").addEventListener("input",()=>{if(syncingResize||!$("lockRatio").checked)return;syncingResize=true;$("resizeCols").value=clampSize(+$("resizeRows").value*resizeRatio);syncingResize=false});
+$("file")
+.addEventListener(
+  "change",
+  e => {
 
-function rgb(hex){return [parseInt(hex.slice(1,3),16),parseInt(hex.slice(3,5),16),parseInt(hex.slice(5,7),16)]}
-function dist(a,b){return (a[0]-b[0])**2+(a[1]-b[1])**2+(a[2]-b[2])**2}
-function nearest(c,pal){let best=0,d=1e20;for(let i=0;i<pal.length;i++){let x=dist(c,rgb(pal[i]));if(x<d){d=x;best=i}}return best}
-function luminance(hex){const [r,g,b]=rgb(hex);return .2126*r+.7152*g+.0722*b}
+    const f =
+      e.target.files[0];
 
-function makePalette(pixels,n){
-  if($("palette").value!=="image"){const p=palettes[$("palette").value];return p.slice(0,Math.min(n,p.length))}
-  let seeds=[];for(let i=0;i<n;i++)seeds.push(pixels[Math.floor(i*(pixels.length-1)/Math.max(1,n-1))].slice());
-  for(let iter=0;iter<7;iter++){const sums=Array.from({length:n},()=>[0,0,0,0]);for(const c of pixels){let k=nearest(c,seeds);sums[k][0]+=c[0];sums[k][1]+=c[1];sums[k][2]+=c[2];sums[k][3]++}for(let k=0;k<n;k++)if(sums[k][3])seeds[k]=sums[k].slice(0,3).map(v=>Math.round(v/sums[k][3]))}
-  return seeds.map(c=>"#"+c.map(v=>v.toString(16).padStart(2,"0")).join(""));
+
+    if(
+      !f
+    ){
+      return;
+    }
+
+
+    const reader =
+      new FileReader();
+
+
+    reader.onload =
+      () => {
+
+        sourceDataUrl =
+          reader.result;
+
+
+        sourceImg =
+          new Image();
+
+
+        sourceImg.onload =
+          () => {
+
+            $("fileText").textContent =
+              f.name;
+
+
+            $("empty").innerHTML =
+              "<strong>Imagem carregada.</strong><br>" +
+              "Clique em “Gerar gráfico”.";
+
+
+            scheduleSave();
+
+          };
+
+
+        sourceImg.src =
+          sourceDataUrl;
+
+      };
+
+
+    reader.readAsDataURL(
+      f
+    );
+
+  }
+);
+
+
+[
+  "cols",
+  "rows",
+  "colors"
+]
+.forEach(
+  id =>
+    $(id)
+    .addEventListener(
+      "input",
+      () => {
+
+        updateSliderLabels();
+
+        scheduleSave();
+
+      }
+    )
+);
+
+
+[
+  "palette",
+  "mode",
+  "direction",
+  "showCodes",
+  "projectName"
+]
+.forEach(
+  id =>
+    $(id)
+    .addEventListener(
+      "change",
+      () => {
+
+        if(
+          id ===
+          "showCodes"
+        ){
+
+          refreshGridClasses();
+
+        }
+
+
+        if(
+          id ===
+          "direction"
+        ){
+
+          renderAxisNumbers();
+
+          updateCounter();
+
+          refreshGridClasses();
+
+        }
+
+
+        scheduleSave();
+
+      }
+    )
+);
+
+
+$("projectName")
+.addEventListener(
+  "input",
+  scheduleSave
+);
+
+
+$("generate")
+.addEventListener(
+  "click",
+  generate
+);
+
+
+$("download")
+.addEventListener(
+  "click",
+  downloadPNG
+);
+
+
+$("print")
+.addEventListener(
+  "click",
+  prepareAndPrint
+);
+
+
+$("saveNow")
+.addEventListener(
+  "click",
+  () =>
+    saveProject(false)
+);
+
+
+$("newProject")
+.addEventListener(
+  "click",
+  startNewProject
+);
+
+
+$("loadProject")
+.addEventListener(
+  "click",
+  () =>
+    loadProjectById(
+      $("savedProjects").value
+    )
+);
+
+
+$("exportProject")
+.addEventListener(
+  "click",
+  exportProject
+);
+
+
+$("importProject")
+.addEventListener(
+  "change",
+  importProject
+);
+
+
+$("prevRow")
+.addEventListener(
+  "click",
+  () =>
+    moveRow(-1)
+);
+
+
+$("nextRow")
+.addEventListener(
+  "click",
+  () =>
+    moveRow(1)
+);
+
+
+$("completeRow")
+.addEventListener(
+  "click",
+  completeAndAdvance
+);
+
+
+$("toggleComplete")
+.addEventListener(
+  "click",
+  toggleComplete
+);
+
+
+$("currentRowInput")
+.addEventListener(
+  "change",
+  () => {
+
+    const rows =
+      +$("rows").value;
+
+
+    currentRow =
+      Math.min(
+        rows,
+        Math.max(
+          1,
+          +$("currentRowInput").value ||
+          1
+        )
+      );
+
+
+    updateCounter();
+
+    refreshGridClasses();
+
+    scheduleSave();
+
+  }
+);
+
+
+$("zoomRange")
+.addEventListener(
+  "input",
+  () =>
+    applyZoom(false)
+);
+
+
+$("zoomRange")
+.addEventListener(
+  "change",
+  () =>
+    applyZoom(true)
+);
+
+
+$("zoomOut")
+.addEventListener(
+  "click",
+  () =>
+    changeZoom(-25)
+);
+
+
+$("zoomIn")
+.addEventListener(
+  "click",
+  () =>
+    changeZoom(25)
+);
+
+
+$("resetZoom")
+.addEventListener(
+  "click",
+  () => {
+
+    $("zoomRange").value =
+      100;
+
+    applyZoom();
+
+  }
+);
+
+
+$("fitZoom")
+.addEventListener(
+  "click",
+  () =>
+    isChartFullscreen()
+      ? fitWholeChart()
+      : fitZoom()
+);
+
+
+$("fullscreenChart")
+.addEventListener(
+  "click",
+  enterChartFullscreen
+);
+
+
+$("exitFullscreen")
+.addEventListener(
+  "click",
+  exitChartFullscreen
+);
+
+
+document
+.addEventListener(
+  "fullscreenchange",
+  handleFullscreenChange
+);
+
+
+document
+.addEventListener(
+  "keydown",
+  e => {
+
+    if(
+      e.key ===
+      "Escape"
+      &&
+      $("preview")
+      .classList
+      .contains(
+        "fullscreenFallback"
+      )
+    ){
+
+      exitChartFullscreen();
+
+    }
+
+  }
+);
+
+
+window
+.addEventListener(
+  "resize",
+  () => {
+
+    if(
+      isChartFullscreen()
+    ){
+
+      fitWholeChart();
+
+    }
+
+  }
+);
+
+
+$("applyResize")
+.addEventListener(
+  "click",
+  applyResize
+);
+
+
+$("resizeCols")
+.addEventListener(
+  "input",
+  () => {
+
+    if(
+      syncingResize ||
+      !$("lockRatio").checked
+    ){
+      return;
+    }
+
+
+    syncingResize =
+      true;
+
+
+    $("resizeRows").value =
+      clampSize(
+        +$("resizeCols").value /
+        resizeRatio
+      );
+
+
+    syncingResize =
+      false;
+
+  }
+);
+
+
+$("resizeRows")
+.addEventListener(
+  "input",
+  () => {
+
+    if(
+      syncingResize ||
+      !$("lockRatio").checked
+    ){
+      return;
+    }
+
+
+    syncingResize =
+      true;
+
+
+    $("resizeCols").value =
+      clampSize(
+        +$("resizeRows").value *
+        resizeRatio
+      );
+
+
+    syncingResize =
+      false;
+
+  }
+);
+
+
+/* =========================================
+   CORES
+   ========================================= */
+
+function rgb(hex){
+
+  return [
+    parseInt(
+      hex.slice(1,3),
+      16
+    ),
+    parseInt(
+      hex.slice(3,5),
+      16
+    ),
+    parseInt(
+      hex.slice(5,7),
+      16
+    )
+  ];
+
 }
 
-function generate(options={}){
-  if(!sourceImg){alert("Escolha uma imagem primeiro.");return}
-  const preserveProgress=!!options.preserveProgress;
-  const cols=+$("cols").value,rows=+$("rows").value,n=+$("colors").value;const c=document.createElement("canvas"),ctx=c.getContext("2d",{willReadFrequently:true});c.width=cols;c.height=rows;
-  const scale=Math.max(cols/sourceImg.naturalWidth,rows/sourceImg.naturalHeight),w=sourceImg.naturalWidth*scale,h=sourceImg.naturalHeight*scale;ctx.fillStyle="#fff";ctx.fillRect(0,0,cols,rows);ctx.drawImage(sourceImg,(cols-w)/2,(rows-h)/2,w,h);
-  const data=ctx.getImageData(0,0,cols,rows).data,pixels=[];for(let i=0;i<data.length;i+=4)pixels.push([data[i],data[i+1],data[i+2]]);
-  paletteColors=makePalette(pixels,n);counts=Array(paletteColors.length).fill(0);gridIndexes=[];for(const p of pixels){const k=nearest(p,paletteColors);gridIndexes.push(k);counts[k]++}
-  if(!preserveProgress){currentRow=1;completedRows=new Set()}else{currentRow=Math.min(rows,Math.max(1,currentRow));completedRows=new Set([...completedRows].filter(r=>r<=rows))}renderSavedChart();$("empty").style.display="none";$("result").style.display="block";$("counter").style.display="block";$("viewTools").style.display="block";$("download").disabled=false;$("print").disabled=false;syncResizeInputs();buildDownloadCanvas();scheduleSave();
+
+function dist(
+  a,
+  b
+){
+
+  return (
+    (a[0]-b[0]) ** 2 +
+    (a[1]-b[1]) ** 2 +
+    (a[2]-b[2]) ** 2
+  );
+
 }
+
+
+function nearest(
+  c,
+  pal
+){
+
+  let best =
+    0;
+
+
+  let d =
+    1e20;
+
+
+  for(
+    let i = 0;
+    i < pal.length;
+    i++
+  ){
+
+    const x =
+      dist(
+        c,
+        rgb(
+          pal[i]
+        )
+      );
+
+
+    if(
+      x < d
+    ){
+
+      d =
+        x;
+
+      best =
+        i;
+
+    }
+
+  }
+
+
+  return best;
+
+}
+
+
+function luminance(hex){
+
+  const [
+    r,
+    g,
+    b
+  ] =
+    rgb(hex);
+
+
+  return (
+    .2126 *
+    r +
+    .7152 *
+    g +
+    .0722 *
+    b
+  );
+
+}
+
+
+function makePalette(
+  pixels,
+  n
+){
+
+  if(
+    $("palette").value !==
+    "image"
+  ){
+
+    const p =
+      palettes[
+        $("palette").value
+      ];
+
+
+    return p.slice(
+      0,
+      Math.min(
+        n,
+        p.length
+      )
+    );
+
+  }
+
+
+  let seeds =
+    [];
+
+
+  for(
+    let i = 0;
+    i < n;
+    i++
+  ){
+
+    seeds.push(
+      pixels[
+        Math.floor(
+          i *
+          (
+            pixels.length -
+            1
+          ) /
+          Math.max(
+            1,
+            n -
+            1
+          )
+        )
+      ]
+      .slice()
+    );
+
+  }
+
+
+  for(
+    let iter = 0;
+    iter < 7;
+    iter++
+  ){
+
+    const sums =
+      Array.from(
+        {
+          length:n
+        },
+        () =>
+          [0,0,0,0]
+      );
+
+
+    for(
+      const c
+      of pixels
+    ){
+
+      const k =
+        nearest(
+          c,
+          seeds
+        );
+
+
+      sums[k][0] +=
+        c[0];
+
+      sums[k][1] +=
+        c[1];
+
+      sums[k][2] +=
+        c[2];
+
+      sums[k][3]++;
+
+    }
+
+
+    for(
+      let k = 0;
+      k < n;
+      k++
+    ){
+
+      if(
+        sums[k][3]
+      ){
+
+        seeds[k] =
+          sums[k]
+          .slice(
+            0,
+            3
+          )
+          .map(
+            v =>
+              Math.round(
+                v /
+                sums[k][3]
+              )
+          );
+
+      }
+
+    }
+
+  }
+
+
+  return seeds.map(
+    c =>
+      "#" +
+      c
+      .map(
+        v =>
+          v
+          .toString(16)
+          .padStart(
+            2,
+            "0"
+          )
+      )
+      .join("")
+  );
+
+}
+
+
+/* =========================================
+   GERAR GRÁFICO
+   ========================================= */
+
+function generate(
+  options = {}
+){
+
+  if(
+    !sourceImg
+  ){
+
+    alert(
+      "Escolha uma imagem primeiro."
+    );
+
+    return;
+
+  }
+
+
+  const preserveProgress =
+    !!options.preserveProgress;
+
+
+  const cols =
+    +$("cols").value;
+
+
+  const rows =
+    +$("rows").value;
+
+
+  const n =
+    +$("colors").value;
+
+
+  const c =
+    document.createElement(
+      "canvas"
+    );
+
+
+  const ctx =
+    c.getContext(
+      "2d",
+      {
+        willReadFrequently:true
+      }
+    );
+
+
+  c.width =
+    cols;
+
+
+  c.height =
+    rows;
+
+
+  const scale =
+    Math.max(
+      cols /
+      sourceImg.naturalWidth,
+      rows /
+      sourceImg.naturalHeight
+    );
+
+
+  const w =
+    sourceImg.naturalWidth *
+    scale;
+
+
+  const h =
+    sourceImg.naturalHeight *
+    scale;
+
+
+  ctx.fillStyle =
+    "#fff";
+
+
+  ctx.fillRect(
+    0,
+    0,
+    cols,
+    rows
+  );
+
+
+  ctx.drawImage(
+    sourceImg,
+    (cols-w)/2,
+    (rows-h)/2,
+    w,
+    h
+  );
+
+
+  const data =
+    ctx
+    .getImageData(
+      0,
+      0,
+      cols,
+      rows
+    )
+    .data;
+
+
+  const pixels =
+    [];
+
+
+  for(
+    let i = 0;
+    i < data.length;
+    i += 4
+  ){
+
+    pixels.push(
+      [
+        data[i],
+        data[i+1],
+        data[i+2]
+      ]
+    );
+
+  }
+
+
+  paletteColors =
+    makePalette(
+      pixels,
+      n
+    );
+
+
+  counts =
+    Array(
+      paletteColors.length
+    )
+    .fill(0);
+
+
+  gridIndexes =
+    [];
+
+
+  for(
+    const p
+    of pixels
+  ){
+
+    const k =
+      nearest(
+        p,
+        paletteColors
+      );
+
+
+    gridIndexes.push(
+      k
+    );
+
+
+    counts[k]++;
+
+  }
+
+
+  if(
+    !preserveProgress
+  ){
+
+    currentRow =
+      1;
+
+
+    completedRows =
+      new Set();
+
+  }else{
+
+    currentRow =
+      Math.min(
+        rows,
+        Math.max(
+          1,
+          currentRow
+        )
+      );
+
+
+    completedRows =
+      new Set(
+        [
+          ...completedRows
+        ]
+        .filter(
+          r =>
+            r <= rows
+        )
+      );
+
+  }
+
+
+  renderSavedChart();
+
+
+  $("empty").style.display =
+    "none";
+
+
+  $("result").style.display =
+    "block";
+
+
+  $("counter").style.display =
+    "block";
+
+
+  $("viewTools").style.display =
+    "block";
+
+
+  $("download").disabled =
+    false;
+
+
+  $("print").disabled =
+    false;
+
+
+  syncResizeInputs();
+
+  buildDownloadCanvas();
+
+  scheduleSave();
+
+}
+
+
+/* =========================================
+   RENDER
+   ========================================= */
 
 function renderSavedChart(){
-  const cols=+$("cols").value,rows=+$("rows").value,grid=$("grid");grid.innerHTML="";grid.style.gridTemplateColumns=`repeat(${cols},var(--cell-size))`;
-  for(let i=0;i<gridIndexes.length;i++){const k=gridIndexes[i],cell=document.createElement("div");cell.className="cell";cell.style.background=paletteColors[k];cell.dataset.row=Math.floor(i/cols)+1;cell.dataset.code=String.fromCharCode(65+k);cell.style.setProperty("--codeColor",luminance(paletteColors[k])>150?"#111":"#fff");grid.appendChild(cell)}
+
+  const cols =
+    +$("cols").value;
+
+
+  const rows =
+    +$("rows").value;
+
+
+  const grid =
+    $("grid");
+
+
+  grid.innerHTML =
+    "";
+
+
+  grid.style.gridTemplateColumns =
+    `repeat(${cols},var(--cell-size))`;
+
+
+  for(
+    let i = 0;
+    i < gridIndexes.length;
+    i++
+  ){
+
+    const k =
+      gridIndexes[i];
+
+
+    const cell =
+      document.createElement(
+        "div"
+      );
+
+
+    cell.className =
+      "cell";
+
+
+    cell.style.background =
+      paletteColors[k];
+
+
+    cell.dataset.row =
+      Math.floor(
+        i /
+        cols
+      ) +
+      1;
+
+
+    cell.dataset.code =
+      String.fromCharCode(
+        65 +
+        k
+      );
+
+
+    cell.style.setProperty(
+      "--codeColor",
+      luminance(
+        paletteColors[k]
+      ) > 150
+        ? "#111"
+        : "#fff"
+    );
+
+
+    grid.appendChild(
+      cell
+    );
+
+  }
+
+
   renderAxisNumbers();
-  $("sizeText").textContent=`${cols} × ${rows} pontos • ${gridIndexes.length} pontos`;$("modeText").textContent=$("mode").value;syncResizeInputs();renderLegend();updateCounter();refreshGridClasses();applyZoom(false);buildDownloadCanvas();
+
+
+  $("sizeText").textContent =
+    `${cols} × ${rows} pontos • ${gridIndexes.length} pontos`;
+
+
+  $("modeText").textContent =
+    $("mode").value;
+
+
+  syncResizeInputs();
+
+  renderLegend();
+
+  updateCounter();
+
+  refreshGridClasses();
+
+  applyZoom(false);
+
+  buildDownloadCanvas();
+
 }
+
+
 function renderAxisNumbers(){
-  const cols=+$("cols").value,rows=+$("rows").value;
-  for(const id of ["colNumsTop","colNumsBottom"]){const el=$(id);el.innerHTML="";el.style.gridTemplateColumns=`repeat(${cols},var(--cell-size))`;for(let x=1;x<=cols;x++){const n=document.createElement("div");n.className="colNumber";const s=document.createElement("span");s.textContent=x;n.appendChild(s);el.appendChild(n)}}
-  for(const id of ["rowNumsLeft","rowNumsRight"]){const el=$(id);el.innerHTML="";el.style.gridTemplateRows=`repeat(${rows},var(--cell-size))`;for(let visualRow=1;visualRow<=rows;visualRow++){const career=$("direction").value==="bottom"?rows-visualRow+1:visualRow;const n=document.createElement("div");n.className="rowNumber";n.dataset.row=visualRow;n.dataset.career=career;n.textContent=career;el.appendChild(n)}}
-}
-function renderLegend(){const legend=$("legend");legend.innerHTML="";paletteColors.forEach((col,i)=>{if(!counts[i])return;const s=document.createElement("div");s.className="swatch";const d=document.createElement("span");d.className="dot";d.style.background=col;s.append(d,document.createTextNode(`${String.fromCharCode(65+i)} — ${counts[i]} pontos`));legend.appendChild(s)})}
 
-function visualRowForCareer(career){const rows=+$("rows").value;return $("direction").value==="bottom" ? rows-career+1 : career}
-function refreshGridClasses(){
-  const vr=visualRowForCareer(currentRow),show=$("showCodes").checked;document.querySelectorAll(".cell").forEach(cell=>{const row=+cell.dataset.row;cell.classList.toggle("current",row===vr);const career=$("direction").value==="bottom"?(+$("rows").value-row+1):row;cell.classList.toggle("done",completedRows.has(career));cell.classList.toggle("showCode",show)});
-  document.querySelectorAll(".rowNumber").forEach(label=>{const career=+label.dataset.career;label.classList.toggle("current",career===currentRow);label.classList.toggle("done",completedRows.has(career))})
-}
-function updateCounter(){
-  const rows=+$("rows").value;if(!rows)return;currentRow=Math.min(rows,Math.max(1,currentRow));$("currentRowText").textContent=currentRow;$("totalRowsText").textContent=rows;$("currentRowInput").max=rows;$("currentRowInput").value=currentRow;
-  const done=completedRows.size,pct=Math.round(done/rows*100);$("progressBar").style.width=pct+"%";$("rowInfo").textContent=`${done} de ${rows} carreiras concluídas (${pct}%). ${$("direction").value==="bottom"?"A carreira 1 corresponde à linha inferior do gráfico.":"A carreira 1 corresponde à linha superior do gráfico."}`;$("statusBadge").textContent=done>=rows?"concluído":"em andamento";
-}
-function moveRow(delta){const rows=+$("rows").value;currentRow=Math.min(rows,Math.max(1,currentRow+delta));updateCounter();refreshGridClasses();scheduleSave()}
-function completeAndAdvance(){const rows=+$("rows").value;completedRows.add(currentRow);if(currentRow<rows)currentRow++;updateCounter();refreshGridClasses();scheduleSave()}
-function toggleComplete(){if(completedRows.has(currentRow))completedRows.delete(currentRow);else completedRows.add(currentRow);updateCounter();refreshGridClasses();scheduleSave()}
+  const cols =
+    +$("cols").value;
 
-function printCareerForVisualRow(visualRow){const rows=+$("rows").value;return $("direction").value==="bottom"?rows-visualRow+1:visualRow}
-function renderPrintTile(startCol,startRow,pageCols,pageRows,opts={}){
-  const totalCols=+$("cols").value,totalRows=+$("rows").value;
-  const cell=opts.cell||10,side=opts.side||26,top=opts.top||30,bottom=opts.bottom||30;
-  const font=Math.max(8,Math.min(11,Math.floor(cell*.82)));
-  const canvas=document.createElement("canvas");
-  canvas.className="printCanvas";
-  canvas.width=pageCols*cell+side*2;
-  canvas.height=pageRows*cell+top+bottom;
-  const ctx=canvas.getContext("2d");
-  ctx.imageSmoothingEnabled=false;
-  ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);
-  const ox=side,oy=top;
-  for(let y=0;y<pageRows;y++)for(let x=0;x<pageCols;x++){
-    const globalX=startCol+x,globalY=startRow+y,index=globalY*totalCols+globalX,k=gridIndexes[index]??0;
-    ctx.fillStyle=paletteColors[k];ctx.fillRect(ox+x*cell,oy+y*cell,cell,cell);
-    ctx.strokeStyle="rgba(0,0,0,.24)";ctx.strokeRect(ox+x*cell+.5,oy+y*cell+.5,cell-1,cell-1);
-    if($("showCodes").checked){ctx.fillStyle=luminance(paletteColors[k])>150?"#111":"#fff";ctx.font=`800 ${Math.max(6,Math.floor(cell*.58))}px system-ui, sans-serif`;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(String.fromCharCode(65+k),ox+x*cell+cell/2,oy+y*cell+cell/2+0.5)}
-  }
-  ctx.fillStyle="#333";ctx.font=`700 ${font}px system-ui, sans-serif`;ctx.textAlign="center";ctx.textBaseline="middle";
-  for(let x=0;x<pageCols;x++){
-    const label=String(startCol+x+1),cx=ox+x*cell+cell/2;
-    ctx.save();ctx.translate(cx,top/2);ctx.rotate(-Math.PI/2);ctx.fillText(label,0,0);ctx.restore();
-    ctx.save();ctx.translate(cx,oy+pageRows*cell+bottom/2);ctx.rotate(-Math.PI/2);ctx.fillText(label,0,0);ctx.restore();
-  }
-  for(let y=0;y<pageRows;y++){
-    const visualRow=startRow+y+1,career=printCareerForVisualRow(visualRow),cy=oy+y*cell+cell/2;
-    ctx.fillText(String(career),side/2,cy);ctx.fillText(String(career),ox+pageCols*cell+side/2,cy);
-  }
-  return canvas;
-}
-function buildPrintPages(){
-  const area=$("printArea");area.innerHTML="";
-  if(!gridIndexes.length)return;
-  const cols=+$("cols").value,rows=+$("rows").value;
-  const projectName=$("projectName").value.trim()||"Gráfico";
-  const now=new Date();
-  const cell=10,side=28,top=34,bottom=34;
-  const usableW=680,usableH=930,headerH=56,legendH=50;
-  const colsPerPage=Math.max(1,Math.floor((usableW-side*2)/cell));
-  const rowsPerPage=Math.max(1,Math.floor((usableH-headerH-top-bottom-legendH)/cell));
-  const pagesAcross=Math.ceil(cols/colsPerPage),pagesDown=Math.ceil(rows/rowsPerPage),totalPages=pagesAcross*pagesDown;
-  let pageNum=0;
-  for(let rowStart=0;rowStart<rows;rowStart+=rowsPerPage){
-    for(let colStart=0;colStart<cols;colStart+=colsPerPage){
-      pageNum++;
-      const pageCols=Math.min(colsPerPage,cols-colStart),pageRows=Math.min(rowsPerPage,rows-rowStart);
-      const page=document.createElement("section");page.className="printPage";
-      const header=document.createElement("div");header.className="printHeader";
-      const left=document.createElement("div");
-      const title=document.createElement("strong");title.textContent=projectName;
-      const note=document.createElement("div");note.className="printNote";
-      note.textContent=`${$("mode").value} • ${cols} colunas × ${rows} carreiras • ${$("direction").value==="bottom"?"Leitura de baixo para cima":"Leitura de cima para baixo"}`;
-      left.append(title,note);
-      const right=document.createElement("div");right.className="printMeta";
-      const r1=document.createElement("div");r1.textContent=`Página ${pageNum} de ${totalPages}`;
-      const fromCareer=printCareerForVisualRow(rowStart+pageRows),toCareer=printCareerForVisualRow(rowStart+1);
-      const r2=document.createElement("div");r2.textContent=`Colunas ${colStart+1}–${colStart+pageCols} • Carreiras ${Math.min(fromCareer,toCareer)}–${Math.max(fromCareer,toCareer)}`;
-      const r3=document.createElement("div");r3.textContent=now.toLocaleString("pt-BR");
-      right.append(r1,r2,r3);header.append(left,right);
-      const canvas=renderPrintTile(colStart,rowStart,pageCols,pageRows,{cell,side,top,bottom});
-      page.append(header,canvas);
-      if(pageNum===totalPages){
-        const legend=document.createElement("div");legend.className="printLegend";
-        paletteColors.forEach((col,i)=>{if(!counts[i])return;const item=document.createElement("div");item.className="printLegendItem";const sw=document.createElement("span");sw.className="printLegendSwatch";sw.style.background=col;item.append(sw,document.createTextNode(`${String.fromCharCode(65+i)} — ${counts[i]} pontos`));legend.appendChild(item)});
-        page.appendChild(legend);
-      }
-      area.appendChild(page);
+
+  const rows =
+    +$("rows").value;
+
+
+  for(
+    const id
+    of [
+      "colNumsTop",
+      "colNumsBottom"
+    ]
+  ){
+
+    const el =
+      $(id);
+
+
+    el.innerHTML =
+      "";
+
+
+    el.style.gridTemplateColumns =
+      `repeat(${cols},var(--cell-size))`;
+
+
+    for(
+      let x = 1;
+      x <= cols;
+      x++
+    ){
+
+      const n =
+        document.createElement(
+          "div"
+        );
+
+
+      n.className =
+        "colNumber";
+
+
+      const s =
+        document.createElement(
+          "span"
+        );
+
+
+      s.textContent =
+        x;
+
+
+      n.appendChild(
+        s
+      );
+
+
+      el.appendChild(
+        n
+      );
+
     }
+
   }
+
+
+  for(
+    const id
+    of [
+      "rowNumsLeft",
+      "rowNumsRight"
+    ]
+  ){
+
+    const el =
+      $(id);
+
+
+    el.innerHTML =
+      "";
+
+
+    el.style.gridTemplateRows =
+      `repeat(${rows},var(--cell-size))`;
+
+
+    for(
+      let visualRow = 1;
+      visualRow <= rows;
+      visualRow++
+    ){
+
+      const career =
+        $("direction").value ===
+        "bottom"
+
+          ? rows -
+            visualRow +
+            1
+
+          : visualRow;
+
+
+      const n =
+        document.createElement(
+          "div"
+        );
+
+
+      n.className =
+        "rowNumber";
+
+
+      n.dataset.row =
+        visualRow;
+
+
+      n.dataset.career =
+        career;
+
+
+      n.textContent =
+        career;
+
+
+      el.appendChild(
+        n
+      );
+
+    }
+
+  }
+
 }
-function prepareAndPrint(){buildPrintPages();setTimeout(()=>window.print(),60)}
-window.addEventListener("beforeprint",buildPrintPages);
+
+
+function renderLegend(){
+
+  const legend =
+    $("legend");
+
+
+  legend.innerHTML =
+    "";
+
+
+  paletteColors.forEach(
+    (col,i) => {
+
+      if(
+        !counts[i]
+      ){
+        return;
+      }
+
+
+      const s =
+        document.createElement(
+          "div"
+        );
+
+
+      s.className =
+        "swatch";
+
+
+      const d =
+        document.createElement(
+          "span"
+        );
+
+
+      d.className =
+        "dot";
+
+
+      d.style.background =
+        col;
+
+
+      s.append(
+        d,
+        document.createTextNode(
+          `${String.fromCharCode(65+i)} — ${counts[i]} pontos`
+        )
+      );
+
+
+      legend.appendChild(
+        s
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   CONTADOR
+   ========================================= */
+
+function visualRowForCareer(
+  career
+){
+
+  const rows =
+    +$("rows").value;
+
+
+  return (
+    $("direction").value ===
+    "bottom"
+  )
+
+    ? rows -
+      career +
+      1
+
+    : career;
+
+}
+
+
+function refreshGridClasses(){
+
+  const vr =
+    visualRowForCareer(
+      currentRow
+    );
+
+
+  const show =
+    $("showCodes").checked;
+
+
+  document
+  .querySelectorAll(
+    ".cell"
+  )
+  .forEach(
+    cell => {
+
+      const row =
+        +cell.dataset.row;
+
+
+      cell.classList.toggle(
+        "current",
+        row === vr
+      );
+
+
+      const career =
+        $("direction").value ===
+        "bottom"
+
+          ? (
+            +$("rows").value -
+            row +
+            1
+          )
+
+          : row;
+
+
+      cell.classList.toggle(
+        "done",
+        completedRows.has(
+          career
+        )
+      );
+
+
+      cell.classList.toggle(
+        "showCode",
+        show
+      );
+
+    }
+  );
+
+
+  document
+  .querySelectorAll(
+    ".rowNumber"
+  )
+  .forEach(
+    label => {
+
+      const career =
+        +label.dataset.career;
+
+
+      label.classList.toggle(
+        "current",
+        career ===
+        currentRow
+      );
+
+
+      label.classList.toggle(
+        "done",
+        completedRows.has(
+          career
+        )
+      );
+
+    }
+  );
+
+}
+
+
+function updateCounter(){
+
+  const rows =
+    +$("rows").value;
+
+
+  if(
+    !rows
+  ){
+    return;
+  }
+
+
+  currentRow =
+    Math.min(
+      rows,
+      Math.max(
+        1,
+        currentRow
+      )
+    );
+
+
+  $("currentRowText").textContent =
+    currentRow;
+
+
+  $("totalRowsText").textContent =
+    rows;
+
+
+  $("currentRowInput").max =
+    rows;
+
+
+  $("currentRowInput").value =
+    currentRow;
+
+
+  const done =
+    completedRows.size;
+
+
+  const pct =
+    Math.round(
+      done /
+      rows *
+      100
+    );
+
+
+  $("progressBar").style.width =
+    pct +
+    "%";
+
+
+  $("rowInfo").textContent =
+    `${done} de ${rows} carreiras concluídas (${pct}%). ` +
+    (
+      $("direction").value ===
+      "bottom"
+
+        ? "A carreira 1 corresponde à linha inferior do gráfico."
+
+        : "A carreira 1 corresponde à linha superior do gráfico."
+    );
+
+
+  $("statusBadge").textContent =
+    done >= rows
+      ? "concluído"
+      : "em andamento";
+
+}
+
+
+function moveRow(delta){
+
+  const rows =
+    +$("rows").value;
+
+
+  currentRow =
+    Math.min(
+      rows,
+      Math.max(
+        1,
+        currentRow +
+        delta
+      )
+    );
+
+
+  updateCounter();
+
+  refreshGridClasses();
+
+  scheduleSave();
+
+}
+
+
+function completeAndAdvance(){
+
+  const rows =
+    +$("rows").value;
+
+
+  completedRows.add(
+    currentRow
+  );
+
+
+  if(
+    currentRow <
+    rows
+  ){
+
+    currentRow++;
+
+  }
+
+
+  updateCounter();
+
+  refreshGridClasses();
+
+  scheduleSave();
+
+}
+
+
+function toggleComplete(){
+
+  if(
+    completedRows.has(
+      currentRow
+    )
+  ){
+
+    completedRows.delete(
+      currentRow
+    );
+
+  }else{
+
+    completedRows.add(
+      currentRow
+    );
+
+  }
+
+
+  updateCounter();
+
+  refreshGridClasses();
+
+  scheduleSave();
+
+}
+
+
+/* =========================================
+   IMPRESSÃO
+   ========================================= */
+
+function printCareerForVisualRow(
+  visualRow
+){
+
+  const rows =
+    +$("rows").value;
+
+
+  return (
+    $("direction").value ===
+    "bottom"
+  )
+
+    ? rows -
+      visualRow +
+      1
+
+    : visualRow;
+
+}
+
+
+function renderPrintTile(
+  startCol,
+  startRow,
+  pageCols,
+  pageRows,
+  opts = {}
+){
+
+  const totalCols =
+    +$("cols").value;
+
+
+  const cell =
+    opts.cell ||
+    10;
+
+
+  const side =
+    opts.side ||
+    26;
+
+
+  const top =
+    opts.top ||
+    30;
+
+
+  const bottom =
+    opts.bottom ||
+    30;
+
+
+  const font =
+    Math.max(
+      8,
+      Math.min(
+        11,
+        Math.floor(
+          cell *
+          .82
+        )
+      )
+    );
+
+
+  const canvas =
+    document.createElement(
+      "canvas"
+    );
+
+
+  canvas.className =
+    "printCanvas";
+
+
+  canvas.width =
+    pageCols *
+    cell +
+    side *
+    2;
+
+
+  canvas.height =
+    pageRows *
+    cell +
+    top +
+    bottom;
+
+
+  const ctx =
+    canvas.getContext(
+      "2d"
+    );
+
+
+  ctx.imageSmoothingEnabled =
+    false;
+
+
+  ctx.fillStyle =
+    "#fff";
+
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+
+  const ox =
+    side;
+
+
+  const oy =
+    top;
+
+
+  for(
+    let y = 0;
+    y < pageRows;
+    y++
+  ){
+
+    for(
+      let x = 0;
+      x < pageCols;
+      x++
+    ){
+
+      const globalX =
+        startCol +
+        x;
+
+
+      const globalY =
+        startRow +
+        y;
+
+
+      const index =
+        globalY *
+        totalCols +
+        globalX;
+
+
+      const k =
+        gridIndexes[index] ??
+        0;
+
+
+      ctx.fillStyle =
+        paletteColors[k];
+
+
+      ctx.fillRect(
+        ox +
+        x *
+        cell,
+
+        oy +
+        y *
+        cell,
+
+        cell,
+        cell
+      );
+
+
+      ctx.strokeStyle =
+        "rgba(0,0,0,.24)";
+
+
+      ctx.strokeRect(
+        ox +
+        x *
+        cell +
+        .5,
+
+        oy +
+        y *
+        cell +
+        .5,
+
+        cell -
+        1,
+
+        cell -
+        1
+      );
+
+
+      if(
+        $("showCodes").checked
+      ){
+
+        ctx.fillStyle =
+          luminance(
+            paletteColors[k]
+          ) > 150
+            ? "#111"
+            : "#fff";
+
+
+        ctx.font =
+          `800 ${Math.max(
+            6,
+            Math.floor(
+              cell *
+              .58
+            )
+          )}px system-ui, sans-serif`;
+
+
+        ctx.textAlign =
+          "center";
+
+
+        ctx.textBaseline =
+          "middle";
+
+
+        ctx.fillText(
+          String.fromCharCode(
+            65 +
+            k
+          ),
+
+          ox +
+          x *
+          cell +
+          cell /
+          2,
+
+          oy +
+          y *
+          cell +
+          cell /
+          2 +
+          .5
+        );
+
+      }
+
+    }
+
+  }
+
+
+  ctx.fillStyle =
+    "#333";
+
+
+  ctx.font =
+    `700 ${font}px system-ui, sans-serif`;
+
+
+  ctx.textAlign =
+    "center";
+
+
+  ctx.textBaseline =
+    "middle";
+
+
+  for(
+    let x = 0;
+    x < pageCols;
+    x++
+  ){
+
+    const label =
+      String(
+        startCol +
+        x +
+        1
+      );
+
+
+    const cx =
+      ox +
+      x *
+      cell +
+      cell /
+      2;
+
+
+    ctx.save();
+
+    ctx.translate(
+      cx,
+      top /
+      2
+    );
+
+    ctx.rotate(
+      -Math.PI /
+      2
+    );
+
+    ctx.fillText(
+      label,
+      0,
+      0
+    );
+
+    ctx.restore();
+
+
+    ctx.save();
+
+    ctx.translate(
+      cx,
+      oy +
+      pageRows *
+      cell +
+      bottom /
+      2
+    );
+
+    ctx.rotate(
+      -Math.PI /
+      2
+    );
+
+    ctx.fillText(
+      label,
+      0,
+      0
+    );
+
+    ctx.restore();
+
+  }
+
+
+  for(
+    let y = 0;
+    y < pageRows;
+    y++
+  ){
+
+    const visualRow =
+      startRow +
+      y +
+      1;
+
+
+    const career =
+      printCareerForVisualRow(
+        visualRow
+      );
+
+
+    const cy =
+      oy +
+      y *
+      cell +
+      cell /
+      2;
+
+
+    ctx.fillText(
+      String(
+        career
+      ),
+      side /
+      2,
+      cy
+    );
+
+
+    ctx.fillText(
+      String(
+        career
+      ),
+      ox +
+      pageCols *
+      cell +
+      side /
+      2,
+      cy
+    );
+
+  }
+
+
+  return canvas;
+
+}
+
+
+function buildPrintPages(){
+
+  const area =
+    $("printArea");
+
+
+  area.innerHTML =
+    "";
+
+
+  if(
+    !gridIndexes.length
+  ){
+    return;
+  }
+
+
+  const cols =
+    +$("cols").value;
+
+
+  const rows =
+    +$("rows").value;
+
+
+  const projectName =
+    $("projectName")
+    .value
+    .trim()
+    ||
+    "Gráfico";
+
+
+  const now =
+    new Date();
+
+
+  const cell = 10;
+  const side = 28;
+  const top = 34;
+  const bottom = 34;
+
+  const usableW = 680;
+  const usableH = 930;
+  const headerH = 56;
+  const legendH = 50;
+
+
+  const colsPerPage =
+    Math.max(
+      1,
+      Math.floor(
+        (
+          usableW -
+          side *
+          2
+        ) /
+        cell
+      )
+    );
+
+
+  const rowsPerPage =
+    Math.max(
+      1,
+      Math.floor(
+        (
+          usableH -
+          headerH -
+          top -
+          bottom -
+          legendH
+        ) /
+        cell
+      )
+    );
+
+
+  const pagesAcross =
+    Math.ceil(
+      cols /
+      colsPerPage
+    );
+
+
+  const pagesDown =
+    Math.ceil(
+      rows /
+      rowsPerPage
+    );
+
+
+  const totalPages =
+    pagesAcross *
+    pagesDown;
+
+
+  let pageNum =
+    0;
+
+
+  for(
+    let rowStart = 0;
+    rowStart < rows;
+    rowStart += rowsPerPage
+  ){
+
+    for(
+      let colStart = 0;
+      colStart < cols;
+      colStart += colsPerPage
+    ){
+
+      pageNum++;
+
+
+      const pageCols =
+        Math.min(
+          colsPerPage,
+          cols -
+          colStart
+        );
+
+
+      const pageRows =
+        Math.min(
+          rowsPerPage,
+          rows -
+          rowStart
+        );
+
+
+      const page =
+        document.createElement(
+          "section"
+        );
+
+
+      page.className =
+        "printPage";
+
+
+      const header =
+        document.createElement(
+          "div"
+        );
+
+
+      header.className =
+        "printHeader";
+
+
+      const left =
+        document.createElement(
+          "div"
+        );
+
+
+      const title =
+        document.createElement(
+          "strong"
+        );
+
+
+      title.textContent =
+        projectName;
+
+
+      const note =
+        document.createElement(
+          "div"
+        );
+
+
+      note.className =
+        "printNote";
+
+
+      note.textContent =
+        `${$("mode").value} • ${cols} colunas × ${rows} carreiras • ` +
+        (
+          $("direction").value ===
+          "bottom"
+
+            ? "Leitura de baixo para cima"
+
+            : "Leitura de cima para baixo"
+        );
+
+
+      left.append(
+        title,
+        note
+      );
+
+
+      const right =
+        document.createElement(
+          "div"
+        );
+
+
+      right.className =
+        "printMeta";
+
+
+      const r1 =
+        document.createElement(
+          "div"
+        );
+
+
+      r1.textContent =
+        `Página ${pageNum} de ${totalPages}`;
+
+
+      const fromCareer =
+        printCareerForVisualRow(
+          rowStart +
+          pageRows
+        );
+
+
+      const toCareer =
+        printCareerForVisualRow(
+          rowStart +
+          1
+        );
+
+
+      const r2 =
+        document.createElement(
+          "div"
+        );
+
+
+      r2.textContent =
+        `Colunas ${colStart + 1}–${colStart + pageCols} • ` +
+        `Carreiras ${Math.min(
+          fromCareer,
+          toCareer
+        )}–${Math.max(
+          fromCareer,
+          toCareer
+        )}`;
+
+
+      const r3 =
+        document.createElement(
+          "div"
+        );
+
+
+      r3.textContent =
+        now.toLocaleString(
+          "pt-BR"
+        );
+
+
+      right.append(
+        r1,
+        r2,
+        r3
+      );
+
+
+      header.append(
+        left,
+        right
+      );
+
+
+      const canvas =
+        renderPrintTile(
+          colStart,
+          rowStart,
+          pageCols,
+          pageRows,
+          {
+            cell,
+            side,
+            top,
+            bottom
+          }
+        );
+
+
+      page.append(
+        header,
+        canvas
+      );
+
+
+      if(
+        pageNum ===
+        totalPages
+      ){
+
+        const legend =
+          document.createElement(
+            "div"
+          );
+
+
+        legend.className =
+          "printLegend";
+
+
+        paletteColors.forEach(
+          (col,i) => {
+
+            if(
+              !counts[i]
+            ){
+              return;
+            }
+
+
+            const item =
+              document.createElement(
+                "div"
+              );
+
+
+            item.className =
+              "printLegendItem";
+
+
+            const sw =
+              document.createElement(
+                "span"
+              );
+
+
+            sw.className =
+              "printLegendSwatch";
+
+
+            sw.style.background =
+              col;
+
+
+            item.append(
+              sw,
+              document.createTextNode(
+                `${String.fromCharCode(65+i)} — ${counts[i]} pontos`
+              )
+            );
+
+
+            legend.appendChild(
+              item
+            );
+
+          }
+        );
+
+
+        page.appendChild(
+          legend
+        );
+
+      }
+
+
+      area.appendChild(
+        page
+      );
+
+    }
+
+  }
+
+}
+
+
+function prepareAndPrint(){
+
+  buildPrintPages();
+
+
+  setTimeout(
+    () =>
+      window.print(),
+    60
+  );
+
+}
+
+
+window.addEventListener(
+  "beforeprint",
+  buildPrintPages
+);
+
+
+/* =========================================
+   PNG
+   ========================================= */
 
 function buildDownloadCanvas(){
-  if(!gridIndexes.length)return;
-  const cols=+$("cols").value,rows=+$("rows").value,cell=Math.max(12,Math.floor(1200/cols));
-  const font=Math.max(8,Math.min(14,Math.floor(cell*.7))),side=Math.max(34,font*3),top=Math.max(38,font*3);
-  lastCanvas=document.createElement("canvas");lastCanvas.width=cols*cell+side*2;lastCanvas.height=rows*cell+top*2;
-  const lc=lastCanvas.getContext("2d");lc.imageSmoothingEnabled=false;lc.fillStyle="#fff";lc.fillRect(0,0,lastCanvas.width,lastCanvas.height);
-  const ox=side,oy=top;
-  for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const k=gridIndexes[y*cols+x];lc.fillStyle=paletteColors[k];lc.fillRect(ox+x*cell,oy+y*cell,cell,cell);lc.strokeStyle="rgba(0,0,0,.22)";lc.strokeRect(ox+x*cell+.5,oy+y*cell+.5,cell-1,cell-1)}
-  lc.fillStyle="#4f4a43";lc.font=`700 ${font}px system-ui, sans-serif`;lc.textAlign="center";lc.textBaseline="middle";
-  for(let x=0;x<cols;x++){
-    const cx=ox+x*cell+cell/2,label=String(x+1);
-    lc.save();lc.translate(cx,top/2);lc.rotate(-Math.PI/2);lc.fillText(label,0,0);lc.restore();
-    lc.save();lc.translate(cx,oy+rows*cell+top/2);lc.rotate(-Math.PI/2);lc.fillText(label,0,0);lc.restore();
+
+  if(
+    !gridIndexes.length
+  ){
+    return;
   }
-  for(let y=0;y<rows;y++){
-    const career=$("direction").value==="bottom"?rows-y:y+1,cy=oy+y*cell+cell/2;
-    lc.fillText(String(career),side/2,cy);lc.fillText(String(career),ox+cols*cell+side/2,cy);
+
+
+  const cols =
+    +$("cols").value;
+
+
+  const rows =
+    +$("rows").value;
+
+
+  const cell =
+    Math.max(
+      12,
+      Math.floor(
+        1200 /
+        cols
+      )
+    );
+
+
+  const font =
+    Math.max(
+      8,
+      Math.min(
+        14,
+        Math.floor(
+          cell *
+          .7
+        )
+      )
+    );
+
+
+  const side =
+    Math.max(
+      34,
+      font *
+      3
+    );
+
+
+  const top =
+    Math.max(
+      38,
+      font *
+      3
+    );
+
+
+  lastCanvas =
+    document.createElement(
+      "canvas"
+    );
+
+
+  lastCanvas.width =
+    cols *
+    cell +
+    side *
+    2;
+
+
+  lastCanvas.height =
+    rows *
+    cell +
+    top *
+    2;
+
+
+  const lc =
+    lastCanvas.getContext(
+      "2d"
+    );
+
+
+  lc.imageSmoothingEnabled =
+    false;
+
+
+  lc.fillStyle =
+    "#fff";
+
+
+  lc.fillRect(
+    0,
+    0,
+    lastCanvas.width,
+    lastCanvas.height
+  );
+
+
+  const ox =
+    side;
+
+
+  const oy =
+    top;
+
+
+  for(
+    let y = 0;
+    y < rows;
+    y++
+  ){
+
+    for(
+      let x = 0;
+      x < cols;
+      x++
+    ){
+
+      const k =
+        gridIndexes[
+          y *
+          cols +
+          x
+        ];
+
+
+      lc.fillStyle =
+        paletteColors[k];
+
+
+      lc.fillRect(
+        ox +
+        x *
+        cell,
+
+        oy +
+        y *
+        cell,
+
+        cell,
+        cell
+      );
+
+
+      lc.strokeStyle =
+        "rgba(0,0,0,.22)";
+
+
+      lc.strokeRect(
+        ox +
+        x *
+        cell +
+        .5,
+
+        oy +
+        y *
+        cell +
+        .5,
+
+        cell -
+        1,
+
+        cell -
+        1
+      );
+
+    }
+
   }
+
+
+  lc.fillStyle =
+    "#4f4a43";
+
+
+  lc.font =
+    `700 ${font}px system-ui, sans-serif`;
+
+
+  lc.textAlign =
+    "center";
+
+
+  lc.textBaseline =
+    "middle";
+
+
+  for(
+    let x = 0;
+    x < cols;
+    x++
+  ){
+
+    const cx =
+      ox +
+      x *
+      cell +
+      cell /
+      2;
+
+
+    const label =
+      String(
+        x +
+        1
+      );
+
+
+    lc.save();
+
+    lc.translate(
+      cx,
+      top /
+      2
+    );
+
+    lc.rotate(
+      -Math.PI /
+      2
+    );
+
+    lc.fillText(
+      label,
+      0,
+      0
+    );
+
+    lc.restore();
+
+
+    lc.save();
+
+    lc.translate(
+      cx,
+      oy +
+      rows *
+      cell +
+      top /
+      2
+    );
+
+    lc.rotate(
+      -Math.PI /
+      2
+    );
+
+    lc.fillText(
+      label,
+      0,
+      0
+    );
+
+    lc.restore();
+
+  }
+
+
+  for(
+    let y = 0;
+    y < rows;
+    y++
+  ){
+
+    const career =
+      $("direction").value ===
+      "bottom"
+
+        ? rows -
+          y
+
+        : y +
+          1;
+
+
+    const cy =
+      oy +
+      y *
+      cell +
+      cell /
+      2;
+
+
+    lc.fillText(
+      String(
+        career
+      ),
+      side /
+      2,
+      cy
+    );
+
+
+    lc.fillText(
+      String(
+        career
+      ),
+      ox +
+      cols *
+      cell +
+      side /
+      2,
+      cy
+    );
+
+  }
+
 }
-function downloadPNG(){if(!lastCanvas)return;const a=document.createElement("a");a.download=(( $("projectName").value.trim()||"grafico")+".png").replace(/[^a-z0-9._-]+/gi,"-");a.href=lastCanvas.toDataURL("image/png");a.click()}
+
+
+function downloadPNG(){
+
+  if(
+    !lastCanvas
+  ){
+    return;
+  }
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.download =
+    (
+      (
+        $("projectName")
+        .value
+        .trim()
+        ||
+        "grafico"
+      ) +
+      ".png"
+    )
+    .replace(
+      /[^a-z0-9._-]+/gi,
+      "-"
+    );
+
+
+  a.href =
+    lastCanvas.toDataURL(
+      "image/png"
+    );
+
+
+  a.click();
+
+}
+
+
+/* =========================================
+   EXPORTAR / IMPORTAR
+   ========================================= */
 
 function exportProject(){
-  const p=projectSnapshot();p.id=currentProjectId||p.id;const blob=new Blob([JSON.stringify(p,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=((p.name||"projeto").replace(/[^a-z0-9._-]+/gi,"-")+".pixelarte.json");a.click();URL.revokeObjectURL(a.href)
-}
-function importProject(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const p=JSON.parse(r.result);p.id=newId();p.name=(p.name||"Projeto importado")+" (importado)";await dbPut(p);await refreshProjectList();applyProject(p);setSaveState("Projeto importado e salvo",true)}catch{alert("Não foi possível importar este arquivo de projeto.")}};r.readAsText(f);e.target.value=""}
 
-(async function init(){
-  updateSliderLabels();await refreshProjectList();const last=localStorage.getItem("pixelarte-current-project");if(last){const p=await dbGet(last);if(p){applyProject(p);return}}
-  await startNewProject();
-})();
+  const p =
+    projectSnapshot();
+
+
+  p.id =
+    currentProjectId ||
+    p.id;
+
+
+  const blob =
+    new Blob(
+      [
+        JSON.stringify(
+          p,
+          null,
+          2
+        )
+      ],
+      {
+        type:"application/json"
+      }
+    );
+
+
+  const a =
+    document.createElement(
+      "a"
+    );
+
+
+  a.href =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  a.download =
+    (
+      (
+        p.name ||
+        "projeto"
+      )
+      .replace(
+        /[^a-z0-9._-]+/gi,
+        "-"
+      ) +
+      ".pixelarte.json"
+    );
+
+
+  a.click();
+
+
+  URL.revokeObjectURL(
+    a.href
+  );
+
+}
+
+
+function importProject(e){
+
+  const f =
+    e.target.files[0];
+
+
+  if(
+    !f
+  ){
+    return;
+  }
+
+
+  const r =
+    new FileReader();
+
+
+  r.onload =
+    async () => {
+
+      try{
+
+        const p =
+          JSON.parse(
+            r.result
+          );
+
+
+        p.id =
+          newId();
+
+
+        p.name =
+          (
+            p.name ||
+            "Projeto importado"
+          ) +
+          " (importado)";
+
+
+        await dbPut(
+          p
+        );
+
+
+        await refreshProjectList();
+
+
+        applyProject(
+          p
+        );
+
+
+        setSaveState(
+          "Projeto importado e salvo",
+          true
+        );
+
+      }catch{
+
+        alert(
+          "Não foi possível importar este arquivo de projeto."
+        );
+
+      }
+
+    };
+
+
+  r.readAsText(
+    f
+  );
+
+
+  e.target.value =
+    "";
+
+}
+
+
+/* =========================================
+   INICIALIZAÇÃO
+   ========================================= */
+
+(
+  async function init(){
+
+    updateSliderLabels();
+
+
+    await refreshProjectList();
+
+
+    const last =
+      localStorage.getItem(
+        "pixelarte-current-project"
+      );
+
+
+    if(
+      last
+    ){
+
+      const p =
+        await dbGet(
+          last
+        );
+
+
+      if(
+        p
+      ){
+
+        applyProject(
+          p
+        );
+
+        return;
+
+      }
+
+    }
+
+
+    await startNewProject();
+
+  }
+)();
+
 </script>
+
 </body>
 </html>
