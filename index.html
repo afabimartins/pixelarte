@@ -33,6 +33,16 @@ select,input[type=number],input[type=text]{width:100%;padding:10px;border:1px so
 .drop:hover{border-color:var(--accent)} .drop strong{display:block;color:var(--ink);margin-bottom:4px}
 button{border:0;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer;background:var(--accent);color:white}
 button:hover{background:var(--accent2)} button:disabled{opacity:.45;cursor:not-allowed}
+
+/* PWA v1.1 — foco acessível */
+button:focus{
+  outline:none;
+}
+
+button:focus-visible{
+  outline:2px solid #7a4a3b;
+  outline-offset:3px;
+}
 button.secondary{background:#e9e2d7;color:var(--ink)} button.secondary:hover{background:#ddd4c6}
 button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
@@ -362,6 +372,25 @@ function handleFullscreenChange(){
   if(document.fullscreenElement===preview){setTimeout(fitWholeChart,80)}
   else if(!preview.classList.contains("fullscreenFallback")){document.body.classList.remove("pixelarteFullscreenFallback")}
 }
+
+/*
+  PWA v1.1:
+  Ao usar mouse/toque, o botão perde o foco depois da ação.
+  Isso evita o contorno persistente sem prejudicar Tab/teclado.
+*/
+document.addEventListener(
+  "pointerup",
+  event => {
+    const button = event.target.closest?.("button");
+
+    if(button){
+      requestAnimationFrame(
+        () => button.blur()
+      );
+    }
+  },
+  true
+);
 
 $("file").addEventListener("change",e=>{
   const f=e.target.files[0];if(!f)return;const reader=new FileReader();

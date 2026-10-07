@@ -1,4 +1,4 @@
-const CACHE_NAME = "pixelarte-pwa-v1-connectivity-fix";
+const CACHE_NAME = "pixelarte-pwa-v1-1-final";
 
 const APP_SHELL = [
   "./",
