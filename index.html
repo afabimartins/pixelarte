@@ -4,6 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#c86f52">
+<meta name="application-name" content="Pixelarte">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="./icons/icon-192.png">
 <title>Pixelarte — Gráfico para Crochê e Macramê</title>
 <style>
 :root{
@@ -89,6 +95,21 @@ body.pixelarteFullscreenFallback{overflow:hidden}
 .resizeGrid .field{margin:0}
 .resizeGrid button{height:42px}
 .resizeOptions{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+.pwaActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.installBtn{display:none;padding:8px 12px}
+.installBtn.show{display:inline-flex}
+.netBadge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:750;color:var(--muted)}
+.netBadge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
+body.offline .netBadge::before{background:#aa6d48}
+body.offline .netBadge{background:#f5ede6}
+.adSlot{width:100%;min-height:92px;margin:14px 0;border:1px dashed #c9c0b3;border-radius:14px;background:#fffaf4;display:none;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:12px;padding:12px}
+.adSlot.previewAd{display:flex}
+.adSlot strong{display:block;color:var(--ink);font-size:12px;margin-bottom:4px}
+body.offline .adSlot{display:none!important}
+body.pixelarteFullscreenFallback .adSlot{display:none!important}
+@media(display-mode:standalone){.installBtn{display:none!important}}
+
 @media(max-width:900px){.layout{grid-template-columns:1fr}.preview{min-height:420px}}
 @media(max-width:560px){.wrap{padding:16px 10px 30px}.card{border-radius:14px;padding:14px}.counterBtns button{min-width:calc(50% - 8px)}.zoomControls{min-width:100%;justify-content:flex-start}.zoomControls input[type=range]{width:100%;order:5}.resizeGrid{grid-template-columns:1fr 1fr}.resizeGrid button{grid-column:1/-1}}
 #printArea{display:none}
@@ -103,15 +124,23 @@ body.pixelarteFullscreenFallback{overflow:hidden}
 .printLegendSwatch{width:5mm;height:5mm;border:1px solid #777;border-radius:1mm;display:inline-block}
 .printNote{font-size:10px;color:#555}
 @page{size:A4 portrait;margin:10mm}
-@media print{body{background:white}#printArea{display:block!important}.wrap{display:none!important}}
+@media print{body{background:white}.adSlot,.installBtn,.netBadge{display:none!important}#printArea{display:block!important}.wrap{display:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div><h1>Pixelarte</h1><p>Crie gráficos para crochê e macramê e continue de onde parou.</p></div>
-    <div class="saveState"><span id="saveDot" class="saveDot"></span><span id="saveText">Nenhum projeto aberto</span></div>
+    <div class="pwaActions">
+      <button id="installApp" class="secondary installBtn" type="button">Instalar app</button>
+      <span id="networkStatus" class="netBadge">Online</span>
+      <div class="saveState"><span id="saveDot" class="saveDot"></span><span id="saveText">Nenhum projeto aberto</span></div>
+    </div>
   </header>
+
+  <div id="adSlotTop" class="adSlot" aria-label="Espaço de publicidade">
+    <div><strong>Espaço de publicidade</strong><span>Reservado para anúncios responsivos. Nenhum anúncio real está ativo nesta versão.</span></div>
+  </div>
 
   <div class="layout">
     <section class="card controls">
@@ -211,9 +240,14 @@ body.pixelarteFullscreenFallback{overflow:hidden}
       </div>
     </section>
   </div>
+
+  <div id="adSlotBottom" class="adSlot" aria-label="Espaço de publicidade">
+    <div><strong>Espaço de publicidade</strong><span>Reservado para anúncios responsivos. Oculto em tela cheia, impressão e modo offline.</span></div>
+  </div>
 </div>
 
 <div id="printArea" aria-hidden="true"></div>
+<script src="./ads-config.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 let sourceImg=null, sourceDataUrl=null, paletteColors=[], lastCanvas=null;
@@ -501,7 +535,166 @@ function exportProject(){
 }
 function importProject(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const p=JSON.parse(r.result);p.id=newId();p.name=(p.name||"Projeto importado")+" (importado)";await dbPut(p);await refreshProjectList();applyProject(p);setSaveState("Projeto importado e salvo",true)}catch{alert("Não foi possível importar este arquivo de projeto.")}};r.readAsText(f);e.target.value=""}
 
+
+/* =========================================
+   PWA / INSTALAÇÃO / OFFLINE / ANÚNCIOS
+   ========================================= */
+
+let deferredInstallPrompt = null;
+let internetAvailable = false;
+let connectivityCheckInProgress = false;
+
+function setNetworkStatus(online){
+  internetAvailable = !!online;
+
+  document.body.classList.toggle(
+    "offline",
+    !internetAvailable
+  );
+
+  const badge = $("networkStatus");
+
+  if(badge){
+    badge.textContent =
+      internetAvailable
+        ? "Online"
+        : "Offline";
+  }
+
+  configureAdSlots();
+}
+
+async function checkInternetConnection(){
+  if(connectivityCheckInProgress){
+    return internetAvailable;
+  }
+
+  connectivityCheckInProgress = true;
+
+  try{
+    if(!navigator.onLine){
+      setNetworkStatus(false);
+      return false;
+    }
+
+    /*
+      navigator.onLine pode continuar como true mesmo
+      quando o computador perdeu acesso real à internet.
+      Por isso fazemos uma pequena verificação externa.
+
+      mode:"no-cors" é suficiente aqui: não precisamos
+      ler a resposta, apenas saber se a conexão foi possível.
+    */
+    await fetch(
+      "https://www.gstatic.com/generate_204?pixelarte=" +
+      Date.now(),
+      {
+        method:"GET",
+        mode:"no-cors",
+        cache:"no-store"
+      }
+    );
+
+    setNetworkStatus(true);
+    return true;
+
+  }catch{
+    setNetworkStatus(false);
+    return false;
+
+  }finally{
+    connectivityCheckInProgress = false;
+  }
+}
+
+function configureAdSlots(){
+  const cfg = window.PIXELARTE_ADS || {};
+  const preview = !!cfg.preview;
+  const enabled = !!cfg.enabled;
+
+  document.querySelectorAll(".adSlot").forEach(slot=>{
+    slot.classList.toggle(
+      "previewAd",
+      preview &&
+      internetAvailable
+    );
+
+    slot.dataset.adsEnabled =
+      enabled
+        ? "true"
+        : "false";
+  });
+}
+
+window.addEventListener("beforeinstallprompt", event=>{
+  event.preventDefault();
+  deferredInstallPrompt = event;
+  $("installApp")?.classList.add("show");
+});
+
+$("installApp")?.addEventListener("click", async ()=>{
+  if(!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  try{
+    await deferredInstallPrompt.userChoice;
+  }catch{}
+  deferredInstallPrompt = null;
+  $("installApp")?.classList.remove("show");
+});
+
+window.addEventListener("appinstalled", ()=>{
+  deferredInstallPrompt = null;
+  $("installApp")?.classList.remove("show");
+});
+
+window.addEventListener("online", ()=>{
+  checkInternetConnection();
+});
+
+window.addEventListener("offline", ()=>{
+  setNetworkStatus(false);
+});
+
+window.addEventListener("focus", ()=>{
+  checkInternetConnection();
+});
+
+document.addEventListener("visibilitychange", ()=>{
+  if(!document.hidden){
+    checkInternetConnection();
+  }
+});
+
+async function initPwa(){
+  await checkInternetConnection();
+
+  /*
+    Revalida periodicamente porque alguns sistemas mantêm
+    navigator.onLine=true quando o roteador continua conectado,
+    mas a internet caiu.
+  */
+  setInterval(
+    checkInternetConnection,
+    15000
+  );
+
+  if("storage" in navigator && "persist" in navigator.storage){
+    try{
+      await navigator.storage.persist();
+    }catch{}
+  }
+
+  if("serviceWorker" in navigator && location.protocol !== "file:"){
+    try{
+      await navigator.serviceWorker.register("./service-worker.js");
+    }catch(error){
+      console.warn("Service Worker não pôde ser registrado:", error);
+    }
+  }
+}
+
 (async function init(){
+  await initPwa();
   updateSliderLabels();await refreshProjectList();const last=localStorage.getItem("pixelarte-current-project");if(last){const p=await dbGet(last);if(p){applyProject(p);return}}
   await startNewProject();
 })();
