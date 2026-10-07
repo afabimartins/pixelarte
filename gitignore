@@ -1,0 +1,43 @@
+# Sistema operacional
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editores / IDEs
+.vscode/
+.idea/
+*.code-workspace
+
+# Logs e arquivos temporários
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+~$*
+
+# Servidores / ferramentas locais
+__pycache__/
+*.pyc
+*.pyo
+
+# Variáveis locais e segredos
+.env
+.env.*
+!.env.example
+
+# Dependências / builds futuros
+node_modules/
+dist/
+build/
+.cache/
+coverage/
+
+# Arquivos gerados localmente
+*.local
+*.session
+
+# Pastas temporárias de testes
+tmp/
+temp/
