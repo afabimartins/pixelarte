@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f3eee5">
+  <title>Privacidade — Pixelarte</title>
+  <style>
+    :root{
+      --bg:#f3eee5;
+      --card:#fff;
+      --ink:#28231f;
+      --muted:#716a62;
+      --line:#ded5c8;
+      --accent:#7a4a3b;
+      --shadow:0 12px 34px rgba(63,47,36,.08);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--ink);
+      font:16px/1.65 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    .wrap{max-width:900px;margin:0 auto;padding:32px 18px 56px}
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:26px;
+      box-shadow:var(--shadow);
+    }
+    h1{margin:0 0 6px;font-size:34px}
+    h2{margin:30px 0 8px;font-size:20px}
+    p,li{color:#4f4943}
+    .small{font-size:13px;color:var(--muted)}
+    a{color:var(--accent);font-weight:700}
+    .back{display:inline-block;margin-bottom:16px;text-decoration:none}
+    code{background:#f5f1eb;padding:2px 5px;border-radius:5px}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <a class="back" href="./">← Voltar ao Pixelarte</a>
+    <article class="card">
+      <h1>Privacidade</h1>
+      <p class="small">Última atualização: 7 de outubro de 2026.</p>
+
+      <p>
+        O Pixelarte foi projetado para funcionar principalmente no seu próprio navegador.
+        Esta página explica quais dados o aplicativo usa atualmente e como eles são armazenados.
+      </p>
+
+      <h2>Projetos e imagens</h2>
+      <p>
+        Os projetos criados no Pixelarte, incluindo imagens importadas, gráfico gerado,
+        configurações e andamento das carreiras, ficam armazenados localmente no navegador
+        por meio do IndexedDB.
+      </p>
+      <p>
+        O Pixelarte não possui conta de usuário nem envia esses projetos para um servidor próprio.
+        Ao usar <strong>Exportar</strong>, o arquivo é gerado no seu dispositivo.
+      </p>
+
+      <h2>Armazenamento local</h2>
+      <p>O aplicativo usa recursos locais do navegador para funcionar:</p>
+      <ul>
+        <li><strong>IndexedDB</strong> para salvar projetos e progresso;</li>
+        <li><strong>localStorage</strong> para lembrar qual projeto estava aberto;</li>
+        <li><strong>Cache do Service Worker</strong> para permitir uso offline e atualização da PWA.</li>
+      </ul>
+      <p>
+        Esses dados podem ser removidos ao excluir projetos dentro do Pixelarte ou ao apagar
+        os dados do site/PWA nas configurações do navegador.
+      </p>
+
+      <h2>Conectividade</h2>
+      <p>
+        Para distinguir uma conexão real com a internet de uma conexão apenas com a rede local,
+        o Pixelarte faz uma requisição técnica a um serviço externo de verificação de conectividade.
+        Essa verificação serve para atualizar o indicador Online/Offline e controlar recursos
+        que dependem da internet.
+      </p>
+
+      <h2>Publicidade</h2>
+      <p>
+        A versão atual possui espaços reservados para publicidade, mas a integração com uma
+        rede de anúncios está <strong>desativada</strong>. Enquanto ela permanecer desativada,
+        o Pixelarte não carrega anúncios de terceiros por esses espaços.
+      </p>
+      <p>
+        Antes de qualquer ativação de publicidade personalizada ou tecnologia equivalente,
+        esta política e os mecanismos de consentimento serão atualizados conforme necessário.
+      </p>
+
+      <h2>Analytics e rastreamento</h2>
+      <p>
+        O Pixelarte não possui, nesta versão, uma ferramenta própria de analytics ou rastreamento
+        de comportamento integrada ao aplicativo.
+      </p>
+
+      <h2>Hospedagem</h2>
+      <p>
+        A versão pública do Pixelarte é hospedada no GitHub Pages. Como provedor de hospedagem,
+        o GitHub pode tratar informações técnicas de acesso de acordo com suas próprias políticas.
+      </p>
+
+      <h2>Exclusão de dados locais</h2>
+      <p>
+        Você pode usar <strong>Excluir projeto</strong> para remover um projeto específico.
+        Para apagar todos os dados locais do Pixelarte, use os controles de dados do site/PWA
+        disponíveis no navegador ou sistema.
+      </p>
+
+      <h2>Código aberto</h2>
+      <p>
+        O Pixelarte é open source. O código-fonte público permite verificar como o aplicativo
+        armazena e processa os dados locais.
+      </p>
+
+      <h2>Alterações desta política</h2>
+      <p>
+        Esta política pode ser atualizada quando novos recursos forem adicionados, especialmente
+        publicidade, analytics, serviços externos ou formas adicionais de armazenamento.
+      </p>
+    </article>
+  </main>
+</body>
+</html>

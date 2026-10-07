@@ -6,7 +6,7 @@ A aplicação funciona no navegador, pode ser instalada como app e continua util
 
 ## Versão atual
 
-**v1.4**
+**v1.6**
 
 ## Site público
 
@@ -21,9 +21,13 @@ https://afabimartins.github.io/pixelarte/
 - Projetos persistentes no navegador
 - Salvamento automático
 - Exportação e importação de projetos
+- Limpeza do projeto atual
+- Exclusão de projetos salvos
 - Contador de carreiras
+- Próxima carreira calculada automaticamente
+- Navegação visual entre carreiras sem alterar o progresso
 - Marcação de carreiras concluídas
-- Campo de próxima carreira / destino
+- Contador disponível também em tela cheia
 - Zoom de 10% a 400%
 - Redimensionamento real do gráfico
 - Numeração de linhas e colunas
@@ -36,6 +40,7 @@ https://afabimartins.github.io/pixelarte/
 - Funcionamento offline
 - Detecção real de conexão Online/Offline
 - Atualização controlada da PWA
+- Página de privacidade disponível também offline
 - Espaços preparados para publicidade responsiva
 
 ## Estrutura do projeto
@@ -43,6 +48,7 @@ https://afabimartins.github.io/pixelarte/
 ```text
 pixelarte/
 ├── index.html
+├── privacy.html
 ├── manifest.webmanifest
 ├── service-worker.js
 ├── ads-config.js
@@ -95,10 +101,11 @@ Quando offline:
 - o gráfico continua disponível;
 - projetos locais continuam acessíveis;
 - o contador de carreiras continua funcionando;
+- a página de privacidade continua acessível;
 - espaços de publicidade ficam ocultos;
 - o indicador da interface mostra `Offline`.
 
-Na v1.4, a detecção de conectividade foi ajustada para verificar acesso real à internet, em vez de depender apenas de `navigator.onLine`.
+Desde a v1.4, a detecção de conectividade verifica acesso real à internet, em vez de depender apenas de `navigator.onLine`.
 
 ## Persistência dos projetos
 
@@ -107,6 +114,42 @@ Os projetos são armazenados localmente no navegador usando IndexedDB.
 Isso permite fechar e reabrir o Pixelarte sem perder o trabalho salvo naquele navegador/perfil.
 
 Também é possível exportar um projeto e importá-lo posteriormente.
+
+Na v1.5 foram adicionadas duas ações de gerenciamento:
+
+- **Limpar projeto**: remove imagem, gráfico, progresso e configurações do projeto atual, mantendo o projeto salvo.
+- **Excluir projeto**: remove definitivamente o projeto selecionado após confirmação.
+
+## Contador de carreiras
+
+O contador separa o progresso real da navegação visual.
+
+- **Concluir e avançar** marca a carreira em andamento como concluída e avança o progresso.
+- **Anterior** e **Próxima** permitem consultar outras carreiras sem alterar o progresso.
+- **Próxima carreira** é calculada automaticamente e não é editável.
+- **Marcar/desmarcar** permite ajustar o estado de uma carreira visualizada.
+- O contador permanece disponível em tela cheia.
+
+## Privacidade
+
+A partir da v1.6, o Pixelarte possui uma página pública de privacidade em:
+
+```text
+privacy.html
+```
+
+Ela descreve:
+
+- armazenamento local de projetos e imagens;
+- uso de IndexedDB, localStorage e cache do Service Worker;
+- funcionamento offline;
+- verificação técnica de conectividade;
+- hospedagem no GitHub Pages;
+- status atual da publicidade;
+- ausência de analytics próprio nesta versão;
+- formas de excluir dados locais.
+
+A página de privacidade também é incluída no cache da PWA para permanecer acessível offline.
 
 ## Impressão e PDF
 
@@ -148,7 +191,7 @@ Os anúncios devem permanecer fora de funções essenciais como:
 - impressão/PDF;
 - uso offline.
 
-A ativação de publicidade real deve ser feita somente depois da implementação das páginas e mecanismos de privacidade/consentimento necessários.
+A ativação de publicidade real deve ocorrer somente depois da configuração dos mecanismos de consentimento aplicáveis e da atualização da política de privacidade quando necessário.
 
 ## Tecnologias
 
@@ -192,12 +235,7 @@ A partir desse ponto, os commits passam a representar o desenvolvimento normal d
 
 O Pixelarte está publicado como projeto open source e hospedado no GitHub Pages.
 
-A próxima fase de desenvolvimento inclui:
-
-- testes da versão pública;
-- privacidade e consentimento;
-- integração futura de publicidade;
-- melhorias de experiência e compatibilidade.
+A versão v1.6 adiciona a primeira camada pública de privacidade antes da futura ativação de publicidade.
 
 ## Licença
 

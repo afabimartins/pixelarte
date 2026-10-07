@@ -1,6 +1,6 @@
-const APP_VERSION="1.5";
+const APP_VERSION="1.6";
 const CACHE_NAME=`pixelarte-pwa-v${APP_VERSION}`;
-const APP_SHELL=["./","./index.html","./manifest.webmanifest","./ads-config.js","./favicon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/maskable-512.png"];
+const APP_SHELL=["./","./index.html","./privacy.html","./manifest.webmanifest","./ads-config.js","./favicon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/maskable-512.png"];
 
 self.addEventListener("install",event=>{
   event.waitUntil((async()=>{

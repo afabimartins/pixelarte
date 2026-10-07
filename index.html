@@ -141,6 +141,19 @@ body.offline .adSlot{display:none!important}
 .preview:fullscreen~.adSlot,.preview.fullscreenFallback~.adSlot{display:none!important}
 .preview:fullscreen .adSlot,.preview.fullscreenFallback .adSlot{display:none!important}
 @media(max-width:900px){.adSidebar{min-height:100px}.headerStatus{justify-content:flex-start}}
+.siteFooter{
+  margin-top:22px;
+  padding:16px 0 4px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:12px;
+}
+.siteFooter a{color:var(--ink);font-weight:700;text-decoration:none}
+.siteFooter a:hover{text-decoration:underline}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.preview{min-height:420px}}
 @media(max-width:560px){.wrap{padding:16px 10px 30px}.card{border-radius:14px;padding:14px}.counterBtns button{min-width:calc(50% - 8px)}.zoomControls{min-width:100%;justify-content:flex-start}.zoomControls input[type=range]{width:100%;order:5}.resizeGrid{grid-template-columns:1fr 1fr}.resizeGrid button{grid-column:1/-1}}
 #printArea{display:none}
@@ -164,7 +177,7 @@ body.offline .adSlot{display:none!important}
     <div><h1>Pixelarte</h1><p>Crie gráficos para crochê e macramê e continue de onde parou.</p></div>
     <div class="headerStatus">
       <button id="installApp" class="installButton" type="button">Instalar Pixelarte</button>
-      <span class="appVersion" title="Versão do aplicativo">v1.5</span>
+      <span class="appVersion" title="Versão do aplicativo">v1.6</span>
       <div id="networkState" class="networkState"><span class="networkDot"></span><span id="networkText">Verificando conexão…</span></div>
       <div class="saveState"><span id="saveDot" class="saveDot"></span><span id="saveText">Nenhum projeto aberto</span></div>
     </div>
@@ -278,6 +291,10 @@ body.offline .adSlot{display:none!important}
       </div>
     </section>
   </div>
+  <footer class="siteFooter">
+    <span>Pixelarte — PWA open source para gráficos de crochê e macramê.</span>
+    <a href="./privacy.html">Privacidade</a>
+  </footer>
 </div>
 
 <div id="printArea" aria-hidden="true"></div>
@@ -359,7 +376,7 @@ function setupAdSlots(){
 function showUpdateNotice(reg){swRegistration=reg;$("updateNotice")?.classList.add("show")}
 function registerPWA(){
   if(!("serviceWorker" in navigator))return;
-  navigator.serviceWorker.register("./service-worker.js?v=1.5",{updateViaCache:"none"}).then(async reg=>{
+  navigator.serviceWorker.register("./service-worker.js?v=1.6",{updateViaCache:"none"}).then(async reg=>{
     swRegistration=reg;
     try{await reg.update()}catch{}
     if(reg.waiting)showUpdateNotice(reg);
