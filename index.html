@@ -457,7 +457,7 @@ function refreshGridClasses(){
   document.querySelectorAll(".rowNumber").forEach(label=>{const career=+label.dataset.career;label.classList.toggle("current",career===currentRow);label.classList.toggle("done",completedRows.has(career))})
 }
 function updateCounter(){
-  const rows=+$("rows").value;if(!rows)return;currentRow=Math.min(rows,Math.max(1,currentRow));$("currentRowText").textContent=currentRow;$("totalRowsText").textContent=rows;$("currentRowInput").max=rows;$("currentRowInput").value=currentRow;
+  const rows=+$("rows").value;if(!rows)return;currentRow=Math.min(rows,Math.max(1,currentRow));$("currentRowText").textContent=currentRow;$("totalRowsText").textContent=rows;$("currentRowInput").max=rows;$("currentRowInput").value=currentRow<rows?currentRow+1:rows;
   const done=completedRows.size,pct=Math.round(done/rows*100);$("progressBar").style.width=pct+"%";$("rowInfo").textContent=`${done} de ${rows} carreiras concluídas (${pct}%). ${$("direction").value==="bottom"?"A carreira 1 corresponde à linha inferior do gráfico.":"A carreira 1 corresponde à linha superior do gráfico."}`;$("statusBadge").textContent=done>=rows?"concluído":"em andamento";
 }
 function moveRow(delta){const rows=+$("rows").value;currentRow=Math.min(rows,Math.max(1,currentRow+delta));updateCounter();refreshGridClasses();scheduleSave()}

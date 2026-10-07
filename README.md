@@ -1,4 +1,4 @@
-# Pixelarte — PWA v1.1
+# Pixelarte — PWA v1.2
 
 Esta pasta transforma o protótipo web do Pixelarte em um Progressive Web App (PWA).
 
@@ -52,3 +52,10 @@ Os commits iniciais deste repositório representam uma reconstrução cronológi
 - Corrige o contorno de foco persistente após clique/toque.
 - Mantém foco visível para navegação por teclado.
 - O campo "Ir para a carreira" ainda mantém o comportamento anterior nesta versão; a mudança para mostrar a próxima carreira pertence à v1.2.
+
+
+## PWA v1.2
+
+- O campo "Ir para a carreira" passa a mostrar a próxima carreira/destino.
+- Exemplo: se a carreira atual é 7 e 6 carreiras estão concluídas, o campo mostra 8.
+- O comportamento de atualização/cache da PWA permanece o mesmo desta fase.
