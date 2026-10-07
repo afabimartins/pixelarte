@@ -1,4 +1,4 @@
-const APP_VERSION="1.4";
+const APP_VERSION="1.5";
 const CACHE_NAME=`pixelarte-pwa-v${APP_VERSION}`;
 const APP_SHELL=["./","./index.html","./manifest.webmanifest","./ads-config.js","./favicon.svg","./icons/icon-192.png","./icons/icon-512.png","./icons/maskable-512.png"];
 

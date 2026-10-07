@@ -68,11 +68,25 @@ button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line
 .small{font-size:12px;color:var(--muted);line-height:1.45}.divider{height:1px;background:var(--line);margin:20px 0}
 .counter{display:none;width:100%;margin-bottom:14px;border:1px solid var(--line);border-radius:14px;padding:14px;background:#fff}
 .counterTop{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap}
+.nextRowDisplay{
+  margin-top:5px;
+  min-width:160px;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:#f8f5ef;
+  font-size:15px;
+  font-weight:800;
+  color:var(--ink);
+}
 .counterTitle{font-weight:800}.counterBig{font-size:28px;font-weight:850;letter-spacing:-.02em}.counterBig span{font-size:14px;color:var(--muted);font-weight:650}
 .counterBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.counterBtns button{flex:1;min-width:110px}
 .progress{height:9px;background:#eee7dc;border-radius:999px;overflow:hidden;margin-top:12px}.progress>div{height:100%;background:var(--accent);width:0%}
 .rowInfo{margin-top:8px;font-size:12px;color:var(--muted)}
 .projectStrip{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:6px}
+.projectDanger{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid var(--line)}
+button.danger{background:#fff3f0;color:#8a3326;border:1px solid #e6b7ad}
+button.danger:hover{background:#f8dfd9}
 .checkline{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--ink)}
 .badge{display:inline-flex;padding:3px 8px;border-radius:999px;background:#efe6dc;color:var(--muted);font-size:11px;font-weight:800}
 .viewTools{display:none;width:100%;margin-bottom:14px;border:1px solid var(--line);border-radius:14px;padding:12px 14px;background:#fff}
@@ -84,7 +98,17 @@ button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line
 .zoomValue{min-width:48px;text-align:center;font-size:13px;font-weight:800;color:var(--muted)}
 .fullscreenExit{display:none}
 .preview:fullscreen,.preview.fullscreenFallback{background:var(--bg);padding:14px;border-radius:0;overflow:hidden;width:100%;height:100%;max-width:none;box-shadow:none}
-.preview:fullscreen .counter,.preview.fullscreenFallback .counter{display:none!important}
+.preview:fullscreen .counter,.preview.fullscreenFallback .counter{
+  display:block!important;
+  flex:0 0 auto;
+  margin-bottom:8px;
+  padding:8px 10px;
+}
+.preview:fullscreen .counterBig,.preview.fullscreenFallback .counterBig{font-size:22px}
+.preview:fullscreen .counterBtns,.preview.fullscreenFallback .counterBtns{margin-top:8px}
+.preview:fullscreen .counterBtns button,.preview.fullscreenFallback .counterBtns button{padding:8px 10px;min-width:100px}
+.preview:fullscreen .progress,.preview.fullscreenFallback .progress{margin-top:8px}
+.preview:fullscreen .rowInfo,.preview.fullscreenFallback .rowInfo{margin-top:5px}
 .preview:fullscreen .viewTools,.preview.fullscreenFallback .viewTools{display:block!important;flex:0 0 auto;margin-bottom:8px;padding:8px 10px}
 .preview:fullscreen .resizeBox,.preview.fullscreenFallback .resizeBox{display:none}
 .preview:fullscreen .fullscreenExit,.preview.fullscreenFallback .fullscreenExit{display:inline-flex}
@@ -140,7 +164,7 @@ body.offline .adSlot{display:none!important}
     <div><h1>Pixelarte</h1><p>Crie gráficos para crochê e macramê e continue de onde parou.</p></div>
     <div class="headerStatus">
       <button id="installApp" class="installButton" type="button">Instalar Pixelarte</button>
-      <span class="appVersion" title="Versão do aplicativo">v1.4</span>
+      <span class="appVersion" title="Versão do aplicativo">v1.5</span>
       <div id="networkState" class="networkState"><span class="networkDot"></span><span id="networkText">Verificando conexão…</span></div>
       <div class="saveState"><span id="saveDot" class="saveDot"></span><span id="saveText">Nenhum projeto aberto</span></div>
     </div>
@@ -158,6 +182,10 @@ body.offline .adSlot{display:none!important}
         <button id="saveNow" class="secondary">Salvar agora</button>
         <button id="exportProject" class="secondary">Exportar</button>
         <label style="display:inline-flex"><input id="importProject" type="file" accept="application/json,.pixelarte.json" hidden><span class="secondary" style="display:inline-block;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer;background:#e9e2d7">Importar</span></label>
+      </div>
+      <div class="projectDanger">
+        <button id="clearProject" class="secondary" type="button">Limpar projeto</button>
+        <button id="deleteProject" class="danger" type="button">Excluir projeto</button>
       </div>
       <p class="small">O andamento é salvo automaticamente neste navegador. “Exportar” cria um backup do projeto para guardar em outro local.</p>
 
@@ -187,7 +215,10 @@ body.offline .adSlot{display:none!important}
       <div id="counter" class="counter">
         <div class="counterTop">
           <div><div class="counterTitle">Contador de carreiras <span id="statusBadge" class="badge">em andamento</span></div><div class="counterBig">Carreira <strong id="currentRowText">1</strong> <span>de <b id="totalRowsText">0</b></span></div></div>
-          <div style="min-width:160px"><label class="small" for="currentRowInput">Próxima carreira / Ir para</label><input id="currentRowInput" type="number" min="1" value="1"></div>
+          <div style="min-width:160px">
+            <span class="small">Próxima carreira</span>
+            <div id="nextRowDisplay" class="nextRowDisplay" aria-live="polite">2</div>
+          </div>
         </div>
         <div class="counterBtns">
           <button id="prevRow" class="secondary">← Anterior</button>
@@ -254,7 +285,7 @@ body.offline .adSlot{display:none!important}
 <script>
 const $=id=>document.getElementById(id);
 let sourceImg=null, sourceDataUrl=null, paletteColors=[], lastCanvas=null;
-let gridIndexes=[], counts=[], currentProjectId=null, currentRow=1, completedRows=new Set();
+let gridIndexes=[], counts=[], currentProjectId=null, currentRow=1, viewRow=1, completedRows=new Set();
 let saveTimer=null, zoomLevel=100, resizeRatio=1, syncingResize=false;
 
 let deferredInstallPrompt=null, persistenceRequested=false, swRegistration=null;
@@ -328,7 +359,7 @@ function setupAdSlots(){
 function showUpdateNotice(reg){swRegistration=reg;$("updateNotice")?.classList.add("show")}
 function registerPWA(){
   if(!("serviceWorker" in navigator))return;
-  navigator.serviceWorker.register("./service-worker.js?v=1.4",{updateViaCache:"none"}).then(async reg=>{
+  navigator.serviceWorker.register("./service-worker.js?v=1.5",{updateViaCache:"none"}).then(async reg=>{
     swRegistration=reg;
     try{await reg.update()}catch{}
     if(reg.waiting)showUpdateNotice(reg);
@@ -358,8 +389,20 @@ function openDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open(D
 async function dbPut(obj){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,"readwrite");tx.objectStore(STORE).put(obj);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
 async function dbGet(id){const db=await openDB();return new Promise((resolve,reject)=>{const r=db.transaction(STORE,"readonly").objectStore(STORE).get(id);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>reject(r.error)})}
 async function dbAll(){const db=await openDB();return new Promise((resolve,reject)=>{const r=db.transaction(STORE,"readonly").objectStore(STORE).getAll();r.onsuccess=()=>resolve(r.result||[]);r.onerror=()=>reject(r.error)})}
+async function dbDelete(id){const db=await openDB();return new Promise((resolve,reject)=>{const tx=db.transaction(STORE,"readwrite");tx.objectStore(STORE).delete(id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}
 
 function newId(){return "p_"+Date.now().toString(36)+"_"+Math.random().toString(36).slice(2,8)}
+function firstIncompleteCareer(rows){
+  for(let career=1;career<=rows;career++){
+    if(!completedRows.has(career))return career;
+  }
+  return rows;
+}
+function syncProgressCareer(rows){
+  if(!rows)return;
+  currentRow=firstIncompleteCareer(rows);
+  viewRow=Math.min(rows,Math.max(1,viewRow||currentRow));
+}
 function setSaveState(text,ok=false){$("saveText").textContent=text;$("saveDot").className="saveDot"+(ok?" ok":"")}
 function scheduleSave(){clearTimeout(saveTimer);setSaveState("Alterações pendentes…",false);saveTimer=setTimeout(()=>saveProject(true),500)}
 
@@ -391,26 +434,85 @@ async function refreshProjectList(){
 }
 
 function resetUi(){
-  sourceImg=null;sourceDataUrl=null;paletteColors=[];gridIndexes=[];counts=[];lastCanvas=null;currentRow=1;completedRows=new Set();zoomLevel=100;resizeRatio=1;
+  sourceImg=null;sourceDataUrl=null;paletteColors=[];gridIndexes=[];counts=[];lastCanvas=null;currentRow=1;viewRow=1;completedRows=new Set();zoomLevel=100;resizeRatio=1;
   $("projectName").value="";$("fileText").textContent="JPG, PNG ou WEBP";
   $("cols").value=40;$("rows").value=40;$("colors").value=8;$("palette").value="image";$("mode").value="Crochê";$("direction").value="bottom";$("showCodes").checked=false;
   updateSliderLabels();$("zoomRange").value=100;$("zoomText").textContent="100%";$("grid").innerHTML="";$("colNumsTop").innerHTML="";$("colNumsBottom").innerHTML="";$("rowNumsLeft").innerHTML="";$("rowNumsRight").innerHTML="";$("legend").innerHTML="";$("result").style.display="none";$("counter").style.display="none";$("viewTools").style.display="none";$("empty").style.display="block";$("empty").innerHTML="<strong>Seu gráfico aparecerá aqui.</strong><br>Escolha uma imagem e clique em “Gerar gráfico”.";$("download").disabled=true;$("print").disabled=true;
   setSaveState("Novo projeto",false);
 }
 
-async function startNewProject(){currentProjectId=newId();localStorage.setItem("pixelarte-current-project",currentProjectId);resetUi();scheduleSave()}
+async function startNewProject(){
+  clearTimeout(saveTimer);
+  currentProjectId=newId();
+  localStorage.setItem("pixelarte-current-project",currentProjectId);
+  resetUi();
+}
 
 function applyProject(p){
   currentProjectId=p.id;$("projectName").value=p.name||"";
   const s=p.settings||{};for(const id of ["cols","rows","colors"]) if(s[id]!=null)$(id).value=s[id];
   if(s.palette)$("palette").value=s.palette;if(s.mode)$("mode").value=s.mode;if(s.direction)$("direction").value=s.direction;$("showCodes").checked=!!s.showCodes;zoomLevel=Math.min(400,Math.max(10,+s.zoom||100));$("zoomRange").value=zoomLevel;updateSliderLabels();syncResizeInputs();
-  sourceDataUrl=p.sourceDataUrl||null;paletteColors=p.chart?.paletteColors||[];gridIndexes=p.chart?.gridIndexes||[];counts=p.chart?.counts||[];currentRow=Math.max(1,p.progress?.currentRow||1);completedRows=new Set(p.progress?.completedRows||[]);
+  sourceDataUrl=p.sourceDataUrl||null;paletteColors=p.chart?.paletteColors||[];gridIndexes=p.chart?.gridIndexes||[];counts=p.chart?.counts||[];
+  completedRows=new Set(p.progress?.completedRows||[]);
+  const projectRows=Math.max(1,+$("rows").value||1);
+  currentRow=firstIncompleteCareer(projectRows);
+  viewRow=currentRow;
   if(sourceDataUrl){sourceImg=new Image();sourceImg.onload=()=>{$("fileText").textContent="Imagem do projeto carregada"};sourceImg.src=sourceDataUrl}
   if(gridIndexes.length&&paletteColors.length){renderSavedChart();$("empty").style.display="none";$("result").style.display="block";$("counter").style.display="block";$("viewTools").style.display="block";$("download").disabled=false;$("print").disabled=false}else{$("result").style.display="none";$("counter").style.display="none";$("viewTools").style.display="none";$("empty").style.display="block"}
   localStorage.setItem("pixelarte-current-project",currentProjectId);setSaveState("Projeto restaurado",true)
 }
 
 async function loadProjectById(id){if(!id)return;const p=await dbGet(id);if(p)applyProject(p)}
+
+async function clearCurrentProject(){
+  const saved=currentProjectId?await dbGet(currentProjectId):null;
+  const name=(saved?.name||$("projectName").value.trim()||"Projeto sem nome");
+  if(!confirm(`Limpar "${name}"?\n\nA imagem, o gráfico, o progresso e as configurações serão apagados. O projeto continuará existindo.`))return;
+
+  clearTimeout(saveTimer);
+  const keepId=currentProjectId||newId();
+  resetUi();
+  currentProjectId=keepId;
+  $("projectName").value=name;
+  localStorage.setItem("pixelarte-current-project",currentProjectId);
+  await saveProject(false);
+}
+
+async function deleteCurrentProject(){
+  if(!currentProjectId)return;
+
+  const saved=await dbGet(currentProjectId);
+  if(!saved){
+    resetUi();
+    currentProjectId=newId();
+    localStorage.setItem("pixelarte-current-project",currentProjectId);
+    return;
+  }
+
+  const name=saved.name||"Projeto sem nome";
+  if(!confirm(`Excluir "${name}" definitivamente?\n\nEssa ação não pode ser desfeita. Se quiser guardar uma cópia, exporte o projeto antes.`))return;
+
+  clearTimeout(saveTimer);
+  const deletedId=currentProjectId;
+  await dbDelete(deletedId);
+
+  if(localStorage.getItem("pixelarte-current-project")===deletedId){
+    localStorage.removeItem("pixelarte-current-project");
+  }
+
+  const remaining=await dbAll();
+  remaining.sort((a,b)=>(b.updatedAt||"").localeCompare(a.updatedAt||""));
+
+  await refreshProjectList();
+
+  if(remaining.length){
+    applyProject(remaining[0]);
+  }else{
+    currentProjectId=newId();
+    localStorage.setItem("pixelarte-current-project",currentProjectId);
+    resetUi();
+  }
+}
 
 function updateSliderLabels(){for(const id of ["cols","rows","colors"])$(`${id}Val`).textContent=$(id).value}
 function clampSize(v){return Math.min(160,Math.max(5,Math.round(+v||5)))}
@@ -432,7 +534,7 @@ function fitWholeChart(){
   requestAnimationFrame(()=>{wrap.scrollLeft=Math.max(0,(wrap.scrollWidth-wrap.clientWidth)/2);wrap.scrollTop=Math.max(0,(wrap.scrollHeight-wrap.clientHeight)/2)});
 }
 function resizeExistingGrid(oldCols,oldRows,newCols,newRows){const old=gridIndexes.slice(),next=[];for(let y=0;y<newRows;y++){const sy=Math.min(oldRows-1,Math.floor(y*oldRows/newRows));for(let x=0;x<newCols;x++){const sx=Math.min(oldCols-1,Math.floor(x*oldCols/newCols));next.push(old[sy*oldCols+sx]??0)}}gridIndexes=next;counts=Array(paletteColors.length).fill(0);for(const k of gridIndexes)if(counts[k]!=null)counts[k]++}
-function applyResize(){if(!gridIndexes.length)return;const oldCols=+$("cols").value,oldRows=+$("rows").value,newCols=clampSize($("resizeCols").value),newRows=clampSize($("resizeRows").value);$("resizeCols").value=newCols;$("resizeRows").value=newRows;if(newCols===oldCols&&newRows===oldRows)return;$("cols").value=newCols;$("rows").value=newRows;updateSliderLabels();completedRows=new Set([...completedRows].filter(r=>r<=newRows));currentRow=Math.min(newRows,Math.max(1,currentRow));if(sourceImg&&sourceImg.complete&&sourceImg.naturalWidth){generate({preserveProgress:true})}else{resizeExistingGrid(oldCols,oldRows,newCols,newRows);renderSavedChart();scheduleSave()}syncResizeInputs()}
+function applyResize(){if(!gridIndexes.length)return;const oldCols=+$("cols").value,oldRows=+$("rows").value,newCols=clampSize($("resizeCols").value),newRows=clampSize($("resizeRows").value);$("resizeCols").value=newCols;$("resizeRows").value=newRows;if(newCols===oldCols&&newRows===oldRows)return;$("cols").value=newCols;$("rows").value=newRows;updateSliderLabels();completedRows=new Set([...completedRows].filter(r=>r<=newRows));currentRow=firstIncompleteCareer(newRows);viewRow=Math.min(newRows,Math.max(1,viewRow||currentRow));if(sourceImg&&sourceImg.complete&&sourceImg.naturalWidth){generate({preserveProgress:true})}else{resizeExistingGrid(oldCols,oldRows,newCols,newRows);renderSavedChart();scheduleSave()}syncResizeInputs()}
 
 function isChartFullscreen(){return document.fullscreenElement===$("preview")||$("preview").classList.contains("fullscreenFallback")}
 async function enterChartFullscreen(){
@@ -456,6 +558,21 @@ function handleFullscreenChange(){
   else if(!preview.classList.contains("fullscreenFallback")){document.body.classList.remove("pixelarteFullscreenFallback")}
 }
 
+/*
+  Remove o foco visual persistente após clique/toque,
+  sem prejudicar a navegação por teclado.
+*/
+document.addEventListener(
+  "pointerup",
+  event => {
+    const button = event.target.closest?.("button");
+    if(button){
+      requestAnimationFrame(() => button.blur());
+    }
+  },
+  true
+);
+
 $("file").addEventListener("change",e=>{
   const f=e.target.files[0];if(!f)return;const reader=new FileReader();
   reader.onload=()=>{sourceDataUrl=reader.result;sourceImg=new Image();sourceImg.onload=()=>{$("fileText").textContent=f.name;$("empty").innerHTML="<strong>Imagem carregada.</strong><br>Clique em “Gerar gráfico”.";scheduleSave()};sourceImg.src=sourceDataUrl};reader.readAsDataURL(f)
@@ -468,9 +585,10 @@ $("projectName").addEventListener("input",scheduleSave);
 $("generate").addEventListener("click",generate);$("download").addEventListener("click",downloadPNG);$("print").addEventListener("click",prepareAndPrint);
 $("saveNow").addEventListener("click",()=>saveProject(false));$("newProject").addEventListener("click",startNewProject);
 $("loadProject").addEventListener("click",()=>loadProjectById($("savedProjects").value));
+$("clearProject").addEventListener("click",clearCurrentProject);
+$("deleteProject").addEventListener("click",deleteCurrentProject);
 $("exportProject").addEventListener("click",exportProject);$("importProject").addEventListener("change",importProject);
 $("prevRow").addEventListener("click",()=>moveRow(-1));$("nextRow").addEventListener("click",()=>moveRow(1));$("completeRow").addEventListener("click",completeAndAdvance);$("toggleComplete").addEventListener("click",toggleComplete);
-$("currentRowInput").addEventListener("change",()=>{const rows=+$("rows").value;currentRow=Math.min(rows,Math.max(1,+$("currentRowInput").value||1));updateCounter();refreshGridClasses();scheduleSave()});
 $("zoomRange").addEventListener("input",()=>applyZoom(false));$("zoomRange").addEventListener("change",()=>applyZoom(true));
 $("zoomOut").addEventListener("click",()=>changeZoom(-25));$("zoomIn").addEventListener("click",()=>changeZoom(25));$("resetZoom").addEventListener("click",()=>{$("zoomRange").value=100;applyZoom()});$("fitZoom").addEventListener("click",()=>isChartFullscreen()?fitWholeChart():fitZoom());
 $("fullscreenChart").addEventListener("click",enterChartFullscreen);$("exitFullscreen").addEventListener("click",exitChartFullscreen);document.addEventListener("fullscreenchange",handleFullscreenChange);
@@ -499,7 +617,7 @@ function generate(options={}){
   const scale=Math.max(cols/sourceImg.naturalWidth,rows/sourceImg.naturalHeight),w=sourceImg.naturalWidth*scale,h=sourceImg.naturalHeight*scale;ctx.fillStyle="#fff";ctx.fillRect(0,0,cols,rows);ctx.drawImage(sourceImg,(cols-w)/2,(rows-h)/2,w,h);
   const data=ctx.getImageData(0,0,cols,rows).data,pixels=[];for(let i=0;i<data.length;i+=4)pixels.push([data[i],data[i+1],data[i+2]]);
   paletteColors=makePalette(pixels,n);counts=Array(paletteColors.length).fill(0);gridIndexes=[];for(const p of pixels){const k=nearest(p,paletteColors);gridIndexes.push(k);counts[k]++}
-  if(!preserveProgress){currentRow=1;completedRows=new Set()}else{currentRow=Math.min(rows,Math.max(1,currentRow));completedRows=new Set([...completedRows].filter(r=>r<=rows))}renderSavedChart();$("empty").style.display="none";$("result").style.display="block";$("counter").style.display="block";$("viewTools").style.display="block";$("download").disabled=false;$("print").disabled=false;syncResizeInputs();buildDownloadCanvas();scheduleSave();
+  if(!preserveProgress){currentRow=1;viewRow=1;completedRows=new Set()}else{completedRows=new Set([...completedRows].filter(r=>r<=rows));currentRow=firstIncompleteCareer(rows);viewRow=Math.min(rows,Math.max(1,viewRow||currentRow))}renderSavedChart();$("empty").style.display="none";$("result").style.display="block";$("counter").style.display="block";$("viewTools").style.display="block";$("download").disabled=false;$("print").disabled=false;syncResizeInputs();buildDownloadCanvas();scheduleSave();
 }
 
 function renderSavedChart(){
@@ -517,16 +635,63 @@ function renderLegend(){const legend=$("legend");legend.innerHTML="";paletteColo
 
 function visualRowForCareer(career){const rows=+$("rows").value;return $("direction").value==="bottom" ? rows-career+1 : career}
 function refreshGridClasses(){
-  const vr=visualRowForCareer(currentRow),show=$("showCodes").checked;document.querySelectorAll(".cell").forEach(cell=>{const row=+cell.dataset.row;cell.classList.toggle("current",row===vr);const career=$("direction").value==="bottom"?(+$("rows").value-row+1):row;cell.classList.toggle("done",completedRows.has(career));cell.classList.toggle("showCode",show)});
-  document.querySelectorAll(".rowNumber").forEach(label=>{const career=+label.dataset.career;label.classList.toggle("current",career===currentRow);label.classList.toggle("done",completedRows.has(career))})
+  const vr=visualRowForCareer(viewRow),show=$("showCodes").checked;document.querySelectorAll(".cell").forEach(cell=>{const row=+cell.dataset.row;cell.classList.toggle("current",row===vr);const career=$("direction").value==="bottom"?(+$("rows").value-row+1):row;cell.classList.toggle("done",completedRows.has(career));cell.classList.toggle("showCode",show)});
+  document.querySelectorAll(".rowNumber").forEach(label=>{const career=+label.dataset.career;label.classList.toggle("current",career===viewRow);label.classList.toggle("done",completedRows.has(career))})
 }
 function updateCounter(){
-  const rows=+$("rows").value;if(!rows)return;currentRow=Math.min(rows,Math.max(1,currentRow));$("currentRowText").textContent=currentRow;$("totalRowsText").textContent=rows;$("currentRowInput").max=rows;$("currentRowInput").value=currentRow<rows?currentRow+1:rows;
-  const done=completedRows.size,pct=Math.round(done/rows*100);$("progressBar").style.width=pct+"%";$("rowInfo").textContent=`${done} de ${rows} carreiras concluídas (${pct}%). ${$("direction").value==="bottom"?"A carreira 1 corresponde à linha inferior do gráfico.":"A carreira 1 corresponde à linha superior do gráfico."}`;$("statusBadge").textContent=done>=rows?"concluído":"em andamento";
+  const rows=+$("rows").value;if(!rows)return;
+  currentRow=Math.min(rows,Math.max(1,currentRow));
+  viewRow=Math.min(rows,Math.max(1,viewRow||currentRow));
+
+  $("currentRowText").textContent=currentRow;
+  $("totalRowsText").textContent=rows;
+  const nextCareer=currentRow<rows?currentRow+1:rows;
+  $("nextRowDisplay").textContent=nextCareer;
+
+  const done=completedRows.size,pct=Math.round(done/rows*100);
+  $("progressBar").style.width=pct+"%";
+
+  const orientation=$("direction").value==="bottom"
+    ?"A carreira 1 corresponde à linha inferior do gráfico."
+    :"A carreira 1 corresponde à linha superior do gráfico.";
+
+  const viewing=viewRow!==currentRow
+    ?` Visualizando carreira ${viewRow}; carreira em andamento: ${currentRow}.`
+    :"";
+
+  $("rowInfo").textContent=`${done} de ${rows} carreiras concluídas (${pct}%). ${orientation}${viewing}`;
+  $("statusBadge").textContent=done>=rows?"concluído":"em andamento";
 }
-function moveRow(delta){const rows=+$("rows").value;currentRow=Math.min(rows,Math.max(1,currentRow+delta));updateCounter();refreshGridClasses();scheduleSave()}
-function completeAndAdvance(){const rows=+$("rows").value;completedRows.add(currentRow);if(currentRow<rows)currentRow++;updateCounter();refreshGridClasses();scheduleSave()}
-function toggleComplete(){if(completedRows.has(currentRow))completedRows.delete(currentRow);else completedRows.add(currentRow);updateCounter();refreshGridClasses();scheduleSave()}
+
+function moveRow(delta){
+  const rows=+$("rows").value;
+  viewRow=Math.min(rows,Math.max(1,(viewRow||currentRow)+delta));
+  updateCounter();
+  refreshGridClasses();
+}
+
+function completeAndAdvance(){
+  const rows=+$("rows").value;
+  completedRows.add(currentRow);
+  currentRow=firstIncompleteCareer(rows);
+  viewRow=currentRow;
+  updateCounter();
+  refreshGridClasses();
+  scheduleSave();
+}
+
+function toggleComplete(){
+  const rows=+$("rows").value;
+  const target=Math.min(rows,Math.max(1,viewRow||currentRow));
+  if(completedRows.has(target))completedRows.delete(target);
+  else completedRows.add(target);
+
+  currentRow=firstIncompleteCareer(rows);
+  viewRow=target;
+  updateCounter();
+  refreshGridClasses();
+  scheduleSave();
+}
 
 function printCareerForVisualRow(visualRow){const rows=+$("rows").value;return $("direction").value==="bottom"?rows-visualRow+1:visualRow}
 function renderPrintTile(startCol,startRow,pageCols,pageRows,opts={}){
