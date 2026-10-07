@@ -6,7 +6,11 @@ A aplicação funciona no navegador, pode ser instalada como app e continua util
 
 ## Versão atual
 
-**v1.3**
+**v1.4**
+
+## Site público
+
+https://afabimartins.github.io/pixelarte/
 
 ## Recursos
 
@@ -30,7 +34,7 @@ A aplicação funciona no navegador, pode ser instalada como app e continua util
 - Impressão e geração de PDF em múltiplas páginas
 - Instalação como PWA
 - Funcionamento offline
-- Detecção de conexão Online/Offline
+- Detecção real de conexão Online/Offline
 - Atualização controlada da PWA
 - Espaços preparados para publicidade responsiva
 
@@ -45,6 +49,7 @@ pixelarte/
 ├── favicon.svg
 ├── iniciar-pixelarte.cmd
 ├── README.md
+├── LICENSE
 └── icons/
     ├── icon-192.png
     ├── icon-512.png
@@ -92,6 +97,8 @@ Quando offline:
 - o contador de carreiras continua funcionando;
 - espaços de publicidade ficam ocultos;
 - o indicador da interface mostra `Offline`.
+
+Na v1.4, a detecção de conectividade foi ajustada para verificar acesso real à internet, em vez de depender apenas de `navigator.onLine`.
 
 ## Persistência dos projetos
 
@@ -183,17 +190,17 @@ A partir desse ponto, os commits passam a representar o desenvolvimento normal d
 
 ## Status
 
-O Pixelarte está em preparação para sua primeira publicação pública como projeto open source.
+O Pixelarte está publicado como projeto open source e hospedado no GitHub Pages.
 
-Antes da publicação definitiva ainda serão revisados:
+A próxima fase de desenvolvimento inclui:
 
-- documentação;
-- licença;
 - testes da versão pública;
-- hospedagem;
 - privacidade e consentimento;
-- integração futura de publicidade.
+- integração futura de publicidade;
+- melhorias de experiência e compatibilidade.
 
 ## Licença
 
-A licença open source será definida antes da publicação pública.
+Este projeto é distribuído sob a **MIT License**.
+
+Consulte o arquivo [`LICENSE`](LICENSE) para os termos completos.
