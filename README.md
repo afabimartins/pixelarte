@@ -1,61 +1,32 @@
-# Pixelarte — PWA v1.2
+# Pixelarte PWA v1.3
 
-Esta pasta transforma o protótipo web do Pixelarte em um Progressive Web App (PWA).
+Esta versão corrige o fluxo de atualização do PWA durante os testes locais.
 
-## O que foi acrescentado
+## Alterações da v1.3
 
-- Manifesto para instalação como aplicativo.
-- Service Worker para funcionamento offline.
-- Ícones 192×192, 512×512 e maskable.
-- Solicitação de armazenamento persistente quando suportada.
-- Botão "Instalar app" quando o navegador disponibilizar a instalação.
-- Indicador Online/Offline.
-- Dois espaços responsivos reservados para publicidade.
-- Publicidade real desativada por padrão em `ads-config.js`.
-- Espaços de publicidade ocultos em modo offline, impressão/PDF e tela cheia.
+- O aplicativo mostra **v1.3** no cabeçalho para permitir conferir a versão carregada.
+- O Service Worker usa atualização imediata (`skipWaiting` + `clients.claim`).
+- O `index.html` e os arquivos do app usam a rede primeiro quando há conexão e o cache como fallback offline.
+- O registro do Service Worker usa `updateViaCache: "none"` e força `registration.update()`.
+- O iniciador do Windows detecta se a porta 8080 já está ocupada por um servidor antigo e, em vez de abrir silenciosamente a versão anterior, pede para fechá-lo.
+- O campo do contador mostra a próxima carreira como destino: carreira atual 8 → campo 9.
+- O rótulo foi esclarecido para **Próxima carreira / Ir para**.
 
-## Importante
+## Como atualizar no teste local
 
-PWA e Service Worker não funcionam corretamente abrindo `index.html` diretamente com `file://`.
+1. Feche o PWA Pixelarte.
+2. Na janela preta do servidor antigo, pressione `Ctrl+C` e confirme o encerramento se necessário.
+3. Extraia esta pasta.
+4. Execute `iniciar-pixelarte.cmd`.
+5. Confirme no cabeçalho que aparece **v1.3**.
+6. Abra novamente o aplicativo instalado. Ele deve assumir a nova versão.
 
-Use um servidor local.
+Os projetos salvos no IndexedDB permanecem no mesmo `localhost:8080`, portanto não é necessário apagá-los para atualizar.
 
-### Windows
+## Publicação
 
-Dê duplo clique em:
+Em uma hospedagem HTTPS o mesmo mecanismo de atualização funciona sem o servidor local do Python.
 
-`iniciar-pixelarte.cmd`
+## Anúncios
 
-ou execute, nesta pasta:
-
-`py -m http.server 8080`
-
-Depois abra:
-
-`http://localhost:8080`
-
-## Instalação
-
-No Chrome/Edge, use o botão "Instalar app" quando ele aparecer ou o comando de instalação do navegador.
-
-## Publicidade
-
-`ads-config.js` contém apenas a preparação dos espaços. A integração real com uma rede de anúncios deve permanecer desligada até que privacidade, consentimento e configuração da rede estejam prontos.
-
-## Histórico
-
-Os commits iniciais deste repositório representam uma reconstrução cronológica baseada nos protótipos reais do Pixelarte. Eles foram recriados posteriormente para documentar a evolução do projeto; não representam as datas originais em que cada protótipo foi produzido.
-
-
-## PWA v1.1
-
-- Corrige o contorno de foco persistente após clique/toque.
-- Mantém foco visível para navegação por teclado.
-- O campo "Ir para a carreira" ainda mantém o comportamento anterior nesta versão; a mudança para mostrar a próxima carreira pertence à v1.2.
-
-
-## PWA v1.2
-
-- O campo "Ir para a carreira" passa a mostrar a próxima carreira/destino.
-- Exemplo: se a carreira atual é 7 e 6 carreiras estão concluídas, o campo mostra 8.
-- O comportamento de atualização/cache da PWA permanece o mesmo desta fase.
+Os slots de anúncio continuam preparados e desativados por padrão. Eles permanecem ocultos em tela cheia, impressão/PDF e offline.

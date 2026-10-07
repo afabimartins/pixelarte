@@ -4,9 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#c86f52">
+<meta name="description" content="Crie gráficos de pixel para crochê e macramê, acompanhe carreiras e continue seus projetos de onde parou.">
 <meta name="application-name" content="Pixelarte">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Pixelarte">
 <link rel="manifest" href="./manifest.webmanifest">
 <link rel="icon" href="./favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="./icons/icon-192.png">
@@ -33,16 +35,9 @@ select,input[type=number],input[type=text]{width:100%;padding:10px;border:1px so
 .drop:hover{border-color:var(--accent)} .drop strong{display:block;color:var(--ink);margin-bottom:4px}
 button{border:0;border-radius:10px;padding:11px 14px;font-weight:700;cursor:pointer;background:var(--accent);color:white}
 button:hover{background:var(--accent2)} button:disabled{opacity:.45;cursor:not-allowed}
-
-/* PWA v1.1 — foco acessível */
-button:focus{
-  outline:none;
-}
-
-button:focus-visible{
-  outline:2px solid #7a4a3b;
-  outline-offset:3px;
-}
+button:focus{outline:none}
+button:focus:not(:focus-visible){outline:none;box-shadow:none}
+button:focus-visible{outline:3px solid #51483f;outline-offset:2px}
 button.secondary{background:#e9e2d7;color:var(--ink)} button.secondary:hover{background:#ddd4c6}
 button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
 .buttons{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
@@ -105,21 +100,23 @@ body.pixelarteFullscreenFallback{overflow:hidden}
 .resizeGrid .field{margin:0}
 .resizeGrid button{height:42px}
 .resizeOptions{grid-column:1/-1;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-
-.pwaActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.installBtn{display:none;padding:8px 12px}
-.installBtn.show{display:inline-flex}
-.netBadge{display:inline-flex;align-items:center;gap:6px;padding:5px 9px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12px;font-weight:750;color:var(--muted)}
-.netBadge::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--ok)}
-body.offline .netBadge::before{background:#aa6d48}
-body.offline .netBadge{background:#f5ede6}
-.adSlot{width:100%;min-height:92px;margin:14px 0;border:1px dashed #c9c0b3;border-radius:14px;background:#fffaf4;display:none;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:12px;padding:12px}
-.adSlot.previewAd{display:flex}
-.adSlot strong{display:block;color:var(--ink);font-size:12px;margin-bottom:4px}
+.headerStatus{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.installButton{display:none;background:var(--ink);color:#fff}
+.installButton.show{display:inline-flex}
+.networkState{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted);padding:6px 9px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+.networkDot{width:8px;height:8px;border-radius:50%;background:#aaa}.networkState.online .networkDot{background:var(--ok)}
+.appVersion{font-size:11px;font-weight:800;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:3px 7px;background:#fff}
+.updateNotice{display:none;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px;margin-bottom:14px;border:1px solid #d7c7ac;border-radius:12px;background:#fff8e8;font-size:13px}
+.updateNotice.show{display:flex}.updateNotice button{padding:8px 10px}
+.adSlot{border:1px dashed #c8bdaa;border-radius:14px;background:#f8f4ec;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center;flex-direction:column;gap:4px;overflow:hidden}
+.adSlot>span{font-size:10px;text-transform:uppercase;letter-spacing:.08em;font-weight:800}
+.adSlot>strong{font-size:12px;font-weight:650;color:#82796d}
+.adWide{min-height:90px;margin:0 0 18px;padding:12px}
+.adSidebar{min-height:250px;margin-top:20px;padding:12px}
 body.offline .adSlot{display:none!important}
-body.pixelarteFullscreenFallback .adSlot{display:none!important}
-@media(display-mode:standalone){.installBtn{display:none!important}}
-
+.preview:fullscreen~.adSlot,.preview.fullscreenFallback~.adSlot{display:none!important}
+.preview:fullscreen .adSlot,.preview.fullscreenFallback .adSlot{display:none!important}
+@media(max-width:900px){.adSidebar{min-height:100px}.headerStatus{justify-content:flex-start}}
 @media(max-width:900px){.layout{grid-template-columns:1fr}.preview{min-height:420px}}
 @media(max-width:560px){.wrap{padding:16px 10px 30px}.card{border-radius:14px;padding:14px}.counterBtns button{min-width:calc(50% - 8px)}.zoomControls{min-width:100%;justify-content:flex-start}.zoomControls input[type=range]{width:100%;order:5}.resizeGrid{grid-template-columns:1fr 1fr}.resizeGrid button{grid-column:1/-1}}
 #printArea{display:none}
@@ -134,23 +131,22 @@ body.pixelarteFullscreenFallback .adSlot{display:none!important}
 .printLegendSwatch{width:5mm;height:5mm;border:1px solid #777;border-radius:1mm;display:inline-block}
 .printNote{font-size:10px;color:#555}
 @page{size:A4 portrait;margin:10mm}
-@media print{body{background:white}.adSlot,.installBtn,.netBadge{display:none!important}#printArea{display:block!important}.wrap{display:none!important}}
+@media print{body{background:white}.adSlot,.updateNotice{display:none!important}#printArea{display:block!important}.wrap{display:none!important}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
     <div><h1>Pixelarte</h1><p>Crie gráficos para crochê e macramê e continue de onde parou.</p></div>
-    <div class="pwaActions">
-      <button id="installApp" class="secondary installBtn" type="button">Instalar app</button>
-      <span id="networkStatus" class="netBadge">Online</span>
+    <div class="headerStatus">
+      <button id="installApp" class="installButton" type="button">Instalar Pixelarte</button>
+      <span class="appVersion" title="Versão do aplicativo">v1.3</span>
+      <div id="networkState" class="networkState"><span class="networkDot"></span><span id="networkText">Verificando conexão…</span></div>
       <div class="saveState"><span id="saveDot" class="saveDot"></span><span id="saveText">Nenhum projeto aberto</span></div>
     </div>
   </header>
-
-  <div id="adSlotTop" class="adSlot" aria-label="Espaço de publicidade">
-    <div><strong>Espaço de publicidade</strong><span>Reservado para anúncios responsivos. Nenhum anúncio real está ativo nesta versão.</span></div>
-  </div>
+  <div id="updateNotice" class="updateNotice"><span>Há uma nova versão do Pixelarte disponível.</span><button id="applyUpdate" type="button">Atualizar agora</button></div>
+  <aside id="adTop" class="adSlot adWide" data-ad-placement="top" aria-label="Publicidade"><span>Publicidade</span><strong>Espaço reservado para anúncio responsivo</strong></aside>
 
   <div class="layout">
     <section class="card controls">
@@ -184,13 +180,14 @@ body.pixelarteFullscreenFallback .adSlot{display:none!important}
         <button class="secondary" id="print" disabled>Imprimir / PDF</button>
       </div>
       <p class="small" style="margin-top:15px">Dica: para peças executáveis, comece com 20–50 colunas e 4–12 cores. Quanto maior a grade, mais detalhes aparecem.</p>
+      <aside id="adSidebar" class="adSlot adSidebar" data-ad-placement="sidebar" aria-label="Publicidade"><span>Publicidade</span><strong>Espaço reservado para anúncio</strong></aside>
     </section>
 
     <section id="preview" class="card preview">
       <div id="counter" class="counter">
         <div class="counterTop">
           <div><div class="counterTitle">Contador de carreiras <span id="statusBadge" class="badge">em andamento</span></div><div class="counterBig">Carreira <strong id="currentRowText">1</strong> <span>de <b id="totalRowsText">0</b></span></div></div>
-          <div style="min-width:160px"><label class="small" for="currentRowInput">Ir para a carreira</label><input id="currentRowInput" type="number" min="1" value="1"></div>
+          <div style="min-width:160px"><label class="small" for="currentRowInput">Próxima carreira / Ir para</label><input id="currentRowInput" type="number" min="1" value="1"></div>
         </div>
         <div class="counterBtns">
           <button id="prevRow" class="secondary">← Anterior</button>
@@ -250,10 +247,6 @@ body.pixelarteFullscreenFallback .adSlot{display:none!important}
       </div>
     </section>
   </div>
-
-  <div id="adSlotBottom" class="adSlot" aria-label="Espaço de publicidade">
-    <div><strong>Espaço de publicidade</strong><span>Reservado para anúncios responsivos. Oculto em tela cheia, impressão e modo offline.</span></div>
-  </div>
 </div>
 
 <div id="printArea" aria-hidden="true"></div>
@@ -263,6 +256,47 @@ const $=id=>document.getElementById(id);
 let sourceImg=null, sourceDataUrl=null, paletteColors=[], lastCanvas=null;
 let gridIndexes=[], counts=[], currentProjectId=null, currentRow=1, completedRows=new Set();
 let saveTimer=null, zoomLevel=100, resizeRatio=1, syncingResize=false;
+
+let deferredInstallPrompt=null, persistenceRequested=false, swRegistration=null;
+function isStandalone(){return window.matchMedia?.("(display-mode: standalone)").matches||window.navigator.standalone===true}
+function syncConnectivity(){const online=navigator.onLine;document.body.classList.toggle("offline",!online);const box=$("networkState"),text=$("networkText");if(box){box.classList.toggle("online",online);text.textContent=online?"Online":"Offline"}setupAdSlots()}
+async function ensurePersistentStorage(){if(persistenceRequested)return;persistenceRequested=true;try{if(navigator.storage?.persist){await navigator.storage.persist()}}catch{}}
+function setupAdSlots(){
+  const cfg=window.PIXELARTE_ADS||{enabled:false,preview:true,client:"",slots:{}};
+  document.querySelectorAll(".adSlot").forEach(slot=>{
+    const placement=slot.dataset.adPlacement;
+    if(!navigator.onLine){slot.hidden=true;return}
+    slot.hidden=false;
+    if(cfg.enabled&&cfg.client&&cfg.slots?.[placement]){
+      if(slot.dataset.adReady==="1")return;
+      slot.innerHTML="";
+      const ins=document.createElement("ins");ins.className="adsbygoogle";ins.style.display="block";ins.dataset.adClient=cfg.client;ins.dataset.adSlot=cfg.slots[placement];ins.dataset.adFormat="auto";ins.dataset.fullWidthResponsive="true";slot.appendChild(ins);slot.dataset.adReady="1";
+      if(!document.querySelector('script[data-pixelarte-ads]')){const sc=document.createElement("script");sc.async=true;sc.crossOrigin="anonymous";sc.src=`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${encodeURIComponent(cfg.client)}`;sc.dataset.pixelarteAds="1";document.head.appendChild(sc);sc.onload=()=>{try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch{}}}
+      else{try{(adsbygoogle=window.adsbygoogle||[]).push({})}catch{}}
+    }else if(cfg.preview!==true){slot.hidden=true}
+  })
+}
+function showUpdateNotice(reg){swRegistration=reg;$("updateNotice")?.classList.add("show")}
+function registerPWA(){
+  if(!("serviceWorker" in navigator))return;
+  navigator.serviceWorker.register("./service-worker.js?v=1.3",{updateViaCache:"none"}).then(async reg=>{
+    swRegistration=reg;
+    try{await reg.update()}catch{}
+    if(reg.waiting)showUpdateNotice(reg);
+    reg.addEventListener("updatefound",()=>{
+      const worker=reg.installing;if(!worker)return;
+      worker.addEventListener("statechange",()=>{
+        if(worker.state==="installed"&&navigator.serviceWorker.controller){
+          if(reg.waiting)reg.waiting.postMessage({type:"SKIP_WAITING"});else showUpdateNotice(reg)
+        }
+      })
+    })
+  }).catch(()=>{});
+  let refreshing=false;
+  navigator.serviceWorker.addEventListener("controllerchange",()=>{
+    if(refreshing)return;refreshing=true;location.reload()
+  })
+}
 
 const palettes={
   gray:["#111111","#333333","#555555","#777777","#999999","#bbbbbb","#dddddd","#f5f5f5"],
@@ -295,7 +329,7 @@ function projectSnapshot(){
 async function saveProject(silent=false){
   if(!currentProjectId)currentProjectId=newId();
   const p=projectSnapshot();p.id=currentProjectId;
-  await dbPut(p);localStorage.setItem("pixelarte-current-project",currentProjectId);
+  await dbPut(p);localStorage.setItem("pixelarte-current-project",currentProjectId);ensurePersistentStorage();
   setSaveState("Salvo automaticamente",true);await refreshProjectList();
   if(!silent) setSaveState("Projeto salvo",true);
 }
@@ -372,25 +406,6 @@ function handleFullscreenChange(){
   if(document.fullscreenElement===preview){setTimeout(fitWholeChart,80)}
   else if(!preview.classList.contains("fullscreenFallback")){document.body.classList.remove("pixelarteFullscreenFallback")}
 }
-
-/*
-  PWA v1.1:
-  Ao usar mouse/toque, o botão perde o foco depois da ação.
-  Isso evita o contorno persistente sem prejudicar Tab/teclado.
-*/
-document.addEventListener(
-  "pointerup",
-  event => {
-    const button = event.target.closest?.("button");
-
-    if(button){
-      requestAnimationFrame(
-        () => button.blur()
-      );
-    }
-  },
-  true
-);
 
 $("file").addEventListener("change",e=>{
   const f=e.target.files[0];if(!f)return;const reader=new FileReader();
@@ -565,165 +580,14 @@ function exportProject(){
 function importProject(e){const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=async()=>{try{const p=JSON.parse(r.result);p.id=newId();p.name=(p.name||"Projeto importado")+" (importado)";await dbPut(p);await refreshProjectList();applyProject(p);setSaveState("Projeto importado e salvo",true)}catch{alert("Não foi possível importar este arquivo de projeto.")}};r.readAsText(f);e.target.value=""}
 
 
-/* =========================================
-   PWA / INSTALAÇÃO / OFFLINE / ANÚNCIOS
-   ========================================= */
-
-let deferredInstallPrompt = null;
-let internetAvailable = false;
-let connectivityCheckInProgress = false;
-
-function setNetworkStatus(online){
-  internetAvailable = !!online;
-
-  document.body.classList.toggle(
-    "offline",
-    !internetAvailable
-  );
-
-  const badge = $("networkStatus");
-
-  if(badge){
-    badge.textContent =
-      internetAvailable
-        ? "Online"
-        : "Offline";
-  }
-
-  configureAdSlots();
-}
-
-async function checkInternetConnection(){
-  if(connectivityCheckInProgress){
-    return internetAvailable;
-  }
-
-  connectivityCheckInProgress = true;
-
-  try{
-    if(!navigator.onLine){
-      setNetworkStatus(false);
-      return false;
-    }
-
-    /*
-      navigator.onLine pode continuar como true mesmo
-      quando o computador perdeu acesso real à internet.
-      Por isso fazemos uma pequena verificação externa.
-
-      mode:"no-cors" é suficiente aqui: não precisamos
-      ler a resposta, apenas saber se a conexão foi possível.
-    */
-    await fetch(
-      "https://www.gstatic.com/generate_204?pixelarte=" +
-      Date.now(),
-      {
-        method:"GET",
-        mode:"no-cors",
-        cache:"no-store"
-      }
-    );
-
-    setNetworkStatus(true);
-    return true;
-
-  }catch{
-    setNetworkStatus(false);
-    return false;
-
-  }finally{
-    connectivityCheckInProgress = false;
-  }
-}
-
-function configureAdSlots(){
-  const cfg = window.PIXELARTE_ADS || {};
-  const preview = !!cfg.preview;
-  const enabled = !!cfg.enabled;
-
-  document.querySelectorAll(".adSlot").forEach(slot=>{
-    slot.classList.toggle(
-      "previewAd",
-      preview &&
-      internetAvailable
-    );
-
-    slot.dataset.adsEnabled =
-      enabled
-        ? "true"
-        : "false";
-  });
-}
-
-window.addEventListener("beforeinstallprompt", event=>{
-  event.preventDefault();
-  deferredInstallPrompt = event;
-  $("installApp")?.classList.add("show");
-});
-
-$("installApp")?.addEventListener("click", async ()=>{
-  if(!deferredInstallPrompt) return;
-  deferredInstallPrompt.prompt();
-  try{
-    await deferredInstallPrompt.userChoice;
-  }catch{}
-  deferredInstallPrompt = null;
-  $("installApp")?.classList.remove("show");
-});
-
-window.addEventListener("appinstalled", ()=>{
-  deferredInstallPrompt = null;
-  $("installApp")?.classList.remove("show");
-});
-
-window.addEventListener("online", ()=>{
-  checkInternetConnection();
-});
-
-window.addEventListener("offline", ()=>{
-  setNetworkStatus(false);
-});
-
-window.addEventListener("focus", ()=>{
-  checkInternetConnection();
-});
-
-document.addEventListener("visibilitychange", ()=>{
-  if(!document.hidden){
-    checkInternetConnection();
-  }
-});
-
-async function initPwa(){
-  await checkInternetConnection();
-
-  /*
-    Revalida periodicamente porque alguns sistemas mantêm
-    navigator.onLine=true quando o roteador continua conectado,
-    mas a internet caiu.
-  */
-  setInterval(
-    checkInternetConnection,
-    15000
-  );
-
-  if("storage" in navigator && "persist" in navigator.storage){
-    try{
-      await navigator.storage.persist();
-    }catch{}
-  }
-
-  if("serviceWorker" in navigator && location.protocol !== "file:"){
-    try{
-      await navigator.serviceWorker.register("./service-worker.js");
-    }catch(error){
-      console.warn("Service Worker não pôde ser registrado:", error);
-    }
-  }
-}
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferredInstallPrompt=e;if(!isStandalone())$("installApp")?.classList.add("show")});
+window.addEventListener("appinstalled",()=>{$("installApp")?.classList.remove("show");deferredInstallPrompt=null});
+$("installApp")?.addEventListener("click",async()=>{if(!deferredInstallPrompt)return;deferredInstallPrompt.prompt();try{await deferredInstallPrompt.userChoice}catch{}deferredInstallPrompt=null;$("installApp")?.classList.remove("show")});
+$("applyUpdate")?.addEventListener("click",()=>{const worker=swRegistration?.waiting;if(worker)worker.postMessage({type:"SKIP_WAITING"})});
+window.addEventListener("online",syncConnectivity);window.addEventListener("offline",syncConnectivity);
+registerPWA();syncConnectivity();setupAdSlots();
 
 (async function init(){
-  await initPwa();
   updateSliderLabels();await refreshProjectList();const last=localStorage.getItem("pixelarte-current-project");if(last){const p=await dbGet(last);if(p){applyProject(p);return}}
   await startNewProject();
 })();
