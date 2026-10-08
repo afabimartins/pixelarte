@@ -10,7 +10,7 @@ A aplicação funciona no navegador, pode ser instalada como app e continua util
 
 ## Site público
 
-https://afabimartins.github.io/pixelarte/
+https://pixelarte.com.br/
 
 ## Recursos
 
@@ -42,6 +42,7 @@ https://afabimartins.github.io/pixelarte/
 - Atualização controlada da PWA
 - Página de privacidade disponível também offline
 - Espaços preparados para publicidade responsiva
+- Domínio próprio com HTTPS
 
 ## Estrutura do projeto
 
@@ -151,6 +152,16 @@ Ela descreve:
 
 A página de privacidade também é incluída no cache da PWA para permanecer acessível offline.
 
+## Domínio
+
+O site público usa o domínio próprio:
+
+```text
+https://pixelarte.com.br/
+```
+
+O domínio é servido pelo GitHub Pages com DNS próprio e HTTPS obrigatório.
+
 ## Impressão e PDF
 
 Gráficos grandes são divididos em várias páginas para impressão.
@@ -233,7 +244,13 @@ A partir desse ponto, os commits passam a representar o desenvolvimento normal d
 
 ## Status
 
-O Pixelarte está publicado como projeto open source e hospedado no GitHub Pages.
+O Pixelarte está publicado como projeto open source em:
+
+```text
+https://pixelarte.com.br/
+```
+
+O site é hospedado pelo GitHub Pages com domínio próprio e HTTPS.
 
 A versão v1.6 adiciona a primeira camada pública de privacidade antes da futura ativação de publicidade.
 
